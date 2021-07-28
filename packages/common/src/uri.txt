@@ -1,0 +1,27 @@
+A DNS URI is of the following general form. This is intended to illustrate, not define, the scheme:
+
+uns:[//authority/]domain[/registryinfo][?RECORD=type]
+
+A more formal RFC like specification of the format:
+
+  unsurl             = "uns:" [ "//" unsauthority "/" ] unsname [ "/" unsauthorityverison ]  ["?" unsquery]
+  
+  unsauthority       = host [ ":" port ]
+  
+  unsregistry        = unsblockchain ":" unsaddress ":" unschainid ":" unsregistryversion
+  
+  unsblockchain      = SLIP-0044 Coin type in base-10; See: https://github.com/satoshilabs/slips/blob/master/slip-0044.md
+  
+  unschainid         = Chainid of the blockchain network the registry is on, if not included defaults to mainnet
+
+  unsregistryversion = Version string of the domain registry
+
+  unsaddress         = Address of the registry in plaintext
+  
+  unsname            = domain...
+
+Examples:
+
+  uns:domain.x
+
+  uns://127.0.0.1:8545/domain.x/966:0x123456789012345678901234567890::v1?RECORD=crypto.ETH.address;

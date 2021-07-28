@@ -1,0 +1,5 @@
+export {default as BaseProviderWallet} from './BaseProviderWallet'
+export {default as BaseWallet} from './BaseWallet'
+export {default as InjectedWallet} from './InjectedWallet'
+export * from './types'
+export {default as WalletConnectWallet} from './WalletConnectWallet'

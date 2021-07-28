@@ -1,0 +1,12 @@
+{
+  "name": "@uauth/js",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "type": "module",
+  "dependencies": {
+    "@uauth/common": "1.0.0",
+    "@unstoppabledomains/resolution": "^5.0.0",
+    "eth-provider": "^0.9.0",
+    "jose": "^3.14.0"
+  }
+}
