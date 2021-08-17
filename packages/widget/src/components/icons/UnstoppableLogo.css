@@ -1,0 +1,14 @@
+.UnstoppableLogo {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+}
+
+.UnstoppableLogo > svg {
+  margin-bottom: 0.125em;
+}
+
+.UnstoppableLogo.Large {
+  height: var(--spacing-8);
+  width: var(--spacing-8);
+}

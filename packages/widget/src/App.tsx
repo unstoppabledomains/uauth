@@ -10,6 +10,10 @@ import './widget/index.css'
 function App() {
   return (
     <BrowserRouter>
+      <link
+        rel="stylesheet"
+        href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en"
+      />
       <Switch>
         <Route
           path="/modal-test"
@@ -70,17 +74,19 @@ function App() {
                   url: window.location.href,
                 })
 
-                const wallet = await uauth.connectPreferedWallet(
-                  authorization.idToken.sub,
-                  '',
-                )
+                switch (authorization.idToken.wallet_type_hint) {
+                  case 'injected': {
+                    ;(authorization as any).addresses = await (
+                      window as any
+                    ).ethereum.enable()
+                    break
+                  }
 
-                setResponse({
-                  authorization,
-                  account: await wallet.account(),
-                  chainId: await wallet.chainId(),
-                  clientVersion: await wallet.clientVersion(),
-                })
+                  default:
+                    break
+                }
+
+                setResponse(authorization)
               })()
             }, [])
 

@@ -2,72 +2,67 @@ import UAuth from '../../packages/js/src'
 
 /**
  * Instanciation
+ *
+ * @param options
+ *
+ * @param options.clientID: string
+ * TODO: param options.clientSecret?: We don't have it, but we probably will once we deploy more than the one UAuth server
+ * @param options.redirectUri: string // must be included unless you specify it per request
+ * @param options.scope: string // Defaults to "openid"
+ * @param options.fallbackIssuer: string // not required, defaults to https://auth.unstoppabledomains.com
+ * @param options.postLogoutRedirectUri?: string // not required
+ * @param options.audience?: string // not required, maybe call it resource?
+ * @param options.responseType: ResponseType
+ * @param options.responseMode: ResponseMode
+ * @param options.maxAge: number // not required
+ * @param options.clockSkew: number // Defaults to 60
+ * @param options.networks?: NetworkConfig[] // TODO
+ * @param options.createIpfsUrl?: (cid: string, path: string) => string
+ * @param options.resolution: DomainResolver
  */
-
 const uauth = new UAuth({
   clientID: 'my_client_id',
   // clientSecret?: We don't have it, but we probably will once we deploy more than the one UAuth server
   redirectUri: 'https://my-client.com/callback',
-  // scope: Defaults to 'openid' which just giving access to the the domain name
+  scope: 'openid wallet', // Defaults to 'openid' which just giving access to the the domain name
   // resolution: Optional resolution library instance
-  wallets: {
-    // Wallets need to connect to the wallet and return the provider.
-    web3: simpleWeb3,
-    default: () => {
-      window.location.assign('/connect-wallet')
-    },
-  },
 })
-
-function simpleWeb3() {
-  window.ethereum.enable()
-  return window.ethereum
-}
-
-async function simpleImportWeb3() {
-  return (await import('eth-provider'))()
-}
-
-async function binanceWeb3() {
-  const provider = window.BinanceChain || window.ethereum
-  await provider.enable()
-  return provider
-}
 
 /**
  * Login
  *
  * Redirects browser to authorization server. Should be placed on a button.
- */
-
-uauth
-  .login({
-    username: 'domain.crypto',
-    // async beforeRedirect() {
-    //   // Do some action before the window.location.assign call
-    //   alert("I'm redirecting...")
-    //   return
-    // },
-  })
-  .catch(error => {
-    // some error occured
-  })
-
-/**
- * Potential Idea!
  *
- * Login with popup. Same as login, but must be attached to a click/submit event
- * in order for browsers not to block.
+ * @param options
+ *
+ * @param options.username: string // if unspecified a modal will appear and prompt you for a domain.
+ * @param options.redirectUri?: string // required either in constructor or here
+ * @param options.scope?: string // required either in constructor or here
+ * @param options.audience?: string
+ * @param options.responseType?: ResponseType
+ * @param options.responseMode?: ResponseMode
+ * @param options.state?: T
+ * @param options.beforeRedirect?(options, url: string): void | Promise<void>
  */
+uauth.login().catch(error => {
+  // some error occured
+})
 
 /**
  * Login Callback
+ *
+ * Uses the window.location in conjuction with variables left in local storage to
+ * take the authorization code and exchange it for an access token.
+ *
+ * @param options
+ *
+ * @param options.url: string // if unspecified a will default to window.location.href
  */
-
 uauth
   .loginCallback()
   .then(user => {
     console.log(user)
+    // user.wallet_type_hint
   })
   .catch(error => {
     // some error occured
@@ -75,8 +70,9 @@ uauth
 
 /**
  * Access User info
+ *
+ * Returns relavent cached values of access & id tokens in localstorage
  */
-
 uauth
   .user()
   .then(user => {
@@ -84,15 +80,30 @@ uauth
   })
   .catch(error => {
     window.location.assign('/login')
-    // some error occured
+    // some error occured while trying to fetch user information, apps should probably log back in
   })
 
 /**
  * Logout
+ *
+ * @param options?
+ *
+ * @param options.postLogoutRedirectUri?: string
+ * @param options.state?: T
+ * @param options.beforeRedirect?(options,url: string): void | Promise<void>
  */
-
 // Needs polishing
-
 uauth.logout().catch(error => {
+  // some error occured
+})
+
+/**
+ * TODO: more validation
+ *
+ * @param options
+ *
+ * @param options.url: string // if unspecified a will default to window.location.href
+ */
+uauth.logoutCallback().catch(error => {
   // some error occured
 })

@@ -37,11 +37,9 @@ import {
   toBase64,
 } from './util/crypto'
 import {getSortedScope, recordCacheKey} from './util/general'
-import * as Wallets from './wallets'
-import {BaseWallet} from './wallets'
 
 export default class UAuth implements SDK {
-  static Wallets = Wallets
+  // static Wallets = Wallets
   public options: SDKOptions
   public cache: Cache
   public issuerResolver: IssuerResolver
@@ -150,10 +148,15 @@ export default class UAuth implements SDK {
     )
   }
 
-  async login(options: Partial<LoginOptions>): Promise<void> {
-    const url = await modal.open(domain =>
-      this.buildLoginUrl({...options, username: domain}),
-    )
+  async login(options: Partial<LoginOptions> = {}): Promise<void> {
+    let url: string
+    if (options.username) {
+      url = await this.buildLoginUrl(options as any)
+    } else {
+      url = await modal.open(domain =>
+        this.buildLoginUrl({...options, username: domain}),
+      )
+    }
 
     if (typeof options.beforeRedirect === 'function') {
       await options.beforeRedirect(options, url)
@@ -286,7 +289,7 @@ export default class UAuth implements SDK {
   }
 
   async logoutCallback<T = undefined>(
-    options: LogoutCallbackOptions,
+    options: LogoutCallbackOptions = {url: window.location.href},
   ): Promise<T> {
     const t: T = null as any
     return t
@@ -368,6 +371,8 @@ export default class UAuth implements SDK {
       'phone_number_verified',
       'address',
       'updated_at',
+      'wallet_address',
+      'wallet_type_hint',
     ]
 
     for (const claim of claims) {
@@ -407,7 +412,7 @@ export default class UAuth implements SDK {
     return
   }
 
-  async connectPreferedWallet(
+  /*  async connectPreferedWallet(
     domain: string,
     user: string,
   ): Promise<BaseWallet> {
@@ -429,9 +434,9 @@ export default class UAuth implements SDK {
     await wallet.connect()
 
     return wallet
-  }
+  } */
 
-  async preferedWallet(
+  /* async preferedWallet(
     domain: string,
     user: string,
   ): Promise<{
@@ -454,5 +459,5 @@ export default class UAuth implements SDK {
     }
 
     return authentication
-  }
+  } */
 }

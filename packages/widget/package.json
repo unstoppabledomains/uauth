@@ -15,6 +15,7 @@
     "@uauth/common": "1.0.0",
     "@uauth/js": "1.0.0",
     "@uauth/modal": "1.0.0",
+    "classnames": "^2.3.1",
     "jest": "^27.0.6",
     "parcel-bundler": "^1.12.5",
     "react": "^17.0.2",

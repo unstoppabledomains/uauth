@@ -1,0 +1,25 @@
+.Loading {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
+.Loading:after {
+  content: ' ';
+  display: block;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 50%;
+  border: 0.125em solid;
+  border-color: currentColor currentColor currentColor transparent;
+  animation: Loading 1.2s linear infinite;
+}
+
+@keyframes Loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

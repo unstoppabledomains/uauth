@@ -85,6 +85,10 @@ export interface LoginCallbackResponse<T> {
 export interface LogoutOptions<T> {
   postLogoutRedirectUri?: string
   state?: T
+  beforeRedirect?(
+    options: Partial<LoginOptions<T>>,
+    url: string,
+  ): void | Promise<void>
 }
 
 export interface LogoutCallbackOptions {

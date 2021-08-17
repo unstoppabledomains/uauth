@@ -1,6 +1,6 @@
 import React from 'react'
+import Button from '../components/LoginButton'
 import uauth from '../uauth'
-import Button from './Button'
 import './index.css'
 import SmallButton from './SmallButton'
 
