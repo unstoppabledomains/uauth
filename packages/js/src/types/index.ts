@@ -67,7 +67,10 @@ export interface LoginOptions<T = any> {
   responseType?: ResponseType
   responseMode?: ResponseMode
   state?: T
-  beforeRedirect?(options: LoginOptions<T>, url: string): void | Promise<void>
+  beforeRedirect?(
+    options: Partial<LoginOptions<T>>,
+    url: string,
+  ): void | Promise<void>
 }
 
 export interface LoginCallbackOptions {
@@ -104,7 +107,7 @@ export interface UserOptions extends CachedAuthorizationOptions {
 
 export interface SDK {
   buildLoginUrl<T>(options: LoginOptions<T>): Promise<string>
-  login<T>(options: LoginOptions<T>): Promise<void>
+  login<T>(options: Partial<LoginOptions<T>>): Promise<void>
   loginCallback<T>(
     options: LoginCallbackOptions,
   ): Promise<LoginCallbackResponse<T>>

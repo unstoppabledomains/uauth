@@ -23,10 +23,10 @@ memoryDomainResolver.set('domain.crypto', {
 
 const uauth = new UAuth({
   clientID: 'authorization_code_test_client',
-  responseMode: 'query',
+  responseMode: 'fragment',
   redirectUri: 'http://localhost:5000/callback',
   resolution: memoryDomainResolver,
-  scope: 'openid email acct',
+  scope: 'openid email wallet',
   wallets: {
     web3: addr => new UAuth.Wallets.InjectedWallet(),
     // TODO: We might be able to pass the walletconnect and walletlink sessions back as idToken claims...

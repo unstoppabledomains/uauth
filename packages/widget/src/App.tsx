@@ -1,13 +1,42 @@
 import React, {useEffect, useState} from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import * as modal from '../../modal/build/index.modern'
+import '../../modal/src/Modal.css'
 import {popup} from './popup'
 import uauth from './uauth'
 import Widget from './widget'
-
+import Button from './widget/Button'
+import './widget/index.css'
 function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route
+          path="/modal-test"
+          component={() => {
+            const [domain, setDomain] = useState('')
+
+            if (!domain) {
+              return (
+                <Button
+                  onClick={() => {
+                    ;(async () => {
+                      setDomain(
+                        await modal.open(async (domain: string) => {
+                          await new Promise(r => setTimeout(r, 1000))
+                          return 'redirect_uri_for_' + domain
+                        }),
+                      )
+                    })()
+                  }}
+                />
+              )
+            }
+
+            return <div>Domain: {domain}</div>
+          }}
+        />
+
         <Route
           path="/popup"
           component={() => {
@@ -27,9 +56,16 @@ function App() {
           path="/callback"
           component={() => {
             const [response, setResponse] = useState<any>()
+            const [error, setError] = useState<Error>()
 
             useEffect(() => {
               ;(async () => {
+                setResponse(
+                  Object.fromEntries(
+                    new URLSearchParams(window.location.search).entries(),
+                  ),
+                )
+
                 const {authorization} = await uauth.loginCallback({
                   url: window.location.href,
                 })
@@ -50,7 +86,7 @@ function App() {
 
             return (
               <div>
-                <pre>{JSON.stringify(response, null, 2)}</pre>
+                <pre>{JSON.stringify(error || response, null, 2)}</pre>
               </div>
             )
           }}

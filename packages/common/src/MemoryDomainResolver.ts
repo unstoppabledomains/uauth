@@ -29,6 +29,6 @@ export default class MemoryDomainResolver implements DomainResolver {
     return keys.reduce((a, v) => {
       a[v] = records[v] || ''
       return a
-    }, {})
+    }, {} as Record<string, string>)
   }
 }

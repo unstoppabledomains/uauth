@@ -10,7 +10,7 @@ const Button: React.FC<Props> = props => {
   return (
     <button {...props} className="Button">
       <img
-        src="https://raw.githubusercontent.com/unstoppabledomains/unstoppable-domains-website/d56beea6089d57167254a600186563036d09c844/backend/lib/helpers/p2p-templates/templates/nft-collection/template-build/logo512.png?token=AFBIY2MT6XHAXQDFMEDXRYDBAGDQM"
+        src="https://raw.githubusercontent.com/unstoppabledomains/unstoppable-domains-website/5531cc2485b479c64a6ed7c5365da38d28e3fc50/backend/lib/helpers/p2p-templates/templates/nft-collection/template-build/static/media/UnstoppableLogo.49845d4b.svg?token=AFBIY2LIUMHOXBHJD2VBUS3BCFDGM"
         alt=""
       />
       <span>Connect with Unstoppable</span>

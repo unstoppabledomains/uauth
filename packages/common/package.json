@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "main": "src/index.ts",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@types/openid-client": "^3.7.0"
+  }
 }

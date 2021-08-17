@@ -12,6 +12,7 @@ import {
   IssuerResolver,
   StorageCache,
 } from '../../common/src'
+import * as modal from '../../modal/src/index'
 import {
   AuthorizationCodeTokenEndpointRequest,
   AuthorizationEndpointRequest,
@@ -149,8 +150,10 @@ export default class UAuth implements SDK {
     )
   }
 
-  async login(options: LoginOptions): Promise<void> {
-    const url = await this.buildLoginUrl(options)
+  async login(options: Partial<LoginOptions>): Promise<void> {
+    const url = await modal.open(domain =>
+      this.buildLoginUrl({...options, username: domain}),
+    )
 
     if (typeof options.beforeRedirect === 'function') {
       await options.beforeRedirect(options, url)
@@ -201,12 +204,14 @@ export default class UAuth implements SDK {
 
     const tokenRequest: AuthorizationCodeTokenEndpointRequest = {
       client_id: this.options.clientID,
-      client_secret: 'authorization_code_test_client_secret',
+      client_secret: 'secret',
       code: authorizationResponse.code,
       code_verifier: codeVerifier,
       grant_type: 'authorization_code',
       redirect_uri: request.redirect_uri,
     }
+
+    console.log(openidConfiguration.token_endpoint, tokenRequest)
 
     const tokenResponse: TokenEndpointResponse = await fetch(
       openidConfiguration.token_endpoint,
