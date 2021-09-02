@@ -1,8 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM"],
-    "outDir": "build",
-    "jsx": "react"
+    "outDir": "build"
   }
 }

@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "target": "ES5",
-    "lib": ["ESNext"],
+    "module": "ESNext",
+    "target": "ESNext",
     "allowJs": true,
     "moduleResolution": "Node",
     "skipLibCheck": true,

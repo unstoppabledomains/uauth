@@ -1,7 +1,8 @@
 {
   "name": "@uauth/modal",
   "version": "1.0.0",
-  "source": "src/index.tsx",
+  "type": "module",
+  "source": "./src/index.tsx",
   "exports": "./build/index.modern.js",
   "main": "./build/index.cjs",
   "module": "./build/index.module.js",
@@ -9,11 +10,10 @@
   "types": "./build/index.d.ts",
   "scripts": {
     "build": "microbundle --jsx 'React.createElement'",
-    "dev": "microbundle watch --jsx 'React.createElement'"
+    "dev": "microbundle watch"
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "microbundle": "^0.13.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }

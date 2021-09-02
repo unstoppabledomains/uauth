@@ -1,16 +1,5 @@
 import {isJRD} from './JRD'
-import {DomainResolver, IPFSResolver, JRDDocument} from './types'
-
-interface WebFingerRecord {
-  host?: string
-  uri?: string
-  value?: string
-}
-
-interface WebFingerResolverOptions {
-  ipfsResolver: IPFSResolver
-  domainResolver: DomainResolver
-}
+import {JRDDocument, WebFingerRecord, WebFingerResolverOptions} from './types'
 
 export default class DefaultWebFingerResolver {
   constructor(public options: WebFingerResolverOptions) {}
@@ -19,11 +8,12 @@ export default class DefaultWebFingerResolver {
     domain: string,
     user: string,
     rel: string,
+    fallbackIssuer: string,
   ): Promise<JRDDocument> {
     const webfingerKey = `webfinger.${user}.${rel}`
 
-    console.log('domain:', domain)
-    console.log('webfingerKey:', webfingerKey)
+    // console.log('domain:', domain)
+    // console.log('webfingerKey:', webfingerKey)
 
     const records = await this.options.domainResolver.records(domain, [
       webfingerKey,
@@ -31,9 +21,15 @@ export default class DefaultWebFingerResolver {
 
     const resource = user ? `acct:${user}@${domain}` : `${domain}`
 
+    // console.log('record value:', records[webfingerKey])
+
+    if (!records[webfingerKey]) {
+      return {subject: resource, links: [{rel, href: fallbackIssuer}]}
+    }
+
     const webfingerRecord: WebFingerRecord = JSON.parse(records[webfingerKey])
 
-    console.log('webfingerRecord:', webfingerRecord)
+    // console.log('webfingerRecord:', webfingerRecord)
 
     let json
     if (typeof webfingerRecord.host === 'string') {

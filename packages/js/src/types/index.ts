@@ -19,9 +19,15 @@ export interface NetworkConfig {
 
 type Provider = any
 
+interface SDKCacheOptions {
+  issuer?: boolean
+  userinfo?: boolean
+}
+
 export interface SDKOptions {
   fallbackIssuer: string // not required
   clientID: string
+  clientSecret: string
   redirectUri: string // must be included unless you specify it per request
   postLogoutRedirectUri?: string // not required
   scope: string // Defaults to "openid"
@@ -38,8 +44,9 @@ export interface SDKOptions {
       addr_type_hint: string,
     ) => Provider | void | Promise<Provider | void>
   >
-  createIpfsUrl?: (cid: string, path: string) => string
+  createIpfsUrl: (cid: string, path: string) => string
   resolution: DomainResolver
+  cacheOptions: SDKCacheOptions
   // TODO: Add resolution
   // resolution: Resolution
 }
@@ -53,6 +60,8 @@ export type SDKConstructorOptions = Optional<
   | 'maxAge'
   | 'clockSkew'
   | 'resolution'
+  | 'cacheOptions'
+  | 'createIpfsUrl'
 >
 
 export interface SDKConstructor {
@@ -83,6 +92,9 @@ export interface LoginCallbackResponse<T> {
 }
 
 export interface LogoutOptions<T> {
+  username?: string
+  audience?: string
+  scope?: string
   postLogoutRedirectUri?: string
   state?: T
   beforeRedirect?(
@@ -123,7 +135,6 @@ export interface SDK {
   ): Promise<LogoutCallbackResponse<T>>
 
   user(options: UserOptions): Promise<UserInfo>
-  introspect(): void
 }
 
 export type ResponseType = 'code'
@@ -200,6 +211,7 @@ export interface AuthorizationEndpointRequest {
   max_age: number // number ?
   nonce: string
   prompt: string
+  resource?: string
   redirect_uri: string
   response_type: ResponseType
   response_mode: ResponseMode

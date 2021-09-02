@@ -42,11 +42,16 @@ export interface DomainResolver {
 }
 
 export interface WebFingerResolver {
-  resolve(domain: string, user: string, rel: string): Promise<JRDDocument>
+  resolve(
+    domain: string,
+    user: string,
+    rel: string,
+    fallbackIssuer: string,
+  ): Promise<JRDDocument>
 }
 
 export interface IssuerResolver {
-  resolve(username: string): Promise<IssuerMetadata>
+  resolve(username: string, fallbackIssuer: string): Promise<IssuerMetadata>
 }
 
 type MaybePromise<T> = Promise<T> | T
@@ -58,4 +63,19 @@ export interface Cache {
   delete(key: string): MaybePromise<boolean>
   entries(): MaybePromise<IterableIterator<[string, string]>>
   clear(): MaybePromise<void>
+}
+
+export interface WebFingerRecord {
+  host?: string
+  uri?: string
+  value?: string
+}
+
+export interface WebFingerResolverOptions {
+  ipfsResolver: IPFSResolver
+  domainResolver: DomainResolver
+}
+
+export interface IssuerResolverOptions {
+  webfingerResolver: WebFingerResolver
 }

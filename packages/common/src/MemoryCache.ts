@@ -1,3 +1,3 @@
 import {Cache} from './types'
 
-export default class MemoryCache extends Map<string, string> implements Cache {}
+export default class MemoryCache extends Map<string, string> {}

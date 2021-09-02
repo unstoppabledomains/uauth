@@ -10,6 +10,9 @@ export interface AddressClaim {
 export interface UserInfo {
   sub: string
 
+  wallet_address?: string
+  wallet_type_hint?: 'web3' | 'walletconnect'
+
   name?: string
   given_name?: string
   family_name?: string
@@ -59,4 +62,6 @@ export interface Authorization {
   accessToken: string
   expiresAt: number
   idToken: IdToken
+  scope: string
+  audience: string
 }

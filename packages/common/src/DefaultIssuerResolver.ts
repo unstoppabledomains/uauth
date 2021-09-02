@@ -1,13 +1,9 @@
-import {IssuerResolver, WebFingerResolver} from './types'
-
-interface IssuerResolverOptions {
-  webfingerResolver: WebFingerResolver
-}
+import {IssuerResolver, IssuerResolverOptions} from './types'
 
 export default class DefaultIssuerResolver implements IssuerResolver {
   constructor(public options: IssuerResolverOptions) {}
 
-  async resolve(username: string) {
+  async resolve(username: string, fallbackIssuer: string) {
     let user = ''
     let domain: string
     if (username.includes('@')) {
@@ -18,7 +14,12 @@ export default class DefaultIssuerResolver implements IssuerResolver {
 
     const rel = 'http://openid.net/specs/connect/1.0/issuer'
 
-    const jrd = await this.options.webfingerResolver.resolve(domain, user, rel)
+    const jrd = await this.options.webfingerResolver.resolve(
+      domain,
+      user,
+      rel,
+      fallbackIssuer,
+    )
 
     const link = jrd.links?.find(v => v.rel === rel)
     if (!link || !link.href) {

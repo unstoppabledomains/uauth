@@ -11,11 +11,12 @@ export default class MemoryWebFingerResolver implements WebFingerResolver {
     domain: string,
     user: string,
     rel: string,
+    fallbackIssuer: string,
   ): Promise<JRDDocument> {
     const jrd = this.map.get(`${domain}.${user}.${rel}`)
 
     if (!jrd) {
-      throw new Error('no document')
+      return {subject: domain, links: [{rel, href: fallbackIssuer}]}
     }
 
     return jrd

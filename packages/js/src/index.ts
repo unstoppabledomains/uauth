@@ -1,9 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {Resolution} from '@unstoppabledomains/resolution'
-// TODO: figure out why these jose modules cannot be imported 'normally'.
-import {parseJwk} from 'jose/dist/browser/jwk/parse'
-import {createRemoteJWKSet} from 'jose/dist/browser/jwks/remote'
-import {jwtVerify} from 'jose/dist/browser/jwt/verify'
 import {
   Cache,
   DefaultIPFSResolver,
@@ -11,17 +6,27 @@ import {
   DefaultWebFingerResolver,
   IssuerResolver,
   StorageCache,
-} from '../../common/src'
-import * as modal from '../../modal/src/index'
+} from '@uauth/common'
+import * as modal from '@uauth/modal'
+import {Resolution} from '@unstoppabledomains/resolution'
+// TODO: figure out why these jose modules cannot be imported 'normally'.
+// @ts-ignore
+import {parseJwk} from 'jose/dist/browser/jwk/parse'
+// @ts-ignore
+import {createRemoteJWKSet} from 'jose/dist/browser/jwks/remote'
+// @ts-ignore
+import {jwtVerify} from 'jose/dist/browser/jwt/verify'
+import {collapseTextChangeRangesAcrossMultipleVersions} from 'typescript'
 import {
   AuthorizationCodeTokenEndpointRequest,
   AuthorizationEndpointRequest,
   AuthorizationEndpointResponse,
-  CachedAuthorizationOptions as CachedAuthorizationOptions,
+  CachedAuthorizationOptions,
   LoginCallbackOptions,
   LoginCallbackResponse,
   LoginOptions,
   LogoutCallbackOptions,
+  LogoutEndpointRequest,
   LogoutOptions,
   SDK,
   SDKConstructorOptions,
@@ -37,6 +42,15 @@ import {
   toBase64,
 } from './util/crypto'
 import {getSortedScope, recordCacheKey} from './util/general'
+
+const CACHE_KEY_ISSUER = 'CACHE_KEY_ISSUER'
+const CACHE_KEY_OPENID_CONFIGURATION = 'CACHE_KEY_OPENID_CONFIGURATION'
+const CACHE_KEY_LAST_SUB = 'CACHE_KEY_LAST_SUB'
+const CACHE_KEY_AUTHORIZE_REQUEST = 'CACHE_KEY_AUTHORIZE_REQUEST'
+const CACHE_KEY_AUTHORIZATION = 'CACHE_KEY_AUTHORIZATION'
+const CACHE_KEY_CODE_VERIFIER = 'CACHE_KEY_CODE_VERIFIER'
+const CACHE_KEY_LAST_NONCE = 'CACHE_KEY_LAST_NONCE'
+const CACHE_KEY_LAST_AUTHORIZATION = 'CACHE_KEY_LAST_AUTHORIZATION'
 
 export default class UAuth implements SDK {
   // static Wallets = Wallets
@@ -55,6 +69,12 @@ export default class UAuth implements SDK {
     options.clockSkew = options.clockSkew || 60
     options.resolution = options.resolution || new Resolution()
 
+    options.cacheOptions = {
+      issuer: true,
+      userinfo: true,
+      ...options.cacheOptions,
+    }
+
     this.options = options as SDKOptions
     this.cache = new StorageCache()
 
@@ -68,8 +88,11 @@ export default class UAuth implements SDK {
           ),
         ),
         domainResolver: {
-          get records() {
-            return self.options.resolution.records
+          records(
+            domain: string,
+            keys: string[],
+          ): Promise<Record<string, string>> {
+            return self.options.resolution.records(domain, keys)
           },
         },
       }),
@@ -94,10 +117,171 @@ export default class UAuth implements SDK {
     return url.toString()
   }
 
+  formatLogoutEndpointUrl(
+    endpoint: string,
+    request: LogoutEndpointRequest,
+  ): string {
+    const url = new URL(endpoint)
+
+    url.search = new URLSearchParams(
+      Object.entries(request).reduce((a, [k, v]) => {
+        if (k && v) {
+          a.push([k, v])
+        }
+        return a
+      }, [] as [string, string][]),
+    ).toString()
+
+    return url.toString()
+  }
+
+  async getOpenidConfiguration(username: string): Promise<any> {
+    const issuerKey = recordCacheKey({name: CACHE_KEY_ISSUER, username})
+    if (this.options.cacheOptions.issuer) {
+      const issuer = await this.cache.get(issuerKey)
+      if (issuer) {
+        const openidConfigurationKey = recordCacheKey({
+          name: 'openid-configuration',
+          issuer,
+        })
+
+        const openidConfigurationRaw = await this.cache.get(
+          openidConfigurationKey,
+        )
+
+        // TODO: Change to an isValid check.
+        if (openidConfigurationRaw) {
+          return JSON.parse(openidConfigurationRaw)
+        }
+      }
+    }
+
+    const openidConfiguration = await this.issuerResolver.resolve(
+      username,
+      this.options.fallbackIssuer,
+    )
+
+    await this.cache.set(issuerKey, openidConfiguration.issuer)
+
+    const openidConfigurationKey = recordCacheKey({
+      name: 'openid-configuration',
+      issuer: openidConfiguration.issuer,
+    })
+
+    await this.cache.set(
+      openidConfigurationKey,
+      JSON.stringify(openidConfiguration),
+    )
+
+    return openidConfiguration
+  }
+
+  async saveCodeVerifier(verifier: string, nonce: string): Promise<void> {
+    await this.cache.set(
+      recordCacheKey({name: CACHE_KEY_CODE_VERIFIER, nonce}),
+      verifier,
+    )
+  }
+
+  async getCodeVerifier(nonce: string): Promise<string> {
+    const verifier = await this.cache.get(
+      recordCacheKey({name: CACHE_KEY_CODE_VERIFIER, nonce}),
+    )
+
+    if (!verifier) {
+      throw new Error('failed to get verifier')
+    }
+
+    return verifier
+  }
+
+  async saveAuthorizeRequest(
+    request: AuthorizationEndpointRequest,
+  ): Promise<void> {
+    await this.cache.set(CACHE_KEY_LAST_NONCE, request.nonce)
+    await this.cache.set(
+      recordCacheKey({name: CACHE_KEY_AUTHORIZE_REQUEST, nonce: request.nonce}),
+      JSON.stringify(request),
+    )
+  }
+
+  async getAuthorizeRequest(
+    nonce?: string,
+  ): Promise<AuthorizationEndpointRequest> {
+    if (nonce) {
+      const authorizeRequestRaw = await this.cache.get(
+        recordCacheKey({name: CACHE_KEY_AUTHORIZE_REQUEST, nonce}),
+      )
+
+      if (authorizeRequestRaw) {
+        return JSON.parse(authorizeRequestRaw)
+      }
+    }
+
+    const lastNonce = await this.cache.get(CACHE_KEY_LAST_NONCE)
+    if (!lastNonce) {
+      throw new Error('cannot find authorization request')
+    }
+
+    const authorizeRequestRaw = await this.cache.get(
+      recordCacheKey({name: CACHE_KEY_AUTHORIZE_REQUEST, nonce: lastNonce}),
+    )
+
+    if (!authorizeRequestRaw) {
+      throw new Error('cannot find authorization request')
+    }
+
+    return JSON.parse(authorizeRequestRaw)
+  }
+
+  async saveAuthorization(authorization: Authorization): Promise<void> {
+    const key = recordCacheKey({
+      name: CACHE_KEY_AUTHORIZATION,
+      client_id: this.options.clientID,
+      sub: authorization.idToken.sub,
+      scope: authorization.scope,
+      audience: authorization.audience,
+    })
+    await this.cache.set(CACHE_KEY_LAST_AUTHORIZATION, key)
+    await this.cache.set(CACHE_KEY_LAST_SUB, authorization.idToken.sub)
+    await this.cache.set(key, JSON.stringify(authorization))
+  }
+
+  private async getCachedAuthorization(
+    options: CachedAuthorizationOptions,
+  ): Promise<Authorization> {
+    const sub = options.sub || (await this.cache.get(CACHE_KEY_LAST_SUB))
+    if (!sub) {
+      throw new Error('no sub')
+    }
+
+    const authorizationKey = recordCacheKey({
+      name: CACHE_KEY_AUTHORIZATION,
+      client_id: this.options.clientID,
+      sub,
+      scope: getSortedScope(options.scope || this.options.scope),
+      audience: options.audience || this.options.audience || 'default',
+    })
+
+    const authorizationRaw = await this.cache.get(authorizationKey)
+
+    if (!authorizationRaw) {
+      throw new Error('no authorization')
+    }
+
+    const authorization = JSON.parse(authorizationRaw)
+
+    if (authorization.expiresAt < Date.now()) {
+      throw new Error('Token has expired')
+    }
+
+    return authorization
+  }
+
   async buildLoginUrl<T = undefined>(
     options: LoginOptions<T>,
   ): Promise<string> {
-    const openidConfiguration = await this.issuerResolver.resolve(
+    const openidConfiguration = await this.getOpenidConfiguration(
       options.username,
     )
 
@@ -105,13 +289,7 @@ export default class UAuth implements SDK {
       throw new Error('no authorization_endpoint')
     }
 
-    await this.cache.set(
-      'openid-configuration',
-      JSON.stringify(openidConfiguration),
-    )
-
     const nonce = Buffer.from(getRandomBytes(32)).toString('base64')
-
     const state = `${toBase64(getRandomBytes(32))}.${
       options.state === undefined
         ? ''
@@ -122,14 +300,14 @@ export default class UAuth implements SDK {
       43,
       'plain',
     )
-    await this.cache.set('code_verifier', verifier)
+    await this.saveCodeVerifier(verifier, nonce)
 
     const request: AuthorizationEndpointRequest = {
       client_id: this.options.clientID,
       login_hint: options.username,
       code_challenge: challenge,
       code_challenge_method: 'plain', // TODO: FIX
-      nonce: nonce,
+      nonce,
       state: state,
       max_age: this.options.maxAge || 600,
       resource: options.audience || this.options.audience,
@@ -140,7 +318,7 @@ export default class UAuth implements SDK {
       prompt: 'login',
     }
 
-    await this.cache.set('authorize_request', JSON.stringify(request))
+    await this.saveAuthorizeRequest(request)
 
     return this.formatAuthorizationEndpointUrl(
       openidConfiguration.authorization_endpoint,
@@ -170,26 +348,21 @@ export default class UAuth implements SDK {
   ): Promise<LoginCallbackResponse<T>> {
     const url = new URL(options.url)
 
-    const request: AuthorizationEndpointRequest = JSON.parse(
-      (await this.cache.get('authorize_request'))!,
-    )
+    const request: AuthorizationEndpointRequest =
+      await this.getAuthorizeRequest()
 
     const authorizationResponse: AuthorizationEndpointResponse = {} as any
-    switch (request.response_mode) {
-      case 'fragment': {
-        new URLSearchParams(url.hash.substring(1)).forEach((v, k) => {
-          authorizationResponse[k] = v
-        })
-        break
-      }
-      case 'query': {
-        new URLSearchParams(url.search).forEach((v, k) => {
-          authorizationResponse[k] = v
-        })
-        break
-      }
-      default:
-        throw new Error('only fragment & query response_mode supported for now')
+
+    if (request.response_mode === 'fragment') {
+      new URLSearchParams(url.hash.substring(1)).forEach((v, k) => {
+        authorizationResponse[k] = v
+      })
+    } else if (request.response_mode === 'query') {
+      new URLSearchParams(url.search).forEach((v, k) => {
+        authorizationResponse[k] = v
+      })
+    } else {
+      throw new Error('only fragment & query response_mode supported for now')
     }
 
     if ((authorizationResponse as any).error) {
@@ -200,21 +373,20 @@ export default class UAuth implements SDK {
       throw new Error("state returned doesn't match state in cache")
     }
 
-    const openidConfiguration = JSON.parse(
-      (await this.cache.get('openid-configuration'))!,
+    const openidConfiguration = await this.getOpenidConfiguration(
+      request.login_hint,
     )
-    const codeVerifier = (await this.cache.get('code_verifier'))!
+
+    const codeVerifier = await this.getCodeVerifier(request.nonce)
 
     const tokenRequest: AuthorizationCodeTokenEndpointRequest = {
       client_id: this.options.clientID,
-      client_secret: 'secret',
+      client_secret: this.options.clientSecret,
       code: authorizationResponse.code,
       code_verifier: codeVerifier,
       grant_type: 'authorization_code',
       redirect_uri: request.redirect_uri,
     }
-
-    console.log(openidConfiguration.token_endpoint, tokenRequest)
 
     const tokenResponse: TokenEndpointResponse = await fetch(
       openidConfiguration.token_endpoint,
@@ -235,45 +407,22 @@ export default class UAuth implements SDK {
     )
     const expiresAt = Date.now() + tokenResponse.expires_in * 1000
 
-    console.log('tokenResponse:', tokenResponse)
-
     // TODO: The server isn't returning the scope along with the callback and I havn't found the oidc docs to figure out if this is a bug.
     const scope = getSortedScope(request.scope)
-    const accessToken = toBase64(
-      textEncoder.encode(idToken.sub + ':' + tokenResponse.access_token),
-    )
+    const accessToken = tokenResponse.access_token
+    // toBase64(textEncoder.encode(idToken.sub + ':' + tokenResponse.access_token))
 
-    console.log('set recordCacheKey:', {
-      name: 'authorization',
-      client_id: this.options.clientID,
-      sub: idToken.sub,
+    const authorization: Authorization = {
+      accessToken,
+      expiresAt,
+      idToken,
       scope,
-      audience: this.options.audience || 'default',
-    })
-
-    await this.cache.set(
-      recordCacheKey({
-        name: 'authorization',
-        client_id: this.options.clientID,
-        sub: idToken.sub,
-        scope,
-        audience: this.options.audience || 'default',
-      }),
-      JSON.stringify({
-        accessToken,
-        expiresAt,
-        idToken,
-      }),
-    )
-
-    await this.cache.set('last-sub', idToken.sub)
+      audience: request.resource || 'default',
+    }
+    await this.saveAuthorization(authorization)
 
     return {
-      authorization: {
-        accessToken,
-        expiresAt,
-        idToken,
-      },
+      authorization,
       state: JSON.parse(request.state!.split('.', 1)[1] || (null as any)),
     }
   }
@@ -281,13 +430,60 @@ export default class UAuth implements SDK {
   async buildLogoutUrl<T = undefined>(
     options: LogoutOptions<T>,
   ): Promise<string> {
-    return ''
+    const authorization = await this.getCachedAuthorization({
+      sub: options.username,
+      audience: options.audience,
+      scope: options.scope,
+    })
+    if (!authorization) {
+      throw new Error('no authorization')
+    }
+
+    const authorizationKey = recordCacheKey({
+      name: CACHE_KEY_AUTHORIZATION,
+      client_id: this.options.clientID,
+      sub: authorization.idToken.sub,
+      scope: authorization.scope,
+      audience: authorization.audience,
+    })
+    await this.cache.delete(authorizationKey)
+
+    const openidConfiguration = await this.getOpenidConfiguration(
+      authorization.idToken.sub,
+    )
+    if (!openidConfiguration.end_session_endpoint) {
+      throw new Error('no logout endpoint')
+    }
+
+    const postLogoutRedirectUri =
+      options.postLogoutRedirectUri || this.options.postLogoutRedirectUri
+    if (!postLogoutRedirectUri) {
+      throw new Error('cannot logout from server')
+    }
+
+    const request: LogoutEndpointRequest = {
+      id_token_hint: authorization.idToken.__raw,
+      post_logout_redirect_uri: postLogoutRedirectUri,
+      state: '',
+    }
+
+    return this.formatLogoutEndpointUrl(
+      openidConfiguration.end_session_endpoint,
+      request,
+    )
   }
 
   async logout<T = undefined>(options: LogoutOptions<T> = {}): Promise<void> {
-    window.location.assign(await this.buildLogoutUrl(options))
+    const url = await this.buildLogoutUrl(options)
+
+    if (typeof options.beforeRedirect === 'function') {
+      await options.beforeRedirect(options, url)
+    }
+
+    window.location.assign(url)
   }
 
+  // TODO: Check state after logout to make sure that the auth server wasn't man in the middled
   async logoutCallback<T = undefined>(
     options: LogoutCallbackOptions = {url: window.location.href},
   ): Promise<T> {
@@ -295,61 +491,7 @@ export default class UAuth implements SDK {
     return t
   }
 
-  private async getCachedAuthorization(
-    options: CachedAuthorizationOptions = {},
-  ): Promise<Authorization> {
-    const cachedSub = await this.cache.get('last-sub')
-
-    console.log('get recordCacheKey:', {
-      name: 'authorization',
-      client_id: this.options.clientID,
-      scope: getSortedScope(options.scope || this.options.scope),
-      audience: options.audience || this.options.audience || 'default',
-      sub: options.sub || cachedSub!,
-    })
-
-    const authorization = JSON.parse(
-      (await this.cache.get(
-        recordCacheKey({
-          name: 'authorization',
-          client_id: this.options.clientID,
-          scope: getSortedScope(options.scope || this.options.scope),
-          audience: options.audience || this.options.audience || 'default',
-          sub: options.sub || cachedSub!,
-        }),
-      ))!,
-    )
-
-    if (authorization.expiresAt < Date.now()) {
-      throw new Error('Token has expired')
-    }
-
-    return authorization
-  }
-
-  private async getAuthorizationUsingRefreshToken(): Promise<Authorization> {
-    throw new Error('refresh tokens not supported for SPAs')
-  }
-
-  async getAuthorization(
-    options: CachedAuthorizationOptions = {},
-  ): Promise<Authorization> {
-    const cachedAuthorization = await this.getCachedAuthorization(options)
-
-    if (cachedAuthorization) {
-      return cachedAuthorization
-    }
-
-    return this.getAuthorizationUsingRefreshToken()
-  }
-
   async user(options: UserOptions = {}): Promise<UserInfo> {
-    const authoirzation: Authorization = await this.getAuthorization(options)
-
-    const userinfo: UserInfo = {
-      sub: authoirzation.idToken.sub,
-    }
-
     // Defaults to the standard claims
     const claims = options.claims || [
       'name',
@@ -371,13 +513,57 @@ export default class UAuth implements SDK {
       'phone_number_verified',
       'address',
       'updated_at',
+      'example',
       'wallet_address',
       'wallet_type_hint',
     ]
 
+    const authorization = await this.getCachedAuthorization(options)
+    if (!authorization) {
+      throw new Error('no authorization')
+    }
+
+    if (this.options.cacheOptions.userinfo) {
+      const userinfo: UserInfo = {
+        sub: authorization.idToken.sub,
+      }
+
+      for (const claim of claims) {
+        if (authorization.idToken[claim]) {
+          userinfo[claim] = authorization.idToken[claim]
+        }
+      }
+
+      return userinfo
+    }
+
+    const sub = options.sub || (await this.cache.get(CACHE_KEY_LAST_SUB))
+    if (!sub) {
+      throw new Error('no sub')
+    }
+
+    const openidConfiguration = await this.getOpenidConfiguration(sub)
+
+    const userinfoResponse: any = await fetch(
+      openidConfiguration.userinfo_endpoint,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authorization.accessToken}`,
+        },
+      },
+    ).then(async resp =>
+      resp.ok ? resp.json() : Promise.reject(await resp.json()),
+    )
+
+    const userinfo: UserInfo = {
+      sub,
+    }
+
     for (const claim of claims) {
-      if (authoirzation.idToken[claim]) {
-        userinfo[claim] = authoirzation.idToken[claim]
+      if (userinfoResponse[claim]) {
+        userinfo[claim] = userinfoResponse[claim]
       }
     }
 
@@ -388,8 +574,8 @@ export default class UAuth implements SDK {
     request: AuthorizationEndpointRequest,
     id_token: string,
   ): Promise<IdToken> {
-    const openidConfiguration = JSON.parse(
-      (await this.cache.get('openid-configuration'))!,
+    const openidConfiguration = await this.getOpenidConfiguration(
+      request.login_hint,
     )
 
     const jwt = await jwtVerify(
@@ -401,15 +587,13 @@ export default class UAuth implements SDK {
 
     const idToken: IdToken = jwt.payload
 
+    idToken.__raw = id_token
+
     if (request.nonce !== idToken.nonce) {
       throw new Error("nonces don't match")
     }
 
     return idToken
-  }
-
-  introspect(): void {
-    return
   }
 
   /*  async connectPreferedWallet(
@@ -445,12 +629,10 @@ export default class UAuth implements SDK {
   }> {
     const authenticationKey = `authentication.${user}`
 
-    console.log('authenticationKey:', authenticationKey)
 
     const {[authenticationKey]: authenticationRecord} =
       await this.options.resolution.records(domain, [authenticationKey])
 
-    console.log('authenticationRecord:', authenticationRecord)
 
     const authentication = JSON.parse(authenticationRecord)
 

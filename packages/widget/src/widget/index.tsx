@@ -12,9 +12,9 @@ const Widget: React.FC<Props> = ({small = false}) => {
   const handleButtonClick: React.MouseEventHandler<HTMLButtonElement> = e => {
     ;(async () => {
       await uauth.login({
-        responseMode: 'query',
         beforeRedirect(options, url) {
-          // alert('Redirecting to ' + url)
+          // console.log(window.localStorage.getItem('openid-configuration'))
+          alert('Redirecting to ' + url)
         },
       })
     })()

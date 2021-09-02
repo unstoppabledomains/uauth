@@ -7,6 +7,7 @@ import uauth from './uauth'
 import Widget from './widget'
 import Button from './widget/Button'
 import './widget/index.css'
+
 function App() {
   return (
     <BrowserRouter>
@@ -75,7 +76,7 @@ function App() {
                 })
 
                 switch (authorization.idToken.wallet_type_hint) {
-                  case 'injected': {
+                  case 'web3': {
                     ;(authorization as any).addresses = await (
                       window as any
                     ).ethereum.enable()
