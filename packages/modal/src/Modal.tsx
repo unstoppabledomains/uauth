@@ -36,7 +36,7 @@ class LazyCache {
 const cache = new LazyCache()
 
 const nameRegex =
-  /^([a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.)(x|crypto|coin|wallet|bitcoin|888|nft|dao|zil|blockchain)$/
+  /^([a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.)(x|crypto|coin|wallet|bitcoin|888|nft|dao|blockchain)$/
 
 function retry<T>(
   fn: () => Promise<T>,
