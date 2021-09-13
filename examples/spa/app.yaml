@@ -1,0 +1,13 @@
+service: default
+runtime: python39
+
+manual_scaling:
+  instances: 1
+
+handlers:
+  - url: /
+    static_files: build/index.html
+    upload: build/index.html
+  - url: /(.*)$
+    static_files: build/\1
+    upload: build/(.*)

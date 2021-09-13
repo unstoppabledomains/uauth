@@ -1,8 +1,9 @@
 {
-  "name": "@uauth/common",
-  "version": "0.1.0",
+  "name": "@uauth/client",
+  "version": "1.0.0",
+  "private": true,
   "type": "module",
-  "source": "./src/index.ts",
+  "source": "./src/index.tsx",
   "exports": "./build/index.modern.js",
   "main": "./build/index.cjs",
   "module": "./build/index.module.js",
@@ -11,11 +12,5 @@
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch"
-  },
-  "devDependencies": {
-    "@types/openid-client": "^3.7.0"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

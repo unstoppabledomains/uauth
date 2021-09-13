@@ -1,6 +1,4 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/common", "packages/js", "packages/modal"],
   "version": "0.0.0"
 }
