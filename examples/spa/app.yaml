@@ -1,13 +1,15 @@
 service: default
-runtime: python39
+runtime: python27
+threadsafe: true
 
 manual_scaling:
   instances: 1
 
 handlers:
-  - url: /
-    static_files: build/index.html
-    upload: build/index.html
-  - url: /(.*)$
+  - url: /(.*\.(css|eot|gz|html|ico|js|map|png|svg|ttf|woff|woff2))
     static_files: build/\1
     upload: build/(.*)
+  - url: /.*
+    static_files: build/index.html
+    secure: always
+    upload: build/index.html
