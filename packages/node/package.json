@@ -1,6 +1,7 @@
 {
-  "name": "@uauth/modal",
+  "name": "@uauth/client",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
   "source": "./src/index.tsx",
   "exports": "./build/index.modern.js",
@@ -9,11 +10,7 @@
   "unpkg": "./build/index.umd.js",
   "types": "./build/index.d.ts",
   "scripts": {
-    "build": "microbundle --jsx 'React.createElement'",
+    "build": "microbundle",
     "dev": "microbundle watch"
-  },
-  "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
   }
 }

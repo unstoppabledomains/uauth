@@ -16,7 +16,6 @@
     "@uauth/common": "1.0.0",
     "@uauth/modal": "1.0.0",
     "@unstoppabledomains/resolution": "^5.0.0",
-    "eth-provider": "^0.9.0",
     "jose": "^3.14.0"
   }
 }

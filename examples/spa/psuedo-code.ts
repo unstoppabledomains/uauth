@@ -22,10 +22,10 @@ import UAuth from '../../packages/js/src'
  */
 const uauth = new UAuth({
   clientID: 'my_client_id',
-  // clientSecret?: We don't have it, but we probably will once we deploy more than the one UAuth server
+  clientSecret: 'my_client_secret',
   redirectUri: 'https://my-client.com/callback',
   scope: 'openid email wallet', // Defaults to 'openid' which just giving access to the the domain name
-  // resolution: Optional resolution library instance
+  // resolution: Optional existing resolution library instance
 })
 
 /**
