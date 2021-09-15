@@ -2,7 +2,8 @@
   "packages": [
     "packages/common",
     "packages/js",
-    "packages/modal"
+    "packages/modal",
+    "packages/node"
   ],
   "version": "0.1.0"
 }

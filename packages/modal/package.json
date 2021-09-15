@@ -1,16 +1,21 @@
 {
   "name": "@uauth/modal",
   "version": "0.1.0",
-  "type": "module",
   "source": "./src/index.tsx",
-  "exports": "./build/index.modern.js",
   "main": "./build/index.cjs",
-  "module": "./build/index.module.js",
+  "module": "./build/index.module.mjs",
   "unpkg": "./build/index.umd.js",
+  "browser": "./build/index.umd.js",
+  "exports": {
+    "import": "./build/index.module.mjs",
+    "require": "./build/index.cjs"
+  },
+  "type": "module",
   "types": "./build/index.d.ts",
   "scripts": {
     "build": "microbundle --jsx 'React.createElement'",
-    "dev": "microbundle watch"
+    "dev": "microbundle watch",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "react": "^17.0.2",

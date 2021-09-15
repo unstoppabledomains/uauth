@@ -1,7 +1,5 @@
 import ReactDOM from 'react-dom'
-import './index.css'
 import UAuth from '@uauth/js'
-import '@uauth/modal/src/Modal.css'
 import React, {useEffect, useState} from 'react'
 import {
   BrowserRouter,
@@ -13,17 +11,17 @@ import {
 
 const uauth = new UAuth({
   // These can be copied from the bottom of your app's configuration page on unstoppabledomains.com.
-  clientID: process.env.REACT_APP_CLIENT_ID,
-  clientSecret: process.env.REACT_APP_CLIENT_SECRET,
+  clientID: process.env.REACT_APP_CLIENT_ID!,
+  clientSecret: process.env.REACT_APP_CLIENT_SECRET!,
 
   // These are the scopes your app is requesting from the ud server.
   scope: 'openid email wallet example',
 
   // This is the url that the auth server will redirect back to after every authorization attempt.
-  redirectUri: process.env.REACT_APP_REDIRECT_URI,
+  redirectUri: process.env.REACT_APP_REDIRECT_URI!,
 
   // This is the url that the auth server will redirect back to after logging out.
-  postLogoutRedirectUri: process.env.REACT_APP_POST_LOGOUT_REDIRECT_URI,
+  postLogoutRedirectUri: process.env.REACT_APP_POST_LOGOUT_REDIRECT_URI!,
 })
 
 const Home: React.FC<RouteProps> = props => {
@@ -82,7 +80,7 @@ const Callback: React.FC<RouteProps> = props => {
     uauth
       .loginCallback()
       // Successfully logged and cached user in `window.localStorage`
-      .then(response => {
+      .then(async response => {
         console.log('loginCallback ->', response)
         setRedirectTo('/profile')
       })

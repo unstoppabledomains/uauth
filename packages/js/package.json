@@ -1,22 +1,27 @@
 {
   "name": "@uauth/js",
   "version": "0.1.0",
-  "type": "module",
   "source": "./src/index.ts",
-  "exports": "./build/index.modern.js",
   "main": "./build/index.cjs",
-  "module": "./build/index.module.js",
+  "module": "./build/index.module.mjs",
   "unpkg": "./build/index.umd.js",
+  "browser": "./build/index.umd.js",
+  "exports": {
+    "import": "./build/index.module.mjs",
+    "require": "./build/index.cjs"
+  },
+  "type": "module",
   "types": "./build/index.d.ts",
   "scripts": {
     "build": "microbundle",
-    "dev": "microbundle watch"
+    "dev": "microbundle watch",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@unstoppabledomains/resolution": "^5.0.0",
     "@uauth/common": "^0.1.0",
     "@uauth/modal": "^0.1.0",
-    "@unstoppabledomains/resolution": "^5.0.0",
-    "jose": "^3.14.0"
+    "global": "^4.4.0"
   },
   "publishConfig": {
     "access": "public"

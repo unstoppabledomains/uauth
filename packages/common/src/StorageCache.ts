@@ -1,7 +1,8 @@
 import {Cache} from './types'
+import window from 'global'
 
 export default class StorageCache implements Cache {
-  constructor(private storage = window.localStorage) {}
+  constructor(private storage = window?.localStorage) {}
 
   get(key: string): string | undefined {
     const value = this.storage.getItem(key)

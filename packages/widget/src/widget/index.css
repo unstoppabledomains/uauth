@@ -1,8 +1,0 @@
-.Widget * {
-  box-sizing: content-box;
-}
-
-.Widget {
-  z-index: 10000000;
-  /* position: absolute; */
-}

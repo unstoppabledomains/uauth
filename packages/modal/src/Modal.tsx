@@ -1,39 +1,233 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import './Modal.css'
+import window from 'global'
+
+const css = `
+.modal {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  font-size: 1rem;
+}
+
+.modal * {
+  box-sizing: border-box;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  z-index: 2147483647;
+}
+
+.modal-container {
+  background-color: #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 400px;
+  position: absolute;
+}
+
+@media only screen and (max-width: 416px) {
+  .modal-container {
+    max-width: calc(100% - 16px);
+    height: 100%;
+    max-height: calc(100% - 16px);
+  }
+}
+
+.modal-header {
+  padding: 16px;
+  padding-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding-top: 24px;
+  padding-right: 24px;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  font-size: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  max-width: 24px;
+  max-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  background-color: #ffffff;
+  box-shadow: 0 0 16px #ffffff;
+  border: none;
+}
+
+.modal-close:active {
+  color: #666;
+}
+
+.modal-close:before {
+  content: '\\2715';
+}
+
+.modal-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+  border: 1px solid #e8e9ea;
+  box-shadow: 0 0 64px #e8e9ea;
+}
+
+.modal-logo-circle-middle {
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  border: 1px solid #e8e9ea;
+  position: absolute;
+}
+
+.modal-logo-circle-outer {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  border: 1px solid #e8e9eabb;
+  position: absolute;
+}
+
+.modal-logo-circle-outerouter {
+  width: 288px;
+  height: 288px;
+  border-radius: 50%;
+  border: 1px solid #e8e9ea66;
+  position: absolute;
+}
+
+.modal-logo svg {
+  width: 96px;
+  height: 96px;
+  /* padding-bottom: 4px; */
+}
+
+.modal-title {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-weight: 700;
+  font-size: 1.2em;
+  background-image: linear-gradient(#fff0, #fff, #fff);
+  height: 72px;
+  width: calc(100% + 64px);
+}
+
+.modal-content {
+  padding: 0 16px;
+  width: 100%;
+  max-width: 375px;
+  margin: auto;
+}
+
+.model-alert {
+  width: 100%;
+  text-align: center;
+  border-radius: 4px;
+  border: 1.5px solid #d33;
+  background-color: #d333;
+  color: #b33;
+  padding: 8px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content input {
+  text-align: center;
+  width: 100%;
+  font-size: 1rem;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 2px solid #888;
+}
+
+.modal-content input:focus {
+  outline: none;
+  border-color: #4b47ee;
+}
+
+.modal-content button {
+  margin-top: 8px;
+  text-align: center;
+  width: 100%;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  background-color: #4b47ee;
+  color: white;
+  border: 1.5px solid #4b47ee;
+  cursor: pointer;
+}
+
+.modal-content button:disabled {
+  cursor: not-allowed;
+  background-color: #eeeef6;
+  color: #babac4;
+  border: 1.5px solid #e0e2ea;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #4b47ee;
+  width: 100%;
+  max-width: 375px;
+  padding: 24px 16px;
+  margin: auto;
+}
+
+.modal-footer > a {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.modal-footer svg {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 3px;
+}
+`
 
 interface Props {
   resolve(string: string): void
   reject(error: Error): void
   buildRedirectURI(domain: string): Promise<string>
 }
-
-class LazyCache {
-  promises: Record<string, Promise<string>> = {}
-  values: Record<string, string> = {}
-
-  set(key: string, promise: Promise<string>): void {
-    if (!this.has(key)) {
-      this.promises[key] = promise
-    }
-  }
-
-  has(key: string): boolean {
-    return (
-      Object.prototype.hasOwnProperty.call(this.promises, key) ||
-      Object.prototype.hasOwnProperty.call(this.values, key)
-    )
-  }
-
-  async get(key: string): Promise<string> {
-    if (Object.prototype.hasOwnProperty.call(this.promises, key)) {
-      this.values[key] = await this.promises[key]
-    }
-
-    return this.values[key]
-  }
-}
-
-const cache = new LazyCache()
 
 const nameRegex =
   /^([a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.)(x|crypto|coin|wallet|bitcoin|888|nft|dao|blockchain)$/
@@ -119,6 +313,7 @@ const Modal: React.FC<Props> = ({resolve, reject, buildRedirectURI}) => {
         rel="stylesheet"
         href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en"
       />
+      <style>{css}</style>
       <div className="modal-overlay">
         <div className="modal-container">
           <button className="modal-close" onClick={handleClose} />

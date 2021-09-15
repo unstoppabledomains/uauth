@@ -1,1 +1,1 @@
-export {default as Resource} from './Resource'
+export {default as Client} from './Client'

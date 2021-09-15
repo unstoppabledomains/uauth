@@ -1,47 +1,126 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
+  Authorization,
+  IdToken,
+  UserInfo,
+  AuthorizationCodeTokenEndpointRequest,
+  AuthorizationEndpointRequest,
+  AuthorizationEndpointResponse,
+  LogoutEndpointRequest,
+  TokenEndpointResponse,
   Cache,
   DefaultIPFSResolver,
   DefaultIssuerResolver,
   DefaultWebFingerResolver,
   IssuerResolver,
   StorageCache,
+  ResponseType,
+  ResponseMode,
+  DomainResolver,
+  verifyIdToken,
 } from '@uauth/common'
 import * as modal from '@uauth/modal'
 import {Resolution} from '@unstoppabledomains/resolution'
-// TODO: figure out why these jose modules cannot be imported 'normally'.
-// @ts-ignore
-import {parseJwk} from 'jose/dist/browser/jwk/parse'
-// @ts-ignore
-import {createRemoteJWKSet} from 'jose/dist/browser/jwks/remote'
-// @ts-ignore
-import {jwtVerify} from 'jose/dist/browser/jwt/verify'
-import {collapseTextChangeRangesAcrossMultipleVersions} from 'typescript'
-import {
-  AuthorizationCodeTokenEndpointRequest,
-  AuthorizationEndpointRequest,
-  AuthorizationEndpointResponse,
-  CachedAuthorizationOptions,
-  LoginCallbackOptions,
-  LoginCallbackResponse,
-  LoginOptions,
-  LogoutCallbackOptions,
-  LogoutEndpointRequest,
-  LogoutOptions,
-  SDK,
-  SDKConstructorOptions,
-  SDKOptions,
-  TokenEndpointResponse,
-  UserOptions,
-} from './types'
-import {Authorization, IdToken, UserInfo} from './types/custom'
 import {
   generateCodeChallengeAndVerifier,
   getRandomBytes,
+  getWindow,
   textEncoder,
   toBase64,
-} from './util/crypto'
-import {getSortedScope, recordCacheKey} from './util/general'
+  getSortedScope,
+  recordCacheKey,
+} from './util'
+
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+interface UAuthCacheOptions {
+  issuer?: boolean
+  userinfo?: boolean
+}
+
+export interface UAuthOptions {
+  fallbackIssuer: string // not required
+  clientID: string
+  clientSecret: string
+  redirectUri: string // must be included unless you specify it per request
+  postLogoutRedirectUri?: string // not required
+  scope: string // Defaults to "openid"
+  audience?: string // not required, maybe call it reference?
+  responseType: ResponseType // must be included unless you specify it per request
+  responseMode: ResponseMode // must be included unless you specify it per requese
+  maxAge: number // not required
+  clockSkew: number // Defaults to 60
+  createIpfsUrl: (cid: string, path: string) => string
+  resolution: DomainResolver
+  cacheOptions: UAuthCacheOptions
+  // TODO: Add resolution
+  // resolution: Resolution
+}
+
+export type UAuthConstructorOptions = Optional<
+  UAuthOptions,
+  | 'fallbackIssuer'
+  | 'scope'
+  | 'responseType'
+  | 'responseMode'
+  | 'maxAge'
+  | 'clockSkew'
+  | 'resolution'
+  | 'cacheOptions'
+  | 'createIpfsUrl'
+>
+
+export interface LoginOptions<T = any> {
+  username: string
+  redirectUri?: string
+  scope?: string
+  audience?: string
+  responseType?: ResponseType
+  responseMode?: ResponseMode
+  state?: T
+  beforeRedirect?(
+    options: Partial<LoginOptions<T>>,
+    url: string,
+  ): void | Promise<void>
+}
+
+export interface LoginCallbackOptions {
+  url: string
+}
+
+export interface LoginCallbackResponse<T> {
+  authorization: Authorization
+  state?: T
+}
+
+export interface LogoutOptions<T> {
+  username?: string
+  audience?: string
+  scope?: string
+  postLogoutRedirectUri?: string
+  state?: T
+  beforeRedirect?(
+    options: Partial<LoginOptions<T>>,
+    url: string,
+  ): void | Promise<void>
+}
+
+export interface LogoutCallbackOptions {
+  url?: string
+}
+
+export interface LogoutCallbackResponse<T> {
+  state?: T
+}
+
+export interface CachedAuthorizationOptions {
+  sub?: string
+  scope?: string
+  audience?: string
+}
+
+export interface UserOptions extends CachedAuthorizationOptions {
+  claims?: string[]
+}
 
 const CACHE_KEY_ISSUER = 'CACHE_KEY_ISSUER'
 const CACHE_KEY_OPENID_CONFIGURATION = 'CACHE_KEY_OPENID_CONFIGURATION'
@@ -52,13 +131,13 @@ const CACHE_KEY_CODE_VERIFIER = 'CACHE_KEY_CODE_VERIFIER'
 const CACHE_KEY_LAST_NONCE = 'CACHE_KEY_LAST_NONCE'
 const CACHE_KEY_LAST_AUTHORIZATION = 'CACHE_KEY_LAST_AUTHORIZATION'
 
-export default class UAuth implements SDK {
+export default class UAuth {
   // static Wallets = Wallets
-  public options: SDKOptions
+  public options: UAuthOptions
   public cache: Cache
   public issuerResolver: IssuerResolver
 
-  constructor(options: SDKConstructorOptions) {
+  constructor(options: UAuthConstructorOptions) {
     // This should default to the auth server that Unstoppable runs
     options.fallbackIssuer =
       options.fallbackIssuer || 'https://auth.unstoppabledomains.com'
@@ -75,7 +154,7 @@ export default class UAuth implements SDK {
       ...options.cacheOptions,
     }
 
-    this.options = options as SDKOptions
+    this.options = options as UAuthOptions
     this.cache = new StorageCache()
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -99,27 +178,9 @@ export default class UAuth implements SDK {
     })
   }
 
-  formatAuthorizationEndpointUrl(
+  formatEndpointUrl(
     endpoint: string,
-    request: AuthorizationEndpointRequest,
-  ): string {
-    const url = new URL(endpoint)
-
-    url.search = new URLSearchParams(
-      Object.entries(request).reduce((a, [k, v]) => {
-        if (k && v) {
-          a.push([k, v])
-        }
-        return a
-      }, [] as [string, string][]),
-    ).toString()
-
-    return url.toString()
-  }
-
-  formatLogoutEndpointUrl(
-    endpoint: string,
-    request: LogoutEndpointRequest,
+    request: Record<string, string | undefined>,
   ): string {
     const url = new URL(endpoint)
 
@@ -141,7 +202,7 @@ export default class UAuth implements SDK {
       const issuer = await this.cache.get(issuerKey)
       if (issuer) {
         const openidConfigurationKey = recordCacheKey({
-          name: 'openid-configuration',
+          name: CACHE_KEY_OPENID_CONFIGURATION,
           issuer,
         })
 
@@ -164,7 +225,7 @@ export default class UAuth implements SDK {
     await this.cache.set(issuerKey, openidConfiguration.issuer)
 
     const openidConfigurationKey = recordCacheKey({
-      name: 'openid-configuration',
+      name: CACHE_KEY_OPENID_CONFIGURATION,
       issuer: openidConfiguration.issuer,
     })
 
@@ -260,7 +321,7 @@ export default class UAuth implements SDK {
       client_id: this.options.clientID,
       sub,
       scope: getSortedScope(options.scope || this.options.scope),
-      audience: options.audience || this.options.audience || 'default',
+      audience: options.audience || this.options.audience,
     })
 
     const authorizationRaw = await this.cache.get(authorizationKey)
@@ -296,9 +357,10 @@ export default class UAuth implements SDK {
         : toBase64(textEncoder.encode(JSON.stringify(options.state)))
     }`
 
+    const codeChallengeMethod = 'S256'
     const {verifier, challenge} = await generateCodeChallengeAndVerifier(
       43,
-      'plain',
+      codeChallengeMethod,
     )
     await this.saveCodeVerifier(verifier, nonce)
 
@@ -306,7 +368,7 @@ export default class UAuth implements SDK {
       client_id: this.options.clientID,
       login_hint: options.username,
       code_challenge: challenge,
-      code_challenge_method: 'plain', // TODO: FIX
+      code_challenge_method: codeChallengeMethod,
       nonce,
       state: state,
       max_age: this.options.maxAge || 600,
@@ -320,9 +382,9 @@ export default class UAuth implements SDK {
 
     await this.saveAuthorizeRequest(request)
 
-    return this.formatAuthorizationEndpointUrl(
+    return this.formatEndpointUrl(
       openidConfiguration.authorization_endpoint,
-      request,
+      request as any,
     )
   }
 
@@ -340,11 +402,11 @@ export default class UAuth implements SDK {
       await options.beforeRedirect(options, url)
     }
 
-    window.location.assign(url)
+    getWindow().location.assign(url)
   }
 
   async loginCallback<T = undefined>(
-    options: LoginCallbackOptions = {url: window.location.href},
+    options: LoginCallbackOptions = {url: getWindow().location.href},
   ): Promise<LoginCallbackResponse<T>> {
     const url = new URL(options.url)
 
@@ -366,7 +428,11 @@ export default class UAuth implements SDK {
     }
 
     if ((authorizationResponse as any).error) {
-      throw new Error('bad request')
+      throw new Error(
+        (authorizationResponse as any).error +
+          ': ' +
+          (authorizationResponse as any).error_description,
+      )
     }
 
     if (authorizationResponse.state !== request.state) {
@@ -401,9 +467,11 @@ export default class UAuth implements SDK {
       resp.ok ? resp.json() : Promise.reject(await resp.json()),
     )
 
-    const idToken: IdToken = await this.verifyIdToken(
-      request,
+    const idToken: IdToken = await verifyIdToken(
+      openidConfiguration.jwks_uri,
+      openidConfiguration.jwks,
       tokenResponse.id_token!,
+      request.nonce,
     )
     const expiresAt = Date.now() + tokenResponse.expires_in * 1000
 
@@ -417,7 +485,7 @@ export default class UAuth implements SDK {
       expiresAt,
       idToken,
       scope,
-      audience: request.resource || 'default',
+      audience: request.resource,
     }
     await this.saveAuthorization(authorization)
 
@@ -467,9 +535,9 @@ export default class UAuth implements SDK {
       state: '',
     }
 
-    return this.formatLogoutEndpointUrl(
+    return this.formatEndpointUrl(
       openidConfiguration.end_session_endpoint,
-      request,
+      request as any,
     )
   }
 
@@ -480,12 +548,12 @@ export default class UAuth implements SDK {
       await options.beforeRedirect(options, url)
     }
 
-    window.location.assign(url)
+    getWindow().location.assign(url)
   }
 
   // TODO: Check state after logout to make sure that the auth server wasn't man in the middled
   async logoutCallback<T = undefined>(
-    options: LogoutCallbackOptions = {url: window.location.href},
+    options: LogoutCallbackOptions = {url: getWindow().location.href},
   ): Promise<T> {
     const t: T = null as any
     return t
@@ -569,77 +637,4 @@ export default class UAuth implements SDK {
 
     return userinfo
   }
-
-  async verifyIdToken(
-    request: AuthorizationEndpointRequest,
-    id_token: string,
-  ): Promise<IdToken> {
-    const openidConfiguration = await this.getOpenidConfiguration(
-      request.login_hint,
-    )
-
-    const jwt = await jwtVerify(
-      id_token!,
-      openidConfiguration.jwks
-        ? await parseJwk(openidConfiguration.jwks)
-        : createRemoteJWKSet(new URL(openidConfiguration.jwks_uri)),
-    )
-
-    const idToken: IdToken = jwt.payload
-
-    idToken.__raw = id_token
-
-    if (request.nonce !== idToken.nonce) {
-      throw new Error("nonces don't match")
-    }
-
-    return idToken
-  }
-
-  /*  async connectPreferedWallet(
-    domain: string,
-    user: string,
-  ): Promise<BaseWallet> {
-    const authentication = await this.preferedWallet(domain, user)
-
-    if (!this.options.wallets) {
-      throw new Error('no wallets configured')
-    }
-
-    if (!this.options.wallets[authentication.addr_type_hint]) {
-      throw new Error('no wallets of that type configured')
-    }
-
-    const wallet = this.options.wallets[authentication.addr_type_hint](
-      authentication.addr,
-      authentication.addr_type_hint,
-    )
-
-    await wallet.connect()
-
-    return wallet
-  } */
-
-  /* async preferedWallet(
-    domain: string,
-    user: string,
-  ): Promise<{
-    addr: string
-    addr_type_hint: string
-  }> {
-    const authenticationKey = `authentication.${user}`
-
-
-    const {[authenticationKey]: authenticationRecord} =
-      await this.options.resolution.records(domain, [authenticationKey])
-
-
-    const authentication = JSON.parse(authenticationRecord)
-
-    if (!authentication.addr || !authentication.addr_type_hint) {
-      throw new Error('no preferedWallet available')
-    }
-
-    return authentication
-  } */
 }

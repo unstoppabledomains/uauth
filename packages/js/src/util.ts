@@ -1,8 +1,11 @@
-import {CodeChallengeMethod} from '../types'
+import {CodeChallengeMethod} from '@uauth/common'
+import window from 'global'
+
+export const getWindow: () => Window & typeof globalThis = () => window
 
 //ie 11.x uses msCrypto
 export const getCrypto = () =>
-  (window.crypto || (window as any).msCrypto) as Crypto
+  (getWindow().crypto || (getWindow() as any).msCrypto) as Crypto
 
 //safari 10.x uses webkitSubtle
 export const getCryptoSubtle = () =>
@@ -43,7 +46,7 @@ export const sha256 = async (s: string): Promise<ArrayBuffer> => {
   )
 
   // This is for legacy IE Hashing
-  if ((window as any).msCrypto) {
+  if ((getWindow() as any).msCrypto) {
     return new Promise((res, rej) => {
       digestOp.oncomplete = (e: any) => res(e.target.result)
       digestOp.onerror = (e: ErrorEvent) => rej(e.error)
@@ -55,12 +58,33 @@ export const sha256 = async (s: string): Promise<ArrayBuffer> => {
 }
 
 export const toBase64 = (buf: ArrayBuffer) => {
-  return window.btoa(String.fromCharCode(...Array.from(new Uint8Array(buf))))
+  return getWindow().btoa(
+    String.fromCharCode(...Array.from(new Uint8Array(buf))),
+  )
 }
 
 export const toUrlEncodedBase64 = (buf: ArrayBuffer) => {
-  return encodeURIComponent(toBase64(buf))
+  return toBase64(buf).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
 }
 
 export const textEncoder = new TextEncoder()
 export const textDecoder = new TextDecoder()
+
+export const uniqueElements = (arr: any[]): any[] => Array.from(new Set(arr))
+
+export const getSortedScope = (scope: string) =>
+  uniqueElements(scope.trim().split(/\s+/)).sort().join(' ')
+
+export const recordCacheKey = (
+  record: Record<string, string | undefined>,
+): string => {
+  const params = new URLSearchParams(
+    Object.entries(record).filter(([, v]) => v != null) as string[][],
+  )
+  params.sort()
+  return params.toString()
+}
+
+export const getAuthorizationHeader = (sub: string, access_token: string) => {
+  return `Basic ${toBase64(textEncoder.encode(sub + ':' + access_token))}`
+}
