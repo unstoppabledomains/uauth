@@ -23,7 +23,6 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "create-jwk": "ts-node scripts/create-jwk",
     "prebuild": "rm -fR packages/*/build/",
     "build": "lerna run build",
     "typecheck": "lerna run typecheck",
