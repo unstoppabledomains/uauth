@@ -1,4 +1,4 @@
-# @uauth/js
+# @uauth/node
 
 ## Installation
 
