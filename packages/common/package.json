@@ -1,6 +1,6 @@
 {
   "name": "@uauth/common",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
@@ -23,9 +23,9 @@
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.5",
     "@types/jwk-to-pem": "^2.0.1",
+    "@types/openid-client": "^3.7.0",
     "jsonwebtoken": "^8.5.1",
-    "jwk-to-pem": "^2.0.5",
-    "@types/openid-client": "^3.7.0"
+    "jwk-to-pem": "^2.0.5"
   },
   "publishConfig": {
     "access": "public"

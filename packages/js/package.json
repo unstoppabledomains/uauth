@@ -1,6 +1,6 @@
 {
   "name": "@uauth/js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
@@ -18,9 +18,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@uauth/common": "^0.2.0",
+    "@uauth/modal": "^0.2.0",
     "@unstoppabledomains/resolution": "^5.0.0",
-    "@uauth/common": "^0.1.0",
-    "@uauth/modal": "^0.1.0",
     "global": "^4.4.0"
   },
   "publishConfig": {
