@@ -11,7 +11,7 @@ import {
   Authorization,
   AuthorizationEndpointResponse,
 } from '@uauth/common'
-import {Request, Response, NextFunction} from 'express'
+import type {Request, Response, NextFunction} from 'express'
 import {generateCodeChallengeAndVerifier, getRandomBytes} from './util'
 
 interface Interaction {
@@ -343,7 +343,7 @@ class Client {
         const {url, interaction} =
           await this.buildAuthorizationUrlAndInteraction(options)
 
-        actions.storeInteraction(ctx, interaction)
+        await actions.storeInteraction(ctx, interaction)
 
         if (typeof options.beforeRedirect === 'function') {
           await options.beforeRedirect(options, url)
@@ -360,10 +360,21 @@ class Client {
 
         await actions.deleteInteraction(ctx)
 
+        const response = await actions.retrieveAuthorizationEndpointResponse(
+          ctx,
+        )
+
+        if ((response as any).error) {
+          throw new Error(
+            `${(response as any).error}: ${
+              (response as any).error_description
+            }`,
+          )
+        }
+
         const authorization = await this.authorizationCodeGrantExchange(
           interaction,
-
-          actions.retrieveAuthorizationEndpointResponse(ctx),
+          response,
         )
 
         await actions.storeAuthorization(ctx, authorization)
@@ -376,7 +387,7 @@ class Client {
         try {
           this.validateAuthorization(authorization, scopes)
         } catch (error) {
-          actions.deleteAuthorization(ctx)
+          await actions.deleteAuthorization(ctx)
 
           throw error
         }

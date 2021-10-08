@@ -3,7 +3,8 @@
     "packages/common",
     "packages/js",
     "packages/modal",
-    "packages/node"
+    "packages/node",
+    "packages/web3modal"
   ],
   "version": "0.2.0"
 }

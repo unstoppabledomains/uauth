@@ -7,10 +7,13 @@
   "dependencies": {
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
+    "@types/morgan": "^1.9.3",
     "@types/node": "^16.9.1",
     "@uauth/node": "link:../../packages/node",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "express-session": "^1.17.2",
+    "morgan": "^1.10.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.3",
     "whatwg-fetch": "^3.6.2",

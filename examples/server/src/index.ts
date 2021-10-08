@@ -2,6 +2,8 @@ import express from 'express'
 import session from 'express-session'
 import {Client} from '@uauth/node'
 import Resolution from '@unstoppabledomains/resolution'
+import morgan from 'morgan'
+import 'express-async-errors'
 import 'whatwg-fetch'
 
 global.XMLHttpRequest = require('xhr2')
@@ -19,6 +21,8 @@ const client = new Client({
 })
 
 const app = express()
+
+app.use(morgan('dev'))
 
 app.get('/', (_, res) => {
   const indexPage = `<!DOCTYPE html><html><body>
@@ -45,6 +49,8 @@ app.post('/login', (req, res, next) => {
 })
 
 app.post('/callback', async (req, res, next) => {
+  console.log('Calling back!')
+
   await callback(req, res, next)
 
   return res.redirect('/profile')
@@ -53,11 +59,7 @@ app.post('/callback', async (req, res, next) => {
 const onlyAuthorized = middleware()
 
 app.get('/profile', onlyAuthorized, async (req, res) => {
-  res.send(
-    `<!DOCTYPE html><html><body><pre>${JSON.stringify(
-      res.locals.uauth,
-    )}</pre></body></html>`,
-  )
+  res.json(res.locals.uauth)
 })
 
 app.listen(5000, () => {
