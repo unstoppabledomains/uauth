@@ -12,6 +12,9 @@
   },
   "type": "module",
   "types": "./build/index.d.ts",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
@@ -27,8 +30,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@uauth/js": "0.2.0"
   }
 }

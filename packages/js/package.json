@@ -12,6 +12,9 @@
   },
   "type": "module",
   "types": "./build/index.d.ts",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",

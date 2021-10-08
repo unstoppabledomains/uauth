@@ -8,6 +8,9 @@
   "module": "./build/index.module.js",
   "unpkg": "./build/index.umd.js",
   "types": "./build/index.d.ts",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "build": "microbundle --target node",
     "dev": "microbundle watch --target node",
