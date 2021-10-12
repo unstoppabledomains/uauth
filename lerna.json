@@ -4,7 +4,8 @@
     "packages/js",
     "packages/modal",
     "packages/node",
-    "packages/web3modal"
+    "packages/web3modal",
+    "packages/web3-react"
   ],
   "version": "0.3.0"
 }
