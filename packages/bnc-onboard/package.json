@@ -1,0 +1,29 @@
+{
+  "name": "@uauth/bnc-onboard",
+  "version": "0.4.0",
+  "source": "./src/index.ts",
+  "main": "./build/index.cjs",
+  "module": "./build/index.module.mjs",
+  "exports": {
+    "import": "./build/index.module.mjs",
+    "require": "./build/index.cjs"
+  },
+  "type": "module",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@uauth/js": "0.4.0",
+    "bnc-onboard": "^1.35.1",
+    "@walletconnect/web3-provider": "^1.6.6"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
