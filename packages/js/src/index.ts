@@ -17,7 +17,6 @@ import {
   ResponseType,
   ResponseMode,
   DomainResolver,
-  verifyIdToken,
 } from '@uauth/common'
 import * as modal from '@uauth/modal'
 import {Resolution} from '@unstoppabledomains/resolution'
@@ -30,6 +29,7 @@ import {
   getSortedScope,
   recordCacheKey,
 } from './util'
+import verifyIdToken from './verifyIdToken'
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 interface UAuthCacheOptions {
@@ -350,7 +350,7 @@ export default class UAuth {
       throw new Error('no authorization_endpoint')
     }
 
-    const nonce = Buffer.from(getRandomBytes(32)).toString('base64')
+    const nonce = toBase64(getRandomBytes(32))
     const state = `${toBase64(getRandomBytes(32))}.${
       options.state === undefined
         ? ''

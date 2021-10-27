@@ -24,7 +24,9 @@
   "dependencies": {
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
-    "@uauth/common": "^0.5.0"
+    "@uauth/common": "^0.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.5"
   },
   "publishConfig": {
     "access": "public"

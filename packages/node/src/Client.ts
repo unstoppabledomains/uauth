@@ -4,7 +4,6 @@ import {
   DefaultIPFSResolver,
   DefaultIssuerResolver,
   DefaultWebFingerResolver,
-  verifyIdToken,
   AuthorizationCodeTokenEndpointRequest,
   AuthorizationEndpointRequest,
   TokenEndpointResponse,
@@ -13,6 +12,7 @@ import {
 } from '@uauth/common'
 import type {Request, Response, NextFunction} from 'express'
 import {generateCodeChallengeAndVerifier, getRandomBytes} from './util'
+import verifyIdToken from './verifyIdToken'
 
 interface Interaction {
   state: string

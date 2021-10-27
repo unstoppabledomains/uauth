@@ -3135,54 +3135,25 @@
   version "0.0.0"
   uid ""
 
-"@uauth/common@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@uauth/common/-/common-0.2.0.tgz#4019066b16f3b84f1a331fca0f175e10f7e899b3"
-  integrity sha512-ONY4XX+Og/Yvn3Lre+KuR8T9WAhoevMvlqAtugjSoRGkOghDspFFdbSpmftqefveFnx3J/u7R5ksSX1ZUZzYKA==
+"@uauth/common@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@uauth/common/-/common-0.5.0.tgz#730393b7cdf4805ce7245e1cffa3583884c1e9b4"
+  integrity sha512-i4LURMewsR88Dr1aROB2jRdaW8aOKTn3q2vJkpfq0pWj30P0WtJWBRfE2Fx9PZg8YkbiadKxij4oAud4qwmL5Q==
   dependencies:
     "@types/jsonwebtoken" "^8.5.5"
     "@types/jwk-to-pem" "^2.0.1"
     "@types/openid-client" "^3.7.0"
     jsonwebtoken "^8.5.1"
     jwk-to-pem "^2.0.5"
-
-"@uauth/common@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@uauth/common/-/common-0.3.0.tgz#cb062fbe630c2ec366820e482d8eaa031eaca5b0"
-  integrity sha512-pTa+0l10xsY1XvS/wEK7v81ZBApzDnpHrzyTAtbpqUD9xoKtbmEoyv5Ho7oUjXce6sGjl8Hsi6WFuL7dblaTwQ==
-  dependencies:
-    "@types/jsonwebtoken" "^8.5.5"
-    "@types/jwk-to-pem" "^2.0.1"
-    "@types/openid-client" "^3.7.0"
-    jsonwebtoken "^8.5.1"
-    jwk-to-pem "^2.0.5"
-
-"@uauth/js@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@uauth/js/-/js-0.2.0.tgz#e6fbe632b9cfc99019ec6a95c7fadd94e20e687e"
-  integrity sha512-3Vwan+C6H9m1tXGcW93xK0dDeYnZmalWGM9qP0k9mykQV6RxpwUSypDfsSAXesojLuS6tLHMBgJhNIre3tgPmg==
-  dependencies:
-    "@uauth/common" "^0.2.0"
-    "@uauth/modal" "^0.2.0"
-    "@unstoppabledomains/resolution" "^5.0.0"
-    global "^4.4.0"
 
 "@uauth/js@link:../../packages/js":
   version "0.0.0"
   uid ""
 
-"@uauth/modal@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@uauth/modal/-/modal-0.2.0.tgz#4a31039b218d6291d0ef6b17fa5016b79bd31dd6"
-  integrity sha512-TYEyljtDhGb+VbZ86nHfVtzKLcQ8x3upzKj+HEO4bCGJ8yTFXqGDh2JJoL4IxjQW0Kx8TMQn0EgaLkbDwKejXQ==
-  dependencies:
-    react "^17.0.2"
-    react-dom "^17.0.2"
-
-"@uauth/modal@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@uauth/modal/-/modal-0.3.0.tgz#7cb6ebb447bd8f135e440dc69063e09c63cd296f"
-  integrity sha512-kssT/QSKd8rjnR/9w6ccHsc3CRPN5rJl8l4g3xWsSdrragfEmVZDNvxwRTsGe2yp50e3GFYmoE9PbQHH22VS+A==
+"@uauth/modal@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@uauth/modal/-/modal-0.5.0.tgz#1ae224f9ba549217af59ef76be71110ebd51e8b0"
+  integrity sha512-42jJcqp56JUHgieZsVp0wz7uRvEGnXXV+zjuforNVRHSmavYngEtgZfOhG5Bc+vQHHYBYBTayqySQRTGfS1k0g==
   dependencies:
     react "^17.0.2"
     react-dom "^17.0.2"
@@ -10266,6 +10237,11 @@ jest@26.6.0:
     "@jest/core" "^26.6.0"
     import-local "^3.0.2"
     jest-cli "^26.6.0"
+
+jose-jwe-jws@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/jose-jwe-jws/-/jose-jwe-jws-0.2.2.tgz#c68b99cdacb7bffa774a6672c720243606e53ded"
+  integrity sha512-z3AkKwzGYRaAiroC1ozylHD/J0bsyrL7WZuUIZvbO8gPKYT+MQ+mvZYiiLFIglEWHE07EIA7yjYI6TUdN9YHJw==
 
 jose@^2.0.5:
   version "2.0.5"

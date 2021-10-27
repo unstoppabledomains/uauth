@@ -24,11 +24,7 @@
     "@unstoppabledomains/resolution": "^5.0.0"
   },
   "dependencies": {
-    "@types/jsonwebtoken": "^8.5.5",
-    "@types/jwk-to-pem": "^2.0.1",
-    "@types/openid-client": "^3.7.0",
-    "jsonwebtoken": "^8.5.1",
-    "jwk-to-pem": "^2.0.5"
+    "@types/openid-client": "^3.7.0"
   },
   "publishConfig": {
     "access": "public"

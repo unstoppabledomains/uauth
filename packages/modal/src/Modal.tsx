@@ -168,6 +168,7 @@ const css = `
   padding: 8px 16px;
   border-radius: 4px;
   border: 2px solid #888;
+  user-select: initial;
 }
 
 .modal-content input:focus {
@@ -349,6 +350,7 @@ const Modal: React.FC<Props> = ({resolve, reject, buildRedirectURI}) => {
             <form onSubmit={handleSubmit}>
               <input
                 autoFocus
+                spellCheck={false}
                 type="text"
                 placeholder="Enter your domain name"
                 value={domain}

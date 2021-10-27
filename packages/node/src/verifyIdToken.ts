@@ -1,4 +1,4 @@
-import {IdToken} from '.'
+import {IdToken} from '@uauth/common'
 import jwt from 'jsonwebtoken'
 import jwkToPem from 'jwk-to-pem'
 

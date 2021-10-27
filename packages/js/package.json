@@ -24,7 +24,8 @@
     "@uauth/common": "^0.5.0",
     "@uauth/modal": "^0.5.0",
     "@unstoppabledomains/resolution": "^5.0.0",
-    "global": "^4.4.0"
+    "global": "^4.4.0",
+    "jose-jwe-jws": "^0.2.2"
   },
   "publishConfig": {
     "access": "public"

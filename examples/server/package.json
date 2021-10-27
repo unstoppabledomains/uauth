@@ -20,7 +20,6 @@
     "xhr2": "^0.2.1"
   },
   "resolutions": {
-    "@uauth/js": "link:../../packages/js",
     "@uauth/common": "link:../../packages/common",
     "@uauth/modal": "link:../../packages/modal"
   }
