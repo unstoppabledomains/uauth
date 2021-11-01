@@ -1,33 +1,33 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   Authorization,
-  IdToken,
-  UserInfo,
   AuthorizationCodeTokenEndpointRequest,
   AuthorizationEndpointRequest,
   AuthorizationEndpointResponse,
-  LogoutEndpointRequest,
-  TokenEndpointResponse,
   Cache,
   DefaultIPFSResolver,
   DefaultIssuerResolver,
   DefaultWebFingerResolver,
-  IssuerResolver,
-  StorageCache,
-  ResponseType,
-  ResponseMode,
   DomainResolver,
+  IdToken,
+  IssuerResolver,
+  LogoutEndpointRequest,
+  ResponseMode,
+  ResponseType,
+  StorageCache,
+  TokenEndpointResponse,
+  UserInfo,
 } from '@uauth/common'
 import * as modal from '@uauth/modal'
 import {Resolution} from '@unstoppabledomains/resolution'
 import {
   generateCodeChallengeAndVerifier,
   getRandomBytes,
-  getWindow,
-  textEncoder,
-  toBase64,
   getSortedScope,
+  getWindow,
   recordCacheKey,
+  textEncoder,
+  toUrlEncodedBase64,
 } from './util'
 import verifyIdToken from './verifyIdToken'
 
@@ -350,11 +350,11 @@ export default class UAuth {
       throw new Error('no authorization_endpoint')
     }
 
-    const nonce = toBase64(getRandomBytes(32))
-    const state = `${toBase64(getRandomBytes(32))}.${
+    const nonce = toUrlEncodedBase64(getRandomBytes(32))
+    const state = `${toUrlEncodedBase64(getRandomBytes(32))}.${
       options.state === undefined
         ? ''
-        : toBase64(textEncoder.encode(JSON.stringify(options.state)))
+        : toUrlEncodedBase64(textEncoder.encode(JSON.stringify(options.state)))
     }`
 
     const codeChallengeMethod = 'S256'
@@ -417,6 +417,7 @@ export default class UAuth {
 
     if (request.response_mode === 'fragment') {
       new URLSearchParams(url.hash.substring(1)).forEach((v, k) => {
+        console.log('hash:', k, v)
         authorizationResponse[k] = v
       })
     } else if (request.response_mode === 'query') {
