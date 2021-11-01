@@ -1,6 +1,6 @@
 {
   "name": "@uauth/bnc-onboard",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
@@ -24,7 +24,7 @@
     "bnc-onboard": "^1.35.1"
   },
   "devDependencies": {
-    "@uauth/js": "0.6.0",
+    "@uauth/js": "^0.6.1",
     "@walletconnect/web3-provider": "^1.6.6",
     "bnc-onboard": "^1.35.1"
   },
