@@ -1,6 +1,6 @@
 {
   "name": "@uauth/web3modal",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
