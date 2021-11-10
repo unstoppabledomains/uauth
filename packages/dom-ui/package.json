@@ -1,6 +1,6 @@
 {
   "name": "@uauth/dom-ui",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "@emotion/css": "^11.5.0",
-    "@uauth/abstract-ui": "0.6.0"
+    "@uauth/abstract-ui": "^0.7.0"
   }
 }

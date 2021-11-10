@@ -1,6 +1,6 @@
 {
   "name": "@uauth/web3modal",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
@@ -22,15 +22,14 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "web3modal": "^1.9.0",
-    "@uauth/js": "0.6.1"
+    "@uauth/js": "^0.7.0",
+    "web3modal": "^1.9.0"
   },
   "peerDependencies": {
-    "web3modal": "^1.9.0",
-    "@uauth/js": "0.6.1"
+    "@uauth/js": "0.6.1",
+    "web3modal": "^1.9.0"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {}
+  }
 }

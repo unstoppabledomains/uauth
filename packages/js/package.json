@@ -1,6 +1,6 @@
 {
   "name": "@uauth/js",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
@@ -24,9 +24,9 @@
     "test-ci": "jest --ci"
   },
   "dependencies": {
-    "@uauth/abstract-ui": "0.6.0",
-    "@uauth/common": "0.6.0",
-    "@uauth/dom-ui": "0.6.0",
+    "@uauth/abstract-ui": "^0.7.0",
+    "@uauth/common": "^0.7.0",
+    "@uauth/dom-ui": "^0.7.0",
     "@unstoppabledomains/resolution": "^6.0.1",
     "global": "^4.4.0",
     "jose-jwe-jws": "^0.2.2"
