@@ -1141,7 +1141,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.13.10", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6":
+"@babel/runtime@^7.13.10", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2":
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.0.tgz#e27b977f2e2088ba24748bf99b5e1dece64e4f0b"
   integrity sha512-Nht8L0O8YCktmsDV6FqFue7vQLRx3Hb0B37lS5y0jDRqRxlBG4wIJHnf9/bgSE2UyipKFA01YtS+npRdTWBUyw==
@@ -3492,11 +3492,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/history@*":
-  version "4.7.9"
-  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.9.tgz#1cfb6d60ef3822c589f18e70f8b12f9a28ce8724"
-  integrity sha512-MUc6zSmU3tEVnkQ78q0peeEjKWPUADMlC/t++2bI8WnAG2tvYRPIgHG8lWkXwqc8MsUF6Z2MOf+Mh5sazOmhiQ==
-
 "@types/http-cache-semantics@*":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@types/http-cache-semantics/-/http-cache-semantics-4.0.1.tgz#0ea7b61496902b95890dc4c3a116b60cb8dae812"
@@ -3637,7 +3632,7 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
-"@types/react-dom@^17.0.1", "@types/react-dom@^17.0.11":
+"@types/react-dom@^17.0.1":
   version "17.0.11"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.11.tgz#e1eadc3c5e86bdb5f7684e00274ae228e7bcc466"
   integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
@@ -3658,44 +3653,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-router-dom@^5.3.2":
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.3.2.tgz#ebd8e145cf056db5c66eb1dac63c72f52e8542ee"
-  integrity sha512-ELEYRUie2czuJzaZ5+ziIp9Hhw+juEw8b7C11YNA4QdLCVbQ3qLi2l4aq8XnlqM7V31LZX8dxUuFUCrzHm6sqQ==
-  dependencies:
-    "@types/history" "*"
-    "@types/react" "*"
-    "@types/react-router" "*"
-
-"@types/react-router@*":
-  version "5.1.16"
-  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-5.1.16.tgz#f3ba045fb96634e38b21531c482f9aeb37608a99"
-  integrity sha512-8d7nR/fNSqlTFGHti0R3F9WwIertOaaA1UEB8/jr5l5mDMOs4CidEgvvYMw4ivqrBK+vtVLxyTj2P+Pr/dtgzg==
-  dependencies:
-    "@types/history" "*"
-    "@types/react" "*"
-
-"@types/react-router@^5.1.17":
-  version "5.1.17"
-  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-5.1.17.tgz#087091006213b11042f39570e5cd414863693968"
-  integrity sha512-RNSXOyb3VyRs/EOGmjBhhGKTbnN6fHWvy5FNLzWfOWOGjgVUKqJZXfpKzLmgoU8h6Hj8mpALj/mbXQASOb92wQ==
-  dependencies:
-    "@types/history" "*"
-    "@types/react" "*"
-
 "@types/react@*":
   version "17.0.24"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.24.tgz#7e1b3f78d0fc53782543f9bce6d949959a5880bd"
   integrity sha512-eIpyco99gTH+FTI3J7Oi/OH8MZoFMJuztNRimDOJwH4iGIsKV2qkGnk4M9VzlaVWeEEWLWSQRy0FEA0Kz218cg==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@^17.0.34":
-  version "17.0.34"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.34.tgz#797b66d359b692e3f19991b6b07e4b0c706c0102"
-  integrity sha512-46FEGrMjc2+8XhHXILr+3+/sTe3OfzSPU9YGKILLrUYbQ1CLQC9Daqo1KzENGXAWwrFwiY0l4ZbF20gRvgpWTg==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3838,6 +3799,39 @@
   dependencies:
     "@typescript-eslint/types" "5.3.1"
     eslint-visitor-keys "^3.0.0"
+
+"@uauth/js@0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@uauth/js/-/js-0.6.1.tgz#f8b7b4a8fa964c0ff6f0103e39fa2ba1bedc3048"
+  integrity sha512-+SEYuOIPHHoU1flPiFGObWplteUv3NQI/WgfXV9V8ugNvxyUF3RIeXXeMHlW2iljfZ0xMTHs6szONARZVh9spg==
+  dependencies:
+    "@uauth/common" "^0.6.0"
+    "@uauth/modal" "^0.6.0"
+    "@unstoppabledomains/resolution" "^5.0.0"
+    global "^4.4.0"
+    jose-jwe-jws "^0.2.2"
+
+"@uauth/modal@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@uauth/modal/-/modal-0.6.0.tgz#28f2b37ac71cb73fbb5ed9f33e49c590f0ea3db3"
+  integrity sha512-okcmw4264dHcrMmF8E6g4ToSyfi+oYVarWSY58Uzi1fS2Glzvk2oQSNrADxwtXUS9a58H/4fpx6cqBFjB1CuXQ==
+  dependencies:
+    react "^17.0.2"
+    react-dom "^17.0.2"
+
+"@unstoppabledomains/resolution@^5.0.0":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@unstoppabledomains/resolution/-/resolution-5.0.2.tgz#5390ab5d28b96ae6a3e05a2de17cb4f756ba1d3c"
+  integrity sha512-CHZeUi0fjqAJL1R5qLjOzpfWTTQ74Mha8g+HWbOY84Nb63OxvPA8wwJUbq4LST77exY3RJdEhq2chWjQdFOM7A==
+  dependencies:
+    "@ethersproject/abi" "^5.0.1"
+    bn.js "^4.4.0"
+    commander "^4.1.1"
+    cross-fetch "^3.1.4"
+    elliptic "^6.5.4"
+    ethereum-ens-network-map "^1.0.2"
+    js-sha256 "^0.9.0"
+    js-sha3 "^0.8.0"
 
 "@unstoppabledomains/resolution@^6.0.1":
   version "6.0.1"
@@ -5756,6 +5750,11 @@ commander@^2.15.0, commander@^2.20.0:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+
+commander@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
+  integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
 commander@^7.2.0:
   version "7.2.0"
@@ -8663,13 +8662,6 @@ hdkey@^2.0.1:
     bs58check "^2.1.2"
     safe-buffer "^5.1.1"
     secp256k1 "^4.0.0"
-
-history@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/history/-/history-5.1.0.tgz#2e93c09c064194d38d52ed62afd0afc9d9b01ece"
-  integrity sha512-zPuQgPacm2vH2xdORvGGz1wQMuHSIB56yNAy5FnLuwOwgSYyPKptJtcMm6Ev+hRGeS+GzhbmRacHzvlESbFwDg==
-  dependencies:
-    "@babel/runtime" "^7.7.6"
 
 hmac-drbg@^1.0.0, hmac-drbg@^1.0.1:
   version "1.0.1"
@@ -12970,7 +12962,7 @@ react-dom@^16.8.6:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
-react-dom@^17.0.1:
+react-dom@^17.0.1, react-dom@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
   integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
@@ -13012,21 +13004,6 @@ react-qr-reader@^2.2.1:
     jsqr "^1.2.0"
     prop-types "^15.7.2"
     webrtc-adapter "^7.2.1"
-
-react-router-dom@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.0.1.tgz#958d5deac8932ce209001ba7a11d5ae605148856"
-  integrity sha512-fiE+PzFTrof5q8Z/+RHzuiin9/U/q5KY2adlHClwYexbY0DqJnHcC/0U9yv3Amz9em2/bcK7X8mk7+zxB+qhvg==
-  dependencies:
-    history "^5.1.0"
-    react-router "6.0.1"
-
-react-router@6.0.1, react-router@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.0.1.tgz#3fe93ad11f91fb55e242a42628414cb47219e652"
-  integrity sha512-O3iab52icFnQaHWONZr50CcjRlf3gx8CCjPQ0YxN8xEuEklRJNgoZSeoYFYz0fLvA4cpnhc306Nd8BYgL4QZrQ==
-  dependencies:
-    history "^5.1.0"
 
 react@16.13.1:
   version "16.13.1"
