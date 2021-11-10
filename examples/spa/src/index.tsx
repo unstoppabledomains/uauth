@@ -1,13 +1,6 @@
-import ReactDOM from 'react-dom'
 import UAuth from '@uauth/js'
 import React, {useEffect, useState} from 'react'
-import {
-  BrowserRouter,
-  Redirect,
-  Route,
-  RouteProps,
-  Switch,
-} from 'react-router-dom'
+import ReactDOM from 'react-dom'
 
 const uauth = new UAuth({
   // These can be copied from the bottom of your app's configuration page on unstoppabledomains.com.
@@ -20,141 +13,71 @@ const uauth = new UAuth({
   // This is the url that the auth server will redirect back to after every authorization attempt.
   redirectUri: process.env.REACT_APP_REDIRECT_URI!,
 
-  // This is the url that the auth server will redirect back to after logging out.
-  postLogoutRedirectUri: process.env.REACT_APP_POST_LOGOUT_REDIRECT_URI!,
+  // OPTIONAL: This is the url that the auth server will redirect back to after
+  // logging out. If not included, as in this example, the authorization is just
+  // removed from the cache when uauth.logout is called.
+  // postLogoutRedirectUri: process.env.REACT_APP_POST_LOGOUT_REDIRECT_URI,
 })
 
-const Home: React.FC<RouteProps> = props => {
-  const [redirectTo, setRedirectTo] = useState<string>()
-
-  useEffect(() => {
-    // Try to access the id_token inside `window.localStorage`
-    uauth
-      .user()
-      // User is inside cache, redirect to the profile page.
-      .then(user => {
-        console.log('user ->', user)
-        setRedirectTo('/profile')
-      })
-      // User is not inside cache, redirect to the login page.
-      .catch(error => {
-        console.error(error)
-        setRedirectTo('/login')
-      })
-  }, [])
-
-  if (redirectTo) {
-    return <Redirect to={redirectTo} />
-  }
-
-  return <>Loading...</>
-}
-
-const Login: React.FC<RouteProps> = props => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(
-    new URLSearchParams(props.location?.search || '').get('error'),
-  )
-
-  const handleLoginButtonClick: React.MouseEventHandler<HTMLButtonElement> =
-    e => {
-      setErrorMessage(null)
-      uauth.login().catch(error => {
-        console.error('login error:', error)
-        setErrorMessage('User failed to login.')
-      })
-    }
-
-  return (
-    <>
-      {errorMessage && <div>{errorMessage}</div>}
-      <button onClick={handleLoginButtonClick}>Login with Unstoppable</button>
-    </>
-  )
-}
-
-const Callback: React.FC<RouteProps> = props => {
-  const [redirectTo, setRedirectTo] = useState<string>()
-
-  useEffect(() => {
-    // Try to exchange authorization code for access and id tokens.
-    uauth
-      .loginCallback()
-      // Successfully logged and cached user in `window.localStorage`
-      .then(async response => {
-        console.log('loginCallback ->', response)
-        setRedirectTo('/profile')
-      })
-      // Failed to exchange authorization code for token.
-      .catch(error => {
-        console.error('callback error:', error)
-        setRedirectTo('/login?error=' + error.message)
-      })
-  }, [])
-
-  if (redirectTo) {
-    return <Redirect to={redirectTo} />
-  }
-
-  return <>Loading...</>
-}
-
-const Profile: React.FC<RouteProps> = () => {
-  const [user, setUser] = useState<any>()
+const App: React.FC = () => {
   const [loading, setLoading] = useState(false)
-  const [redirectTo, setRedirectTo] = useState<string>()
+  const [error, setError] = useState<Error>()
+  const [user, setUser] = useState<any>()
 
+  // Check to see if the user is inside the cache
   useEffect(() => {
+    setLoading(true)
     uauth
       .user()
       .then(setUser)
-      .catch(error => {
-        console.error('profile error:', error)
-        setRedirectTo('/login?error=' + error.message)
-      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
   }, [])
 
-  const handleLogoutButtonClick: React.MouseEventHandler<HTMLButtonElement> =
-    e => {
-      console.log('logging out!')
-      setLoading(true)
-      uauth
-        .logout({
-          beforeRedirect(options: any, url: string) {
-            // alert(url)
-          },
-        })
-        .catch(error => {
-          console.error('profile error:', error)
-          setLoading(false)
-        })
-    }
-
-  if (redirectTo) {
-    return <Redirect to={redirectTo} />
+  // Login with a popup and save the user
+  const handleLogin = () => {
+    setLoading(true)
+    uauth
+      .loginWithPopup()
+      .then(() => uauth.user().then(setUser))
+      .catch(setError)
+      .finally(() => setLoading(false))
   }
 
-  if (!user || loading) {
+  // Logout and delete user
+  const handleLogout = () => {
+    setLoading(true)
+    uauth
+      .logout()
+      .then(() => setUser(undefined))
+      .catch(setError)
+      .finally(() => setLoading(false))
+  }
+
+  if (loading) {
     return <>Loading...</>
   }
 
-  return (
-    <>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      <button onClick={handleLogoutButtonClick}>Logout</button>
-    </>
-  )
+  if (error) {
+    console.error(error)
+    return <>{String(error.stack)}</>
+  }
+
+  if (user) {
+    return (
+      <>
+        <pre>{JSON.stringify(user, null, 2)}</pre>
+        <button onClick={handleLogout}>Logout</button>
+      </>
+    )
+  }
+
+  return <button onClick={handleLogin}>Login with Unstoppable</button>
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/callback" component={Callback} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/" component={Home} />
-      </Switch>
-    </BrowserRouter>
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 )

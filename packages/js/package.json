@@ -15,19 +15,26 @@
   "files": [
     "build"
   ],
+  "amdName": "UAuth",
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "jest --watch",
+    "test-ci": "jest --ci"
   },
   "dependencies": {
-    "@uauth/common": "^0.6.0",
-    "@uauth/modal": "^0.6.0",
-    "@unstoppabledomains/resolution": "^5.0.0",
+    "@uauth/abstract-ui": "0.6.0",
+    "@uauth/common": "0.6.0",
+    "@uauth/dom-ui": "0.6.0",
+    "@unstoppabledomains/resolution": "^6.0.1",
     "global": "^4.4.0",
     "jose-jwe-jws": "^0.2.2"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@peculiar/webcrypto": "^1.2.0"
   }
 }

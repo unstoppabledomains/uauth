@@ -11,6 +11,7 @@
   "files": [
     "build"
   ],
+  "amdName": "UAuthNode",
   "scripts": {
     "build": "microbundle --target node",
     "dev": "microbundle watch --target node",

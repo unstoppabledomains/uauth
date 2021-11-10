@@ -1,10 +1,15 @@
-import type {API, WalletModule} from 'bnc-onboard/dist/src/interfaces'
 import type UAuth from '@uauth/js'
-import type {LoginCallbackOptions, UAuthConstructorOptions} from '@uauth/js'
+import type {
+  LoginCallbackOptions,
+  UAuthConstructorOptions,
+  UserInfo,
+} from '@uauth/js'
 import type {IWalletConnectProviderOptions} from '@walletconnect/types'
+import type {API, WalletModule} from 'bnc-onboard/dist/src/interfaces'
 
 export interface ConstructorOptions extends Partial<UAuthConstructorOptions> {
   uauth?: UAuth
+  shouldLoginWithRedirect?: boolean
 }
 
 export interface CallbackOptions extends Partial<LoginCallbackOptions> {
@@ -36,7 +41,7 @@ export default class UAuthBNCOnboard {
   constructor(public options: ConstructorOptions) {}
 
   public get uauth(): UAuth {
-    const {uauth, ...uauthOptions} = this.options
+    const {uauth, shouldLoginWithRedirect, ...uauthOptions} = this.options
 
     if (this._uauth) {
       return this._uauth
@@ -108,12 +113,30 @@ export default class UAuthBNCOnboard {
         resetWalletState,
       }) => {
         await UAuthBNCOnboard.importUAuth()
-        const user = await this.uauth.user().catch(() => null)
 
-        if (!user) {
-          await this.uauth.login()
-          await new Promise(r => setTimeout(r, 10000))
-          throw new Error('UAuth requires a user to fully login.')
+        let user: UserInfo
+        try {
+          user = await this.uauth.user()
+        } catch (error) {
+          if (!this.uauth.fallbackLoginOptions.scope.includes('wallet')) {
+            throw new Error(
+              'Must request the "wallet" scope for connector to work.',
+            )
+          }
+
+          if (this.options.shouldLoginWithRedirect) {
+            await this.uauth.login()
+
+            // NOTE: We don't want to throw because the page will take some time to
+            // load the redirect page.
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            await new Promise<void>(() => {})
+            // We need to throw here otherwise typescript won't know that user isn't null.
+            throw new Error('Should never get here.')
+          } else {
+            await this.uauth.loginWithPopup()
+            user = await this.uauth.user()
+          }
         }
 
         if (!user.wallet_type_hint) {

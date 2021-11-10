@@ -1,5 +1,9 @@
 import type UAuth from '@uauth/js'
-import type {LoginCallbackOptions, UAuthConstructorOptions} from '@uauth/js'
+import type {
+  LoginCallbackOptions,
+  UAuthConstructorOptions,
+  UserInfo,
+} from '@uauth/js'
 import {AbstractConnector} from '@web3-react/abstract-connector'
 import {
   AbstractConnectorArguments,
@@ -17,7 +21,7 @@ export interface UAuthConnectorOptions
     Partial<UAuthConstructorOptions> {
   uauth?: UAuth
   connectors: UAuthConnectors
-  shouldPromptAddressChanges?: boolean
+  shouldLoginWithRedirect?: boolean
 }
 
 export interface ConnectorLoginCallbackOptions {
@@ -72,17 +76,29 @@ class UAuthConnector extends AbstractConnector {
   public async activate(): Promise<ConnectorUpdate> {
     await UAuthConnector.importUAuth()
 
-    const user = await this.uauth.user().catch(error => null)
-
-    if (user == null) {
-      if (!this.uauth.options.scope?.includes('wallet')) {
+    let user: UserInfo
+    try {
+      user = await this.uauth.user()
+    } catch (error) {
+      if (!this.uauth.fallbackLoginOptions.scope.includes('wallet')) {
         throw new Error(
           'Must request the "wallet" scope for connector to work.',
         )
       }
 
-      await this.uauth.login()
-      throw new Error('Should never get here!')
+      if (this.options.shouldLoginWithRedirect) {
+        await this.uauth.login()
+
+        // NOTE: We don't want to throw because the page will take some time to
+        // load the redirect page.
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        await new Promise<void>(() => {})
+        // We need to throw here otherwise typescript won't know that user isn't null.
+        throw new Error('Should never get here.')
+      } else {
+        await this.uauth.loginWithPopup()
+        user = await this.uauth.user()
+      }
     }
 
     if (user.wallet_type_hint == null) {
@@ -103,20 +119,15 @@ class UAuthConnector extends AbstractConnector {
 
     const update = await this._subConnector!.activate()
 
-    if (
-      update.account != null &&
-      this.options.shouldPromptAddressChanges &&
-      update.account !== user.wallet_address
-    ) {
-      // Display reconnect modal
-      throw new Error('invalid connection')
-    }
-
     return update
   }
 
   public deactivate(): void {
     if (this._subConnector) {
+      if (!this.uauth.fallbackLogoutOptions.rpInitiatedLogout) {
+        this.uauth.logout({rpInitiatedLogout: false})
+      }
+
       this._subConnector.removeListener(
         ConnectorEvent.Update,
         this.handleUpdate,
@@ -158,7 +169,7 @@ class UAuthConnector extends AbstractConnector {
       supportedChainIds,
       connectors,
       uauth,
-      shouldPromptAddressChanges,
+      shouldLoginWithRedirect,
       ...uauthOptions
     } = this.options
 

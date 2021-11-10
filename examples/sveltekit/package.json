@@ -30,7 +30,8 @@
 		"@uauth/js": "file:../../packages/js"
 	},
 	"resolutions": {
-		"@uauth/common": "file:../../packages/common",
-		"@uauth/modal": "file:../../packages/modal"
+		"@uauth/abstract-ui": "file:../../packages/abstract-ui",
+		"@uauth/dom-ui": "file:../../packages/dom-ui",
+		"@uauth/common": "file:../../packages/common"
 	}
 }

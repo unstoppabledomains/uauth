@@ -1,0 +1,5 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "jsdom",
+  "setupFiles": ["<rootDir>/setupTests.ts"]
+}

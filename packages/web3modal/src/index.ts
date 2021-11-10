@@ -1,14 +1,16 @@
+import type UAuthSPA from '@uauth/js'
+import type {UAuthConstructorOptions, UserInfo} from '@uauth/js'
 import Web3Modal, {
+  connectors,
   IAbstractConnectorOptions,
   IProviderDisplay,
-  connectors,
 } from 'web3modal'
-import type UAuthSPA from '@uauth/js'
-import type {UAuthConstructorOptions} from '@uauth/js'
 
 export interface IUAuthOptions
   extends Partial<IAbstractConnectorOptions>,
-    UAuthConstructorOptions {}
+    UAuthConstructorOptions {
+  shouldLoginWithRedirect?: boolean
+}
 
 let w3m: Web3Modal
 export const registerWeb3Modal: (web3modal: Web3Modal) => void = web3modal => {
@@ -34,34 +36,49 @@ export const connector = async (
 ): Promise<any> => {
   const uauth = new UAuth(opts)
 
-  const user = await uauth.user().catch(() => null)
-
-  if (user) {
-    if (user.wallet_type_hint == null) {
-      throw new Error('no wallet type present')
+  let user: UserInfo
+  try {
+    user = await uauth.user()
+  } catch (error) {
+    if (!uauth.fallbackLoginOptions.scope.includes('wallet')) {
+      throw new Error('Must request the "wallet" scope for connector to work.')
     }
 
-    let provider: any
-    if (['web3', 'injected'].includes(user.wallet_type_hint)) {
-      provider = connectors.injected()
-    } else if (user.wallet_type_hint === 'walletconnect') {
-      const id = 'walletconnect'
+    if (opts.shouldLoginWithRedirect) {
+      await uauth.login()
 
-      provider = connectors.walletconnect(
-        (w3m as any).providerController.getProviderOption(id, 'package'),
-        {
-          network: opts.network,
-          ...(w3m as any).providerController.getProviderOption(id, 'options'),
-        },
-      )
+      // NOTE: We don't want to throw because the page will take some time to
+      // load the redirect page.
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      await new Promise<void>(() => {})
+      // We need to throw here otherwise typescript won't know that user isn't null.
+      throw new Error('Should never get here.')
     } else {
-      throw new Error('Connector not supported')
+      await uauth.loginWithPopup()
+      user = await uauth.user()
     }
-
-    return provider
   }
 
-  await uauth.login()
+  if (user.wallet_type_hint == null) {
+    throw new Error('no wallet type present')
+  }
 
-  throw new Error('Should never get here!')
+  let provider: any
+  if (['web3', 'injected'].includes(user.wallet_type_hint)) {
+    provider = connectors.injected()
+  } else if (user.wallet_type_hint === 'walletconnect') {
+    const id = 'walletconnect'
+
+    provider = connectors.walletconnect(
+      (w3m as any).providerController.getProviderOption(id, 'package'),
+      {
+        network: opts.network,
+        ...(w3m as any).providerController.getProviderOption(id, 'options'),
+      },
+    )
+  } else {
+    throw new Error('Connector not supported')
+  }
+
+  return provider
 }

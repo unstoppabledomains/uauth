@@ -1,9 +1,9 @@
-import express from 'express'
-import session from 'express-session'
 import {Client} from '@uauth/node'
 import Resolution from '@unstoppabledomains/resolution'
-import morgan from 'morgan'
+import express from 'express'
 import 'express-async-errors'
+import session from 'express-session'
+import morgan from 'morgan'
 import 'whatwg-fetch'
 
 global.XMLHttpRequest = require('xhr2')

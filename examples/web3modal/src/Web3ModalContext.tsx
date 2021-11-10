@@ -1,3 +1,5 @@
+import type UAuthSPA from '@uauth/js'
+import * as UAuthWeb3Modal from '@uauth/web3modal'
 import React, {useContext, useEffect, useMemo, useState} from 'react'
 import Web3 from 'web3'
 import Web3Modal, {
@@ -6,8 +8,6 @@ import Web3Modal, {
   ERROR_EVENT,
   ICoreOptions,
 } from 'web3modal'
-import * as UAuthWeb3Modal from '@uauth/web3modal'
-import type UAuthSPA from '@uauth/js'
 
 export interface Web3ModalContextValue {
   web3modal: Web3Modal

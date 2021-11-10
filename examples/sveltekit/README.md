@@ -16,8 +16,6 @@ This project was created with [SvelteKit](https://kit.svelte.dev/).
 
 - [lib/uauth.ts](./src/lib/uauth.ts) - The configuration for `@uauth/js`.
 - [routes/index.svelte](./src/routes/index.svelte) - A login page implementation.
-- [routes/callback.svelte](./src/routes/callback.svelte) - A callback page implementation.
-- [routes/profile.svelte](./src/routes/profile.svelte) - A profile page implementation.
 
 ## Resources
 

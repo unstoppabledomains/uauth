@@ -15,6 +15,7 @@
   "files": [
     "build"
   ],
+  "amdName": "UAuthCommon",
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",

@@ -1,26 +1,38 @@
-import * as UAuthWeb3Modal from '@uauth/web3modal'
-import React from 'react'
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import CallbackPage from './CallbackPage'
-import HomePage from './HomePage'
-import providerOptions from './providerOptions'
-import {Web3ModalProvider} from './Web3ModalContext'
+import React, {useEffect} from 'react'
+import {useWeb3Modal} from './Web3ModalContext'
 
 const App: React.FC = () => {
-  return (
-    <Web3ModalProvider
-      cacheProvider={true}
-      providerOptions={providerOptions}
-      onNewWeb3Modal={UAuthWeb3Modal.registerWeb3Modal}
-    >
-      <BrowserRouter>
-        <Switch>
-          <Route path="/callback" component={CallbackPage} />
-          <Route component={HomePage} />
-        </Switch>
-      </BrowserRouter>
-    </Web3ModalProvider>
-  )
+  const {connect, disconnect, isConnected, isLoading, address, error, user} =
+    useWeb3Modal()
+
+  const handleConnect = async () => {
+    await connect()
+  }
+
+  const handleLogout = () => {
+    disconnect()
+  }
+
+  useEffect(() => {
+    if (error) {
+      alert(String(error))
+    }
+  }, [error])
+
+  if (isLoading) {
+    return <>Loading...</>
+  }
+
+  if (isConnected) {
+    return (
+      <>
+        <div>Connected to {address}</div>
+        <button onClick={handleLogout}>Logout</button>
+      </>
+    )
+  }
+
+  return <button onClick={handleConnect}>Connect</button>
 }
 
 export default App

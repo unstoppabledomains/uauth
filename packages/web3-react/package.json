@@ -15,25 +15,26 @@
   "files": [
     "build"
   ],
+  "amdName": "UAuthWeb3React",
   "scripts": {
     "build": "microbundle --jsx 'React.createElement'",
     "dev": "microbundle watch --jsx 'React.createElement'",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/react": "^17.0.24",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-router": "^5.1.16",
-    "@types/react-router-dom": "^5.3.0",
-    "@uauth/common": "0.2.0",
-    "@uauth/js": "0.2.0",
-    "@unstoppabledomains/resolution": "^5.0.0",
+    "@types/react": "^17.0.34",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-router": "^5.1.17",
+    "@types/react-router-dom": "^5.3.2",
+    "@uauth/common": "0.6.0",
+    "@uauth/js": "0.6.0",
+    "@unstoppabledomains/resolution": "^6.0.1",
     "@web3-react/abstract-connector": "^6.0.7",
     "@web3-react/types": "^6.0.7",
     "global": "^4.4.0",
     "react": "^17.0.2",
-    "react-router": "^5.2.1",
-    "react-router-dom": "^5.3.0"
+    "react-router": "^6.0.1",
+    "react-router-dom": "^6.0.1"
   },
   "publishConfig": {
     "access": "public"

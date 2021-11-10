@@ -21,7 +21,8 @@
   },
   "resolutions": {
     "@uauth/common": "link:../../packages/common",
-    "@uauth/modal": "link:../../packages/modal"
+    "@uauth/abstract-ui": "link:../../packages/abstract-ui",
+    "@uauth/dom-ui": "link:../../packages/dom-ui"
   },
   "scripts": {
     "start": "react-scripts start",
