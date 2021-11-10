@@ -22,15 +22,15 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "web3modal": "^1.9.0"
+    "web3modal": "^1.9.0",
+    "@uauth/js": "0.6.1"
   },
   "peerDependencies": {
-    "web3modal": "^1.9.0"
+    "web3modal": "^1.9.0",
+    "@uauth/js": "0.6.1"
   },
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@uauth/js": "0.6.0"
-  }
+  "dependencies": {}
 }
