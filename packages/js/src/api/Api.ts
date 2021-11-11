@@ -63,11 +63,13 @@ export default class Api {
       throw new Error('no window in options')
     }
 
+    const url = this.buildAuthorizeUrl(request)
+
     let popup: Window | undefined | null = config.popup
     const timeout: number = config.timeout ?? 300000
     if (!popup) {
       popup = this.options.window.open(
-        undefined,
+        url,
         'uauth:authorize:popup',
         `left=${
           this.options.window.screenX +
@@ -81,21 +83,25 @@ export default class Api {
       if (!popup) {
         throw new Error('popup failed to be constructed')
       }
+    } else {
+      popup.location.href = url
     }
 
-    const url = this.buildAuthorizeUrl(request)
-
-    popup.location.href = url
-
+    let recievedMessage = false
     const response: AuthorizeResponse = await new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
-        clearInterval(intervalId)
-        this.options.window!.removeEventListener('message', popupEventListener)
-        reject(new PopupTimeoutError())
+        if (!recievedMessage) {
+          clearInterval(intervalId)
+          this.options.window!.removeEventListener(
+            'message',
+            popupEventListener,
+          )
+          reject(new PopupTimeoutError())
+        }
       }, timeout)
 
       const intervalId = setInterval(() => {
-        if (popup?.closed) {
+        if (!recievedMessage && popup?.closed) {
           clearInterval(intervalId)
           clearTimeout(timeoutId)
           this.options.window!.removeEventListener(
@@ -110,6 +116,8 @@ export default class Api {
         if (e?.data?.type !== 'authorization_response') {
           return
         }
+
+        recievedMessage = true
 
         const {response} = e.data
 
