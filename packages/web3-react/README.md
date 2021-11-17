@@ -6,6 +6,15 @@
 yarn add @uauth/web3-react @web3-react/core @web3-react/injected-connector @web3-react/walletconnect-connector @web3-react/abstract-connector
 ```
 
+### Migration from <0.6.x
+
+Because popups are a more integration friendly approach for integrations the `@uauth/web3-react` library now uses them by default. If you want the "old" redirect functinality you need to initialize the `UAuthConnector` with this setting.
+
+```typescript
+// ... other UAuthConnector options
+shouldLoginWithRedirect: true
+```
+
 ### Configuration
 
 ```typescript
@@ -87,6 +96,8 @@ async function handleUAuthConnect() {
   await activate(uauth)
 }
 ```
+
+## If `shouldLoginWithRedirect` is `true`
 
 The only difference is that you must set up a callback page for the
 authorization server to redirect back to.

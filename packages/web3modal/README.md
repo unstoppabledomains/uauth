@@ -9,6 +9,15 @@ yarn add web3modal @uauth/web3modal @uauth/js @walletconnect/web3-provider
 NOTE: The `@walletconnect/web3-provider` is not strictly required, but it
 provides a more seamless login experiance.
 
+### Migration from <0.6.x
+
+Because popups are a more integration friendly approach for integrations the `@uauth/web3modal` library now uses them by default. If you want the "old" redirect functinality you need to initialize the Wallet Module with this option.
+
+```typescript
+// ... other uauthOptions properties
+shouldLoginWithRedirect: true
+```
+
 ## A Simple Example
 
 ### Configuration
@@ -87,6 +96,8 @@ const provider = await web3modal.connect()
 
 // Save provider in state
 ```
+
+## If `shouldLoginWithRedirect` is `true`
 
 The only difference is that you must set up a callback page for the
 authorization server to redirect back to.

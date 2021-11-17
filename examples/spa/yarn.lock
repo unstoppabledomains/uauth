@@ -2286,7 +2286,7 @@
     "@typescript-eslint/types" "4.15.2"
     eslint-visitor-keys "^2.0.0"
 
-"@uauth/abstract-ui@0.6.0":
+"@uauth/abstract-ui@^0.7.0":
   version "0.0.0"
   uid ""
 
@@ -2294,7 +2294,7 @@
   version "0.0.0"
   uid ""
 
-"@uauth/common@0.6.0":
+"@uauth/common@^0.7.0":
   version "0.0.0"
   uid ""
 
@@ -2302,7 +2302,7 @@
   version "0.0.0"
   uid ""
 
-"@uauth/dom-ui@0.6.0":
+"@uauth/dom-ui@^0.7.0":
   version "0.0.0"
   uid ""
 
