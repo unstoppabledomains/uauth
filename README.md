@@ -18,7 +18,8 @@ Maybe Unstoppauthable...
 You should not need to use or expect these libraries to remain stable.
 
 - [`@uauth/common`](./packages/common) - Common utilities used by various uauth libraries
-- [`@uauth/modal`](./packages/modal) - A simple `react` modal used by `@uauth/js` to facilitate sign in.
+- [`@uauth/dom-ui`](./packages/dom-ui) - A simple DOM-based UI used by `@uauth/js` to facilitate sign in.
+- [`@uauth/abstract-ui`](./packages/abstract-ui) - The UI interface used by `@uauth/js` to facilitate sign in.
 
 ### Related libraries
 
