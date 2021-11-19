@@ -7,7 +7,10 @@ import {
   IssuerResolver,
 } from '@uauth/common'
 import DomUI from '@uauth/dom-ui'
-import Resolution from '@unstoppabledomains/resolution'
+import Resolution, {
+  ResolutionError,
+  ResolutionErrorCode,
+} from '@unstoppabledomains/resolution'
 import {
   Api,
   AuthorizeRequest,
@@ -138,11 +141,22 @@ export default class Client {
           ),
         ),
         domainResolver: {
-          records(
+          async records(
             domain: string,
             keys: string[],
           ): Promise<Record<string, string>> {
-            return self.resolution.records(domain, keys)
+            try {
+              const records = await self.resolution.records(domain, keys)
+              return records
+            } catch (error) {
+              if (
+                error instanceof ResolutionError &&
+                error.code === ResolutionErrorCode.UnspecifiedResolver
+              ) {
+                return {}
+              }
+              throw error
+            }
           },
         },
       }),

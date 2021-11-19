@@ -1,4 +1,4 @@
-import {css} from '@emotion/css'
+import {css, keyframes} from '@emotion/css'
 
 export const overlay = css`
   position: fixed;
@@ -208,4 +208,30 @@ export const footer = css`
 export const hidden = css`
   /* visibility: hidden; */
   display: none;
+`
+
+export const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`
+
+export const loading = css`
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+
+  &:after {
+    content: ' ';
+    display: block;
+    width: 0.75em;
+    height: 0.75em;
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: currentColor currentColor currentColor transparent;
+    animation: ${spin} 1.2s linear infinite;
+  }
 `

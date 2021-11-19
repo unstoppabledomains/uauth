@@ -8,6 +8,7 @@ import {
   header,
   hidden,
   innerCircle,
+  loading as loadingStyles,
   logo,
   middleCircle,
   outerCircle,
@@ -188,11 +189,10 @@ class DomUI<T> implements AbstractUI<T> {
 
       if (isLoading) {
         buttonElement.setAttribute('disabled', 'disabled')
-        buttonElement.innerText = 'Loading...'
+        buttonElement.innerHTML = `<div class="${loadingStyles}"></div>`
       } else {
         buttonElement.removeAttribute('disabled')
         buttonElement.innerText = 'Continue'
-        //
       }
     }
 
