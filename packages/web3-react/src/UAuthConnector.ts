@@ -113,9 +113,11 @@ class UAuthConnector extends AbstractConnector {
       throw new Error('Connector not supported')
     }
 
-    this._subConnector!.on(ConnectorEvent.Update, this.handleUpdate)
-    this._subConnector!.on(ConnectorEvent.Deactivate, this.handleDeactivate)
-    this._subConnector!.on(ConnectorEvent.Error, this.handleError)
+    if ((this as any)?._subConnector?.on) {
+      this._subConnector.on(ConnectorEvent.Update, this.handleUpdate)
+      this._subConnector.on(ConnectorEvent.Deactivate, this.handleDeactivate)
+      this._subConnector.on(ConnectorEvent.Error, this.handleError)
+    }
 
     const update = await this._subConnector!.activate()
 
@@ -128,15 +130,20 @@ class UAuthConnector extends AbstractConnector {
         this.uauth.logout({rpInitiatedLogout: false})
       }
 
-      this._subConnector.removeListener(
-        ConnectorEvent.Update,
-        this.handleUpdate,
-      )
-      this._subConnector.removeListener(
-        ConnectorEvent.Deactivate,
-        this.handleDeactivate,
-      )
-      this._subConnector.removeListener(ConnectorEvent.Error, this.handleError)
+      if ((this as any)?._subConnector?.removeListener) {
+        this._subConnector.removeListener(
+          ConnectorEvent.Update,
+          this.handleUpdate,
+        )
+        this._subConnector.removeListener(
+          ConnectorEvent.Deactivate,
+          this.handleDeactivate,
+        )
+        this._subConnector.removeListener(
+          ConnectorEvent.Error,
+          this.handleError,
+        )
+      }
 
       this._subConnector.deactivate()
     }
