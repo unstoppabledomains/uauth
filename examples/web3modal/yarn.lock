@@ -2724,7 +2724,7 @@
     "@typescript-eslint/types" "4.15.2"
     eslint-visitor-keys "^2.0.0"
 
-"@uauth/abstract-ui@0.6.0":
+"@uauth/abstract-ui@^0.7.0":
   version "0.0.0"
   uid ""
 
@@ -2732,61 +2732,37 @@
   version "0.0.0"
   uid ""
 
-"@uauth/common@0.6.0", "@uauth/common@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@uauth/common/-/common-0.6.0.tgz#1d45fc1c4cde09b5e5e99d8ea75234759197de00"
-  integrity sha512-sB82czM0X48TNyfRY/OklaLB+EVFo5YPoPsG+iBs1shCXvu6o+cDm28Z9qilb6fzAtVTxeHOEfLpHZJy6Bv/yQ==
+"@uauth/common@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@uauth/common/-/common-0.7.0.tgz#40c3c573a38e70ec1496ecbe42c51b24947ba077"
+  integrity sha512-ENSR493ir219w146fzq+ZLfqK+tNSQB8oQ+d5pKdAoCjjdgH0INKQs9AIvtxOgrXttqYBqWLAcOmbn+9YVdMSg==
   dependencies:
     "@types/openid-client" "^3.7.0"
 
-"@uauth/dom-ui@0.6.0":
-  version "0.0.0"
-  uid ""
-
-"@uauth/dom-ui@link:../../packages/dom-ui":
-  version "0.0.0"
-  uid ""
-
-"@uauth/js@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@uauth/js/-/js-0.6.0.tgz#a2783a7c4df1e8c62cd543f6838531abfbb55773"
-  integrity sha512-7xBWSl8doH/vbCaPRpoGHPmXtmOoY8/g12pqvHq6aMPOIZnU2j8CQEN35kVsgtUXkHD0iTKnSePF0XFj4Vpf1A==
+"@uauth/dom-ui@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@uauth/dom-ui/-/dom-ui-0.7.2.tgz#fac57873bcadd46b5522c4d16b418eeae3fad5dc"
+  integrity sha512-HO3Tu8vnGitBsPqNQifdYqYVGCe/kWCj6hL/JfpZUaEUhvYzVdmShmQroXeu+Jock5Cn4MX++ioPKy8wIlmxEg==
   dependencies:
-    "@uauth/common" "^0.6.0"
-    "@uauth/modal" "^0.6.0"
-    "@unstoppabledomains/resolution" "^5.0.0"
+    "@emotion/css" "^11.5.0"
+    "@uauth/abstract-ui" "^0.7.0"
+
+"@uauth/js@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@uauth/js/-/js-0.7.4.tgz#63743ece7b839c2eedaf018e48f31882d0b94196"
+  integrity sha512-xPHoLfwzFzw1hb2qN4HCHcHimFC4nrLCyQqO2ItjlTZpHuEMD0qDVhhscAI23BdJTcSIRZF8H5IVlh76j3ejcg==
+  dependencies:
+    "@uauth/abstract-ui" "^0.7.0"
+    "@uauth/common" "^0.7.0"
+    "@uauth/dom-ui" "^0.7.2"
+    "@unstoppabledomains/resolution" "^6.0.1"
     global "^4.4.0"
     jose-jwe-jws "^0.2.2"
 
-"@uauth/js@link:../../packages/js":
-  version "0.0.0"
-  uid ""
-
-"@uauth/modal@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@uauth/modal/-/modal-0.6.0.tgz#28f2b37ac71cb73fbb5ed9f33e49c590f0ea3db3"
-  integrity sha512-okcmw4264dHcrMmF8E6g4ToSyfi+oYVarWSY58Uzi1fS2Glzvk2oQSNrADxwtXUS9a58H/4fpx6cqBFjB1CuXQ==
-  dependencies:
-    react "^17.0.2"
-    react-dom "^17.0.2"
-
-"@uauth/web3modal@link:../../packages/web3modal":
-  version "0.0.0"
-  uid ""
-
-"@unstoppabledomains/resolution@^5.0.0":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@unstoppabledomains/resolution/-/resolution-5.0.2.tgz#5390ab5d28b96ae6a3e05a2de17cb4f756ba1d3c"
-  integrity sha512-CHZeUi0fjqAJL1R5qLjOzpfWTTQ74Mha8g+HWbOY84Nb63OxvPA8wwJUbq4LST77exY3RJdEhq2chWjQdFOM7A==
-  dependencies:
-    "@ethersproject/abi" "^5.0.1"
-    bn.js "^4.4.0"
-    commander "^4.1.1"
-    cross-fetch "^3.1.4"
-    elliptic "^6.5.4"
-    ethereum-ens-network-map "^1.0.2"
-    js-sha256 "^0.9.0"
-    js-sha3 "^0.8.0"
+"@uauth/web3modal@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@uauth/web3modal/-/web3modal-0.7.4.tgz#89c7b609137a4610a008f5ff3ce9b6963a71eb51"
+  integrity sha512-ZV83yBXgqpt7ChVxPgaKT75ZxK2/ft00tjNe+CwxnqZDbNb9Ej5fFYLF0BB0eRw2BqmNu/ayIaa6lBfKXNsOsw==
 
 "@unstoppabledomains/resolution@^6.0.1":
   version "6.0.1"
@@ -13825,8 +13801,10 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
+    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
+    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
