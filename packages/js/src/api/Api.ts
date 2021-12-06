@@ -248,6 +248,7 @@ export default class Api {
 
     switch (client_auth_method) {
       case 'client_secret_basic':
+        throw new Error('only client_secret_post supported')
         if (client_secret == null) {
           throw new Error('Client secret not present!')
         }

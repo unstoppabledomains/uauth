@@ -115,7 +115,7 @@ export default class Client {
     this.fallbackLoginOptions = {
       clientID: options.clientID,
       clientSecret: options.clientSecret,
-      clientAuthMethod: options.clientAuthMethod ?? 'client_secret_basic',
+      clientAuthMethod: options.clientAuthMethod ?? 'client_secret_post',
       maxAge: options.maxAge ?? 300000,
       prompt: options.prompt ?? 'login',
       resource: options.resource,
