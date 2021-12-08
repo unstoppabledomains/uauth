@@ -67,8 +67,9 @@ export default class Client {
     } else {
       if (options.uiOptions) {
         this.ui = new DomUI(options.uiOptions)
+      } else {
+        this.ui = new DomUI()
       }
-      this.ui = new DomUI()
     }
 
     if (options.store) {
