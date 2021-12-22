@@ -1,4 +1,3 @@
-import {BaseRequest} from '.'
 import {PopupClosedError, PopupTimeoutError} from '../errors/errors'
 import {UserInfo} from '../types'
 import {objectFromURLSearchParams} from '../util'
@@ -10,6 +9,7 @@ import {
   AuthorizeResponse,
   AuthorizeWithDeviceRequest,
   AuthorizeWithDeviceResponse,
+  BaseRequest,
   IntrospectRequest,
   IntrospectResponse,
   JWKSRequest,
@@ -92,48 +92,45 @@ export default class Api {
       const timeoutId = setTimeout(() => {
         if (!recievedMessage) {
           clearInterval(intervalId)
-          this.options.window!.removeEventListener(
-            'message',
-            popupEventListener,
-          )
+          popup!.close()
           reject(new PopupTimeoutError())
         }
       }, timeout)
 
       const intervalId = setInterval(() => {
+        // Check if popup is closed
         if (!recievedMessage && popup?.closed) {
           clearInterval(intervalId)
           clearTimeout(timeoutId)
-          this.options.window!.removeEventListener(
-            'message',
-            popupEventListener,
-          )
           reject(new PopupClosedError())
         }
-      }, 250)
 
-      const popupEventListener = (e: MessageEvent) => {
-        if (e?.data?.type !== 'authorization_response') {
-          return
+        // Check if popup doesn't violate the "Same-Origin" policy and has a valid url
+        let href: string
+        let url: URL
+        try {
+          href = popup!.location.href
+          url = new URL(href)
+        } catch (error) {
+          return // Exit if not
         }
 
-        recievedMessage = true
+        // Check to see that the redirect was correct
+        url.hash = ''
+        if (url.href === request.redirect_uri) {
+          recievedMessage = true
 
-        const {response} = e.data
+          clearInterval(intervalId)
+          clearTimeout(timeoutId)
+          popup!.close()
 
-        clearInterval(intervalId)
-        clearTimeout(timeoutId)
-        this.options.window!.removeEventListener('message', popupEventListener)
-        popup!.close()
-
-        if (response.error) {
-          return reject(Api.Error.fromResponse(response))
+          try {
+            resolve(this.parseAuthorizeResponseFromFragment(href))
+          } catch (error) {
+            reject(error)
+          }
         }
-
-        resolve(response)
-      }
-
-      this.options.window!.addEventListener('message', popupEventListener)
+      }, 10)
     })
 
     return response
@@ -248,7 +245,7 @@ export default class Api {
 
     switch (client_auth_method) {
       case 'client_secret_basic':
-        throw new Error('only client_secret_post supported')
+        // throw new Error('only client_secret_post supported')
         if (client_secret == null) {
           throw new Error('Client secret not present!')
         }

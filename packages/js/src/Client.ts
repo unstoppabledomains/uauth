@@ -242,7 +242,7 @@ export default class Client {
     config?: PopupConfig,
   ): Promise<Authorization> {
     try {
-      ;(options as Partial<LoginOptions>).responseMode = 'web_message'
+      ;(options as Partial<LoginOptions>).responseMode = 'fragment'
       const request = await this.buildAuthorizeRequest(options)
       const response = await this.api.authorizeWithPopup(request, config)
       const authorization = await this.verifyAuthorizeResponse(
