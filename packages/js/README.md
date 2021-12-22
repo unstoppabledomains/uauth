@@ -25,6 +25,21 @@ const uauth = new UAuth({
 })
 ```
 
+### Referals
+
+If you have a referal link you can configure the library to use that referal link on the Get a Domain link on the bottom right of the modal by configuring the following setting.
+
+```typescript
+const uauth = new UAuth({
+  // Other options...
+  uiOptions: {
+    getADomainLink: "https://unstoppabledomains.com/?ref=my_referal_code"
+  }
+})
+```
+
+
+
 ### Methods
 
 #### `uauth.login()`
