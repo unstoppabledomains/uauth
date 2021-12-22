@@ -3,8 +3,12 @@
   "version": "0.7.0",
   "type": "commonjs",
   "source": "./src/index.ts",
-  "exports": "./build/index.modern.js",
-  "main": "./build/index.cjs",
+  "exports": {
+    "module": "./build/index.module.js",
+    "import": "./build/index.module.js",
+    "default": "./build/index.js"
+  },
+  "main": "./build/index.js",
   "module": "./build/index.module.js",
   "unpkg": "./build/index.umd.js",
   "types": "./build/index.d.ts",
