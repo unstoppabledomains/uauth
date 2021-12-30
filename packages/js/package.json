@@ -1,6 +1,6 @@
 {
   "name": "@uauth/js",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
