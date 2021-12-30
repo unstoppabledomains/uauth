@@ -108,16 +108,18 @@ export default class Api {
         // Check if popup doesn't violate the "Same-Origin" policy and has a valid url
         let href: string
         let url: URL
+        let redirectUrl: URL
         try {
           href = popup!.location.href
           url = new URL(href)
+          redirectUrl = new URL(request.redirect_uri)
         } catch (error) {
           return // Exit if not
         }
 
         // Check to see that the redirect was correct
         url.hash = ''
-        if (url.href === request.redirect_uri) {
+        if (url.href === redirectUrl.href) {
           recievedMessage = true
 
           clearInterval(intervalId)
