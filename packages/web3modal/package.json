@@ -21,12 +21,14 @@
     "dev": "microbundle watch",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@uauth/js": "^0.7.8"
+  },
   "devDependencies": {
     "@uauth/js": "^0.7.8",
     "web3modal": "^1.9.0"
   },
   "peerDependencies": {
-    "@uauth/js": "0.6.1",
     "web3modal": "^1.9.0"
   },
   "publishConfig": {

@@ -116,7 +116,9 @@ export default class Client {
     this.fallbackLoginOptions = {
       clientID: options.clientID,
       clientSecret: options.clientSecret,
-      clientAuthMethod: options.clientAuthMethod ?? 'client_secret_post',
+      clientAuthMethod:
+        options.clientAuthMethod ??
+        (options.clientSecret ? 'client_secret_post' : 'none'),
       maxAge: options.maxAge ?? 300000,
       prompt: options.prompt ?? 'login',
       resource: options.resource,
@@ -196,9 +198,9 @@ export default class Client {
         state,
 
         // Parameterized options
-        client_auth_method: loginOptions.clientAuthMethod,
-        client_secret: loginOptions.clientSecret,
         client_id: loginOptions.clientID,
+        client_secret: loginOptions.clientSecret,
+        client_auth_method: loginOptions.clientAuthMethod,
         login_hint: username,
         max_age: loginOptions.maxAge,
         prompt: loginOptions.prompt,
@@ -305,9 +307,9 @@ export default class Client {
 
     const tokenRequest: TokenWithAuthorizationCodeRequest = {
       url: openidConfiguration.token_endpoint,
-      client_auth_method: request.client_auth_method,
       client_id: request.client_id,
       client_secret: request.client_secret,
+      client_auth_method: request.client_auth_method,
       grant_type: 'authorization_code',
       code: response.code,
       code_verifier: await this._clientStore.getVerifier(
@@ -418,8 +420,10 @@ export default class Client {
     )
 
     const request: UserInfoRequest = {
-      access_token: authorization.accessToken,
+      client_id: this.fallbackLoginOptions.clientID,
       client_secret: this.fallbackLoginOptions.clientSecret,
+      client_auth_method: this.fallbackLoginOptions.clientAuthMethod,
+      access_token: authorization.accessToken,
       url: openidConfiguration.userinfo_endpoint,
     }
 
@@ -454,6 +458,9 @@ export default class Client {
     }
 
     const request: LogoutRequest = {
+      client_id: this.fallbackLoginOptions.clientID,
+      client_secret: this.fallbackLoginOptions.clientSecret,
+      client_auth_method: this.fallbackLoginOptions.clientAuthMethod,
       url: openidConfiguration.end_session_endpoint,
       id_token_hint: authorization.idToken.__raw,
       post_logout_redirect_uri: postLogoutRedirectUri,

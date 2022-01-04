@@ -166,7 +166,7 @@ export interface CacheOptions {
 export interface ClientOptions {
   // Fallback Login Options
   clientID: string
-  clientSecret: string
+  clientSecret?: string
   redirectUri: string
   clientAuthMethod?: ClientAuthMethod
   resource?: string
@@ -198,7 +198,7 @@ export type UAuthConstructorOptions = ClientOptions
 
 export interface BaseLoginOptions {
   clientID: string
-  clientSecret: string
+  clientSecret?: string
   clientAuthMethod: ClientAuthMethod
   maxAge: number
   prompt: string
