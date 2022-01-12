@@ -1228,7 +1228,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.13.10", "@babel/runtime@^7.7.6":
+"@babel/runtime@^7.13.10":
   version "7.16.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
   integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
@@ -2357,26 +2357,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^17.0.11":
-  version "17.0.11"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.11.tgz#e1eadc3c5e86bdb5f7684e00274ae228e7bcc466"
-  integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-router-dom@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.3.0.tgz#8c4e0aa0ccaf638ba965829ad29a10ac3cbe2212"
   integrity sha512-svUzpEpKDwK8nmfV2vpZNSsiijFNKY8+gUqGqvGGOVrXvX58k1JIJubZa5igkwacbq/0umphO5SsQn/BQsnKpw==
-  dependencies:
-    "@types/history" "*"
-    "@types/react" "*"
-    "@types/react-router" "*"
-
-"@types/react-router-dom@^5.3.2":
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.3.2.tgz#ebd8e145cf056db5c66eb1dac63c72f52e8542ee"
-  integrity sha512-ELEYRUie2czuJzaZ5+ziIp9Hhw+juEw8b7C11YNA4QdLCVbQ3qLi2l4aq8XnlqM7V31LZX8dxUuFUCrzHm6sqQ==
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -2390,27 +2374,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-router@^5.1.17":
-  version "5.1.17"
-  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-5.1.17.tgz#087091006213b11042f39570e5cd414863693968"
-  integrity sha512-RNSXOyb3VyRs/EOGmjBhhGKTbnN6fHWvy5FNLzWfOWOGjgVUKqJZXfpKzLmgoU8h6Hj8mpALj/mbXQASOb92wQ==
-  dependencies:
-    "@types/history" "*"
-    "@types/react" "*"
-
 "@types/react@*", "@types/react@^17.0.0":
   version "17.0.25"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.25.tgz#8b88c226e54910762decc9de2aa36b4dc9240503"
   integrity sha512-IXrzSOr3CVbEQgmjEdCWF57J7CVaJ7lL/n4penxHm8h0XIcr0AxqGucogh2zj3qRxgk4M4JImOP/MfomkPOhvQ==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@^17.0.34":
-  version "17.0.34"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.34.tgz#797b66d359b692e3f19991b6b07e4b0c706c0102"
-  integrity sha512-46FEGrMjc2+8XhHXILr+3+/sTe3OfzSPU9YGKILLrUYbQ1CLQC9Daqo1KzENGXAWwrFwiY0l4ZbF20gRvgpWTg==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -2618,7 +2585,7 @@
     "@typescript-eslint/types" "4.15.2"
     eslint-visitor-keys "^2.0.0"
 
-"@uauth/abstract-ui@0.6.0":
+"@uauth/abstract-ui@^0.7.0":
   version "0.0.0"
   uid ""
 
@@ -2626,61 +2593,45 @@
   version "0.0.0"
   uid ""
 
-"@uauth/common@0.6.0", "@uauth/common@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@uauth/common/-/common-0.6.0.tgz#1d45fc1c4cde09b5e5e99d8ea75234759197de00"
-  integrity sha512-sB82czM0X48TNyfRY/OklaLB+EVFo5YPoPsG+iBs1shCXvu6o+cDm28Z9qilb6fzAtVTxeHOEfLpHZJy6Bv/yQ==
+"@uauth/common@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@uauth/common/-/common-0.7.0.tgz#40c3c573a38e70ec1496ecbe42c51b24947ba077"
+  integrity sha512-ENSR493ir219w146fzq+ZLfqK+tNSQB8oQ+d5pKdAoCjjdgH0INKQs9AIvtxOgrXttqYBqWLAcOmbn+9YVdMSg==
   dependencies:
     "@types/openid-client" "^3.7.0"
 
-"@uauth/dom-ui@0.6.0":
-  version "0.0.0"
-  uid ""
+"@uauth/dom-ui@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@uauth/dom-ui/-/dom-ui-0.7.2.tgz#fac57873bcadd46b5522c4d16b418eeae3fad5dc"
+  integrity sha512-HO3Tu8vnGitBsPqNQifdYqYVGCe/kWCj6hL/JfpZUaEUhvYzVdmShmQroXeu+Jock5Cn4MX++ioPKy8wIlmxEg==
+  dependencies:
+    "@emotion/css" "^11.5.0"
+    "@uauth/abstract-ui" "^0.7.0"
 
 "@uauth/dom-ui@link:../../packages/dom-ui":
   version "0.0.0"
   uid ""
 
-"@uauth/js@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@uauth/js/-/js-0.6.0.tgz#a2783a7c4df1e8c62cd543f6838531abfbb55773"
-  integrity sha512-7xBWSl8doH/vbCaPRpoGHPmXtmOoY8/g12pqvHq6aMPOIZnU2j8CQEN35kVsgtUXkHD0iTKnSePF0XFj4Vpf1A==
+"@uauth/js@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@uauth/js/-/js-0.7.2.tgz#686eeadb5a01e9fb99d571cf303bf7df19583d14"
+  integrity sha512-5neKEI29rZv1xygqI7qWpWK3BGjZyCWZU56OXzae7Hg8ReCdf03tohUoscU52Hn5vuD2Y1DsNsPQZ1+TEZgQCg==
   dependencies:
-    "@uauth/common" "^0.6.0"
-    "@uauth/modal" "^0.6.0"
-    "@unstoppabledomains/resolution" "^5.0.0"
+    "@uauth/abstract-ui" "^0.7.0"
+    "@uauth/common" "^0.7.0"
+    "@uauth/dom-ui" "^0.7.2"
+    "@unstoppabledomains/resolution" "^6.0.1"
     global "^4.4.0"
     jose-jwe-jws "^0.2.2"
 
-"@uauth/js@link:../../packages/js":
-  version "0.0.0"
-  uid ""
-
-"@uauth/modal@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@uauth/modal/-/modal-0.6.0.tgz#28f2b37ac71cb73fbb5ed9f33e49c590f0ea3db3"
-  integrity sha512-okcmw4264dHcrMmF8E6g4ToSyfi+oYVarWSY58Uzi1fS2Glzvk2oQSNrADxwtXUS9a58H/4fpx6cqBFjB1CuXQ==
+"@uauth/web3-react@^0.7.3":
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/@uauth/web3-react/-/web3-react-0.7.3.tgz#e831222cc2a15147a23ab7deb5afc32590eac323"
+  integrity sha512-kys/2Cw+tYAxWOCOPJ4RO+ypdFucQiFEAwp9/ofzvM5ndC/XGB+LfZvbbseSSVTUWdGr2TchCleg5BdpB2ay1w==
   dependencies:
-    react "^17.0.2"
-    react-dom "^17.0.2"
-
-"@uauth/web3-react@link:../../packages/web3-react":
-  version "0.0.0"
-  uid ""
-
-"@unstoppabledomains/resolution@^5.0.0":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@unstoppabledomains/resolution/-/resolution-5.0.2.tgz#5390ab5d28b96ae6a3e05a2de17cb4f756ba1d3c"
-  integrity sha512-CHZeUi0fjqAJL1R5qLjOzpfWTTQ74Mha8g+HWbOY84Nb63OxvPA8wwJUbq4LST77exY3RJdEhq2chWjQdFOM7A==
-  dependencies:
-    "@ethersproject/abi" "^5.0.1"
-    bn.js "^4.4.0"
-    commander "^4.1.1"
-    cross-fetch "^3.1.4"
-    elliptic "^6.5.4"
-    ethereum-ens-network-map "^1.0.2"
-    js-sha256 "^0.9.0"
-    js-sha3 "^0.8.0"
+    "@uauth/js" "^0.7.2"
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
 
 "@unstoppabledomains/resolution@^6.0.1":
   version "6.0.1"
@@ -6932,13 +6883,6 @@ history@^4.9.0:
     tiny-warning "^1.0.0"
     value-equal "^1.0.1"
 
-history@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/history/-/history-5.1.0.tgz#2e93c09c064194d38d52ed62afd0afc9d9b01ece"
-  integrity sha512-zPuQgPacm2vH2xdORvGGz1wQMuHSIB56yNAy5FnLuwOwgSYyPKptJtcMm6Ev+hRGeS+GzhbmRacHzvlESbFwDg==
-  dependencies:
-    "@babel/runtime" "^7.7.6"
-
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -10967,14 +10911,6 @@ react-router-dom@^5.3.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-router-dom@^6.0.1:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.0.2.tgz#860cefa697b9d4965eced3f91e82cdbc5995f3ad"
-  integrity sha512-cOpJ4B6raFutr0EG8O/M2fEoyQmwvZWomf1c6W2YXBZuFBx8oTk/zqjXghwScyhfrtnt0lANXV2182NQblRxFA==
-  dependencies:
-    history "^5.1.0"
-    react-router "6.0.2"
-
 react-router@5.2.1, react-router@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-5.2.1.tgz#4d2e4e9d5ae9425091845b8dbc6d9d276239774d"
@@ -10990,13 +10926,6 @@ react-router@5.2.1, react-router@^5.2.1:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
-
-react-router@6.0.2, react-router@^6.0.1:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.0.2.tgz#bd2b0fa84fd1d152671e9f654d9c0b1f5a7c86da"
-  integrity sha512-8/Wm3Ed8t7TuedXjAvV39+c8j0vwrI5qVsYqjFr5WkJjsJpEvNSoLRUbtqSEYzqaTUj1IV+sbPJxvO+accvU0Q==
-  dependencies:
-    history "^5.1.0"
 
 react-scripts@4.0.3:
   version "4.0.3"
@@ -13078,8 +13007,10 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
+    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
+    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
