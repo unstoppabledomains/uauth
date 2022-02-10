@@ -1,6 +1,6 @@
 {
   "name": "@uauth/bnc-onboard",
-  "version": "0.7.9",
+  "version": "1.0.0",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",

@@ -1,6 +1,6 @@
 {
   "name": "@uauth/node",
-  "version": "0.7.6",
+  "version": "1.0.0",
   "type": "commonjs",
   "source": "./src/index.ts",
   "exports": {
