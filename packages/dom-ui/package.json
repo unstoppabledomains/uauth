@@ -25,7 +25,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@emotion/css": "^11.5.0",
-    "@uauth/abstract-ui": "^0.7.0"
+    "@emotion/css": "^11.7.1",
+    "@uauth/abstract-ui": "workspace:*"
   }
 }

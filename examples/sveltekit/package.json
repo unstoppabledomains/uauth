@@ -1,8 +1,10 @@
 {
 	"name": "sveltekit",
 	"version": "0.0.1",
+	"private": true,
 	"scripts": {
 		"dev": "svelte-kit dev --port 5000",
+		"start": "yarn dev",
 		"build": "svelte-kit build",
 		"preview": "svelte-kit preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
@@ -12,26 +14,21 @@
 	},
 	"devDependencies": {
 		"@sveltejs/kit": "next",
-		"@typescript-eslint/eslint-plugin": "^4.31.1",
-		"@typescript-eslint/parser": "^4.31.1",
-		"eslint": "^7.32.0",
+		"@typescript-eslint/eslint-plugin": "^5.11.0",
+		"@typescript-eslint/parser": "^5.11.0",
+		"eslint": "^8.8.0",
 		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-svelte3": "^3.2.1",
-		"prettier": "^2.4.1",
-		"prettier-plugin-svelte": "^2.4.0",
-		"svelte": "^3.42.6",
-		"svelte-check": "^2.2.6",
-		"svelte-preprocess": "^4.9.4",
+		"eslint-plugin-svelte3": "^3.4.0",
+		"prettier": "^2.5.1",
+		"prettier-plugin-svelte": "^2.6.0",
+		"svelte": "^3.46.4",
+		"svelte-check": "^2.4.3",
+		"svelte-preprocess": "^4.10.3",
 		"tslib": "^2.3.1",
-		"typescript": "^4.4.3"
+		"typescript": "^4.5.5"
 	},
 	"type": "module",
 	"dependencies": {
-		"@uauth/js": "file:../../packages/js"
-	},
-	"resolutions": {
-		"@uauth/abstract-ui": "file:../../packages/abstract-ui",
-		"@uauth/dom-ui": "file:../../packages/dom-ui",
-		"@uauth/common": "file:../../packages/common"
+		"@uauth/js": "workspace:*"
 	}
 }

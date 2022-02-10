@@ -19,20 +19,19 @@
     "dev": "microbundle watch",
     "typecheck": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "@walletconnect/web3-provider": "^1.6.6",
-    "bnc-onboard": "^1.35.1"
+  "dependencies": {
+    "@uauth/js": "workspace:*",
+    "@walletconnect/types": "^1.6"
   },
   "devDependencies": {
-    "@uauth/js": "^0.7.8",
-    "@walletconnect/web3-provider": "^1.6.6",
-    "bnc-onboard": "^1.35.1"
+    "@walletconnect/web3-provider": "^1.6",
+    "bnc-onboard": "^1.35"
+  },
+  "peerDependencies": {
+    "@walletconnect/web3-provider": "^1.6",
+    "bnc-onboard": "^1.35"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@uauth/js": "^0.7.9",
-    "@walletconnect/types": "^1.6.6"
   }
 }

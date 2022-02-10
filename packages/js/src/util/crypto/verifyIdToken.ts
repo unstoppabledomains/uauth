@@ -1,23 +1,19 @@
 import {IdToken} from '@uauth/common'
-import {Jose} from 'jose-jwe-jws'
-import type {CryptoKeyGetter} from '../../types'
+import {jwtVerify, createRemoteJWKSet} from 'jose'
 
 const verifyIdToken = async (
-  keyGetter: CryptoKeyGetter,
+  jwks_uri: string,
   id_token: string,
   nonce: string,
-): Promise<IdToken> => {
-  const [verification] = await new Jose.JoseJWS.Verifier(
-    new Jose.WebCryptographer(),
+  client_id: string,
+) => {
+  const {payload} = await jwtVerify(
     id_token,
-    keyGetter,
-  ).verify()
+    createRemoteJWKSet(new URL(jwks_uri)),
+    {audience: client_id},
+  )
 
-  if (!verification.verified) {
-    throw new Error('Failed to verify id_token!')
-  }
-
-  const idToken: IdToken = JSON.parse(verification.payload!)
+  const idToken: IdToken = payload as any
 
   idToken.__raw = id_token
 

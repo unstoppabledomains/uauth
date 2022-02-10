@@ -1,4 +1,22 @@
-import {IssuerMetadata} from 'openid-client'
+export interface IssuerMetadata {
+  issuer: string
+  authorization_endpoint?: string
+  token_endpoint?: string
+  jwks_uri?: string
+  userinfo_endpoint?: string
+  revocation_endpoint?: string
+  end_session_endpoint?: string
+  registration_endpoint?: string
+  token_endpoint_auth_methods_supported?: string[]
+  token_endpoint_auth_signing_alg_values_supported?: string[]
+  introspection_endpoint_auth_methods_supported?: string[]
+  introspection_endpoint_auth_signing_alg_values_supported?: string[]
+  revocation_endpoint_auth_methods_supported?: string[]
+  revocation_endpoint_auth_signing_alg_values_supported?: string[]
+  request_object_signing_alg_values_supported?: string[]
+
+  [key: string]: unknown
+}
 
 export interface JRDLink {
   // URI

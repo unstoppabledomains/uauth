@@ -59,24 +59,21 @@ export default class Api {
     request: AuthorizeRequest,
     config: PopupConfig = {},
   ): Promise<AuthorizeResponse> {
-    if (!this.options.window) {
+    if (!window) {
       throw new Error('no window in options')
     }
 
     const url = this.buildAuthorizeUrl(request)
 
     let popup: Window | undefined | null = config.popup
-    const timeout: number = config.timeout ?? 300000
+    const timeout: number = config.timeout ?? 3600000
+
     if (!popup) {
-      popup = this.options.window.open(
+      popup = window.open(
         url,
         'uauth:authorize:popup',
-        `left=${
-          this.options.window.screenX +
-          (this.options.window.innerWidth - 400) / 2
-        },top=${
-          this.options.window.screenY +
-          (this.options.window.innerHeight - 600) / 2
+        `left=${window.screenX + (window.innerWidth - 400) / 2},top=${
+          window.screenY + (window.innerHeight - 600) / 2
         },width=400,height=600,resizable,scrollbars=yes,status=1`,
       )
 
@@ -307,11 +304,7 @@ export default class Api {
       init.headers = {Accept: 'application/json'}
     }
 
-    if (!this.options.window) {
-      throw new Error('no window in options')
-    }
-
-    const response = await this.options.window?.fetch(input, init)
+    const response = await window?.fetch(input, init)
 
     const json = await response.json()
     this._validateResponse(json)

@@ -24,17 +24,17 @@
     "test-ci": "jest --ci"
   },
   "dependencies": {
-    "@uauth/abstract-ui": "^0.7.0",
-    "@uauth/common": "^0.7.0",
-    "@uauth/dom-ui": "^0.7.2",
-    "@unstoppabledomains/resolution": "^6.0.1",
+    "@uauth/abstract-ui": "workspace:*",
+    "@uauth/common": "workspace:*",
+    "@uauth/dom-ui": "workspace:*",
+    "@unstoppabledomains/resolution": "^7.0",
     "global": "^4.4.0",
-    "jose-jwe-jws": "^0.2.2"
+    "jose": "^4.5.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@peculiar/webcrypto": "^1.2.0"
+    "microbundle": "^0.14.2"
   }
 }

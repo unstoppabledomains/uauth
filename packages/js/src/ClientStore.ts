@@ -10,7 +10,7 @@ class ClientStore {
     key: string,
     {mustExist = false, deleteAfter = false} = {},
   ): Promise<T | undefined> {
-    const entry = await this.client.store.get(key)
+    const entry = await this.client.getStore().get(key)
     if (entry == null) {
       if (mustExist) {
         throw new Error(`${key} does not exist in store`)
@@ -20,7 +20,7 @@ class ClientStore {
 
     const {value, expiresAt} = entry
     if (expiresAt !== 0 && expiresAt < Date.now()) {
-      await this.client.store.delete(key)
+      await this.client.getStore().delete(key)
       if (mustExist) {
         throw new Error(`${key} does not exist in store`)
       }
@@ -28,14 +28,14 @@ class ClientStore {
     }
 
     if (deleteAfter) {
-      await this.client.store.delete(key)
+      await this.client.getStore().delete(key)
     }
 
     return value
   }
 
   private async set<T>(key: string, value: any, timeout = 0) {
-    await this.client.store.set(key, {
+    await this.client.getStore().set(key, {
       expiresAt: timeout === 0 ? 0 : Date.now() + timeout,
       value,
     })
@@ -118,10 +118,12 @@ class ClientStore {
     )
 
     if (options.username === fallbackUsername) {
-      await this.client.store.delete('username')
+      await this.client.getStore().delete('username')
     }
 
-    return this.client.store.delete(await this._getAuthorizationKey(options))
+    return this.client
+      .getStore()
+      .delete(await this._getAuthorizationKey(options))
   }
   async getAuthorization(
     options: AuthorizationOptions,

@@ -22,8 +22,8 @@ const nameRegex =
 export interface DomUIOptions {
   className?: string
   defaultValue: string
-  container: HTMLElement
-  document: Document
+  container?: HTMLElement
+  document?: Document
   id: string
   learnMoreLink: string
   getADomainLink: string
@@ -33,9 +33,16 @@ export type DomUIConstructorOptions = Partial<DomUIOptions>
 
 class DomUI<T> implements AbstractUI<T> {
   public options: DomUIOptions
+
+  getContainer(): HTMLElement {
+    return this.options.container ?? window.document.body
+  }
+
+  getDocument(): Document {
+    return this.options.document ?? window.document
+  }
+
   constructor(options: DomUIConstructorOptions = {}) {
-    options.container = options.container ?? window.document.body
-    options.document = options.document ?? window.document
     options.id = options.id ?? 'uauth-vanilla-ui'
     options.learnMoreLink =
       options.learnMoreLink ??
@@ -110,14 +117,14 @@ class DomUI<T> implements AbstractUI<T> {
   }
 
   async open(options: UIOptions<T>): Promise<T> {
-    const {className, container, document, id} = this.options
+    const {className, id} = this.options
 
     let element: HTMLElement
-    const existingElement = document.getElementById(id)
+    const existingElement = this.getDocument().getElementById(id)
     if (existingElement) {
       element = existingElement
     } else {
-      element = document.createElement('div')
+      element = this.getDocument().createElement('div')
       element.id = id
     }
 
@@ -131,38 +138,38 @@ class DomUI<T> implements AbstractUI<T> {
     )
 
     if (!element.parentElement) {
-      container.appendChild(element)
+      this.getContainer().appendChild(element)
     }
 
-    const inputElement: HTMLInputElement = document.getElementById(
+    const inputElement: HTMLInputElement = this.getDocument().getElementById(
       `${this.options.id}-input`,
     ) as HTMLInputElement
     if (!inputElement) {
       throw new Error('Unable to find inputElement in modal')
     }
 
-    const formElement = document.getElementById(
+    const formElement = this.getDocument().getElementById(
       `${this.options.id}-form`,
     ) as HTMLFormElement
     if (!formElement) {
       throw new Error('Unable to find formElement in modal')
     }
 
-    const closeElement = document.getElementById(
+    const closeElement = this.getDocument().getElementById(
       `${this.options.id}-close`,
     ) as HTMLElement
     if (!closeElement) {
       throw new Error('Unable to find closeElement in modal')
     }
 
-    const errorElement = document.getElementById(
+    const errorElement = this.getDocument().getElementById(
       `${this.options.id}-error`,
     ) as HTMLElement
     if (!errorElement) {
       throw new Error('Unable to find errorElement in modal')
     }
 
-    const buttonElement = document.getElementById(
+    const buttonElement = this.getDocument().getElementById(
       `${this.options.id}-button`,
     ) as HTMLElement
     if (!errorElement) {
@@ -200,7 +207,7 @@ class DomUI<T> implements AbstractUI<T> {
     let shouldClose = true
     let handleKeydown: (this: Document, ev: KeyboardEvent) => any
     return new Promise<T>((resolve, reject) => {
-      this.options.document.addEventListener(
+      this.getDocument().addEventListener(
         'keydown',
         (handleKeydown = e => {
           if (e.key === 'Escape') {
@@ -252,8 +259,8 @@ class DomUI<T> implements AbstractUI<T> {
       }
 
       this._closer = () => {
-        this.options.document.removeEventListener('keydown', handleKeydown)
-        container.removeChild(element)
+        this.getDocument().removeEventListener('keydown', handleKeydown)
+        this.getContainer().removeChild(element)
       }
     }).finally(async () => {
       if (shouldClose) {

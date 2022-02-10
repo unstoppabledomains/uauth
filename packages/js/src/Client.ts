@@ -7,7 +7,8 @@ import {
   IssuerResolver,
 } from '@uauth/common'
 import DomUI from '@uauth/dom-ui'
-import Resolution, {
+import {
+  Resolution,
   ResolutionError,
   ResolutionErrorCode,
 } from '@unstoppabledomains/resolution'
@@ -23,7 +24,7 @@ import {
   UserInfoRequest,
 } from './api'
 import ClientStore from './ClientStore'
-import {StorageStore, Store} from './store'
+import {StorageStore, Store, StoreType} from './store'
 import {
   Authorization,
   AuthorizationOptions,
@@ -44,20 +45,50 @@ import * as util from './util'
 
 export default class Client {
   util = util
-  store: Store
   private _clientStore = new ClientStore(this)
   api: Api
   fallbackIssuer: string
   fallbackLoginOptions: BaseLoginOptions
   fallbackLogoutOptions: BaseLogoutOptions
   cacheOptions: CacheOptions
-  window: Window
   issuerResolver: IssuerResolver
   resolution: DomainResolver
   ui: AbstractUI<AuthorizeRequest>
 
+  store?: Store
+  storeOptions: {
+    store?: Store
+    storeType: StoreType
+  }
+
+  getStore(): Store {
+    if (this.store) {
+      return this.store
+    }
+
+    if (this.storeOptions.store) {
+      this.store = this.storeOptions.store
+    } else {
+      const storeType = this.storeOptions.storeType
+      switch (storeType) {
+        case 'localstore':
+          this.store = new StorageStore(window.localStorage)
+          break
+        case 'sessionstore':
+          this.store = new StorageStore(window.sessionStorage)
+          break
+        case 'memory':
+          this.store = new Map<string, string>()
+          break
+        default:
+          throw new Error('Bad storeType provided')
+      }
+    }
+
+    return this.store
+  }
+
   constructor(options: ClientOptions) {
-    this.window! = options.window ?? window
     this.fallbackIssuer =
       options.fallbackIssuer ?? 'https://auth.unstoppabledomains.com'
     this.resolution = options.resolution ?? new Resolution()
@@ -72,30 +103,16 @@ export default class Client {
       }
     }
 
-    if (options.store) {
-      this.store = options.store
-    } else {
-      const storeType = options.storeType ?? 'localstore'
-      switch (storeType) {
-        case 'localstore':
-          this.store = new StorageStore(this.window.localStorage)
-          break
-        case 'sessionstore':
-          this.store = new StorageStore(this.window.sessionStorage)
-          break
-        case 'memory':
-          this.store = new Map<string, string>()
-          break
-        default:
-          throw new Error('Bad storeType provided')
-      }
+    this.storeOptions = {
+      store: options.store,
+      storeType: options.storeType ?? 'localstore',
     }
 
     this.cacheOptions = {
       issuer: false,
       userinfo: true,
       getDefaultUsername: () =>
-        this.window.localStorage.getItem('uauth-default-username') ?? '',
+        window.localStorage.getItem('uauth-default-username') ?? '',
       ...(options.cacheOptions ?? {}),
     }
 
@@ -104,13 +121,12 @@ export default class Client {
       !options.cacheOptions?.setDefaultUsername
     ) {
       this.cacheOptions.setDefaultUsername = (username: string) => {
-        this.window.localStorage.setItem('uauth-default-username', username)
+        window.localStorage.setItem('uauth-default-username', username)
       }
     }
 
     this.api = new Api({
       headers: {},
-      window: this.window,
     })
 
     this.fallbackLoginOptions = {
@@ -267,13 +283,13 @@ export default class Client {
       await options.beforeRedirect(url)
     }
 
-    this.window.location.href = url
+    window.location.href = url
   }
 
   async loginCallback<T>(
     options?: Partial<LoginCallbackOptions>,
   ): Promise<LoginCallbackResponse<T>> {
-    const url = options?.url ?? this.window.location.href
+    const url = options?.url ?? window.location.href
 
     const request: AuthorizeRequest =
       await this._clientStore.getAuthorizeRequest()
@@ -322,9 +338,10 @@ export default class Client {
       await this.api.getTokenWithAuthorizationCode(tokenRequest)
 
     const idToken = await util.crypto.verifyIdToken(
-      util.crypto.createRemoteJWKGetter(openidConfiguration.jwks_uri),
+      openidConfiguration.jwks_uri,
       tokenResponse.id_token!,
       request.nonce,
+      request.client_id,
     )
 
     const authorization: Authorization = {
@@ -396,6 +413,8 @@ export default class Client {
       'updated_at',
       'wallet_address',
       'wallet_type_hint',
+      'eip4361_message',
+      'eip4361_signature',
     ]
 
     const authorization = await this.authorization(options)
@@ -501,11 +520,11 @@ export default class Client {
 
     await this._clientStore.deleteAuthorization(authorizationOptions)
 
-    this.window.location.href = url
+    window.location.href = url
   }
 
   async logoutCallback<T>(options: LogoutCallbackOptions = {}): Promise<T> {
-    const url = options?.url ?? this.window.location.href
+    const url = options?.url ?? window.location.href
 
     const request: LogoutRequest = await this._clientStore.getLogoutRequest()
 

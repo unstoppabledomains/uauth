@@ -21,11 +21,11 @@
     "dev": "microbundle watch",
     "typecheck": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "@unstoppabledomains/resolution": "^5.0.0"
+  "devDependencies": {
+    "@unstoppabledomains/resolution": "^7.0"
   },
-  "dependencies": {
-    "@types/openid-client": "^3.7.0"
+  "peerDependencies": {
+    "@unstoppabledomains/resolution": "^7.0"
   },
   "publishConfig": {
     "access": "public"

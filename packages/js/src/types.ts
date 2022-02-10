@@ -186,7 +186,7 @@ export interface ClientOptions {
   uiOptions?: DomUIConstructorOptions
 
   // Other Options
-  window?: Window
+  window?: Window | undefined
   fallbackIssuer?: string
   storeType?: StoreType
   store?: Store

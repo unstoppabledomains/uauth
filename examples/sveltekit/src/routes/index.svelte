@@ -1,17 +1,24 @@
 <script lang="ts">
-	import getUAuth from '$lib/uauth';
 	import type { UserInfo } from '@uauth/js';
+	import UAuth from '@uauth/js';
 	import { onMount } from 'svelte';
+
+	const uauth = new UAuth({
+		clientID: 'fe97f2e9-097d-41e9-af9b-f690eafca7be',
+		redirectUri: 'http://localhost:5000',
+		scope: 'openid wallet',
+		fallbackIssuer: "http://localhost:4444"
+	});
 
 	let userPromise: Promise<UserInfo>;
 	onMount(() => {
-		userPromise = getUAuth(window).then(async (uauth) => uauth.user());
+		userPromise = uauth.user();
 	});
 
 	const handleLogin = () => {
-		getUAuth(window)
-			.then(async (uauth) => {
-				await uauth.loginWithPopup();
+		uauth
+			.loginWithPopup()
+			.then(async () => {
 				userPromise = uauth.user();
 			})
 			.catch((error) => {
@@ -21,9 +28,9 @@
 	};
 
 	const handleLogout = () => {
-		getUAuth(window)
-			.then(async (uauth) => {
-				await uauth.logout({ rpInitiatedLogout: false });
+		uauth
+			.logout({ rpInitiatedLogout: false })
+			.then(async () => {
 				userPromise = Promise.reject();
 			})
 			.catch((error) => {

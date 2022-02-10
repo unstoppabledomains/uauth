@@ -1,5 +1,4 @@
 import createCodeChallengeAndVerifier from './crypto/createCodeChallengeAndVerifier'
-import createRemoteJWKGetter from './crypto/createRemoteJWKGetter'
 import getCrypto from './crypto/getCrypto'
 import getCryptoSubtle from './crypto/getCryptoSubtle'
 import getRandomBytes from './crypto/getRandomBytes'
@@ -16,7 +15,6 @@ import toUrlEncodedBase64 from './encoding/toUrlEncodedBase64'
 
 const crypto = {
   createCodeChallengeAndVerifier,
-  createRemoteJWKGetter,
   getCrypto,
   getCryptoSubtle,
   getRandomBytes,

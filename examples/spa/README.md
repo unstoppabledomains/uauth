@@ -8,7 +8,7 @@ The entire demo project is contained and anotated inside the `src/index.ts` file
 
 This project uses the local versions of the `uauth` packages. If you want to test a particular version of the `uauth` packages you should checkout a version tag of this repo.
 
-Once checked out simply install the dependancies.
+Once checked out simply install the dependencies.
 
 ```sh
 yarn install

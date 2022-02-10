@@ -5,10 +5,9 @@ import 'express-async-errors'
 import session from 'express-session'
 import morgan from 'morgan'
 import 'whatwg-fetch'
-
-global.XMLHttpRequest = require('xhr2')
-global.XMLHttpRequestUpload = (
-  global.XMLHttpRequest as any
+;(global as any).XMLHttpRequest = require('xhr2') as any
+;(global as any).XMLHttpRequestUpload = (
+  (global as any).XMLHttpRequest as any
 ).XMLHttpRequestUpload
 
 const resolution = new Resolution()
