@@ -34,8 +34,8 @@
   "scripts": {
     "release": "sh release.sh",
     "prebuild": "rm -fR packages/*/build/",
-    "build": "yarn workspaces foreach --from '{@uauth/abstract-ui,@uauth/bnc-onboard,@uauth/common,@uauth/dom-ui,@uauth/js,@uauth/node,@uauth/web3-react,@uauth/web3modal}' --topological-dev run build",
-    "typecheck": "yarn workspaces foreach --from '{@uauth/abstract-ui,@uauth/bnc-onboard,@uauth/common,@uauth/dom-ui,@uauth/js,@uauth/node,@uauth/web3-react,@uauth/web3modal}' run typecheck",
+    "build": "yarn workspaces foreach --no-private --topological-dev run build",
+    "typecheck": "yarn workspaces foreach --no-private run typecheck",
     "prepublishOnly": "yarn build"
   }
 }
