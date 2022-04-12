@@ -37,5 +37,6 @@
     "build": "yarn workspaces foreach --no-private --topological-dev run build",
     "typecheck": "yarn workspaces foreach --no-private run typecheck",
     "prepublishOnly": "yarn build"
-  }
+  },
+  "packageManager": "yarn@3.2.0"
 }

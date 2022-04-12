@@ -1,0 +1,34 @@
+{
+  "name": "@uauth/moralis",
+  "version": "1.0.0",
+  "source": "./src/index.ts",
+  "main": "./build/index.cjs",
+  "module": "./build/index.module.mjs",
+  "unpkg": "./build/index.umd.js",
+  "browser": "./build/index.umd.js",
+  "exports": {
+    "import": "./build/index.module.mjs",
+    "require": "./build/index.cjs"
+  },
+  "type": "module",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "amdName": "UAuthMoralis",
+  "scripts": {
+    "build": "microbundle --jsx 'React.createElement'",
+    "dev": "microbundle watch --jsx 'React.createElement'",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@uauth/js": "workspace:*",
+    "moralis": "^1.5.9"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "microbundle": "^0.14.2"
+  }
+}
