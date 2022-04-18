@@ -39,7 +39,6 @@ class UAuthMoralisConnector extends AbstractWeb3Connector {
   private _uauth?: UAuth
 
   public async activate(): Promise<any> {
-    console.log('activate')
     await UAuthMoralisConnector.importUAuth()
 
     let user: UserInfo

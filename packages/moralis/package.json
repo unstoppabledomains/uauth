@@ -22,13 +22,16 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@uauth/js": "workspace:*",
-    "moralis": "^1.5.9"
+    "@uauth/js": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "microbundle": "^0.14.2"
+    "microbundle": "^0.14.2",
+    "moralis": "^1.5.9"
+  },
+  "peerDependencies": {
+    "moralis": "^1.5.9"
   }
 }
