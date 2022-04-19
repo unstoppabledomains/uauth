@@ -28,10 +28,12 @@
     "access": "public"
   },
   "devDependencies": {
+    "@walletconnect/web3-provider": "^1.7.7",
     "microbundle": "^0.14.2",
     "moralis": "^1.5.9"
   },
   "peerDependencies": {
+    "@walletconnect/web3-provider": "^1.7.7",
     "moralis": "^1.5.9"
   }
 }
