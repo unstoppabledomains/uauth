@@ -1,9 +1,18 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type UAuth from '@uauth/js'
 import type {UAuthConstructorOptions, UserInfo} from '@uauth/js'
 
 import AbstractWeb3Connector from './AbstractWeb3Connector'
 
 import Moralis from 'moralis'
+import {getMoralisRpcs} from './MoralisRpcs'
+interface Window {
+  WalletConnectProvider: any
+  ethereum?: any
+}
+
+// eslint-disable-next-line no-var
+declare var window: Window
 
 export interface UAuthMoralisConnectors {
   injected: any | undefined
@@ -18,7 +27,7 @@ export interface UAuthConnectorOptions
 }
 
 class UAuthMoralisConnector extends AbstractWeb3Connector {
-  type = 'UauthConnect'
+  type = 'uauth'
 
   static UAuth: typeof UAuth
   static options: UAuthConnectorOptions
@@ -38,7 +47,23 @@ class UAuthMoralisConnector extends AbstractWeb3Connector {
   private _subConnector?: any | undefined = null
   private _uauth?: UAuth
 
-  public async activate(): Promise<any> {
+  verifyEthereumBrowser() {
+    if (!window.ethereum) {
+      throw new Error('Non ethereum enabled browser')
+    }
+  }
+  public async activate({
+    // @ts-ignore
+    chainId: providedChainId,
+    // @ts-ignore
+    mobileLinks,
+  } = {}): Promise<any> {
+    // cleanup old data
+    try {
+      await this.deactivate()
+    } catch (error) {
+      // Do nothing
+    }
     await UAuthMoralisConnector.importUAuth()
 
     let user: UserInfo
@@ -71,20 +96,88 @@ class UAuthMoralisConnector extends AbstractWeb3Connector {
     }
 
     if (['web3', 'injected'].includes(user.wallet_type_hint)) {
-      this._subConnector = UAuthMoralisConnector.options.connectors.injected
+      this._subConnector = 'web3'
+      this.verifyEthereumBrowser()
+      const [accounts, chainId] = await Promise.all([
+        window.ethereum.request({
+          method: 'eth_requestAccounts',
+        }),
+        window.ethereum.request({method: 'eth_chainId'}),
+      ])
+      console.log(accounts)
+      const account = accounts[0] ? accounts[0].toLowerCase() : null
+
+      const provider = window.ethereum
+      this.chainId = chainId
+      this.account = account
+      this.provider = provider
     } else if (user.wallet_type_hint === 'walletconnect') {
-      this._subConnector =
-        UAuthMoralisConnector.options.connectors.walletconnect
+      this._subConnector = 'walletconnect'
+      UAuthMoralisConnector.options.connectors.walletconnect
+      let WalletConnectProvider
+      const config = {
+        rpc: getMoralisRpcs('WalletConnect'),
+        chainId: providedChainId,
+        qrcodeModalOptions: {
+          mobileLinks,
+        },
+      }
+
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        WalletConnectProvider = require('@walletconnect/web3-provider')?.default
+      } catch (error) {
+        // Do nothing. User might not need walletconnect
+      }
+
+      if (!WalletConnectProvider) {
+        throw new Error(
+          'Cannot enable WalletConnect: dependency "@walletconnect/web3-provider" is missing',
+        )
+      }
+
+      if (typeof WalletConnectProvider === 'function') {
+        this.provider = new WalletConnectProvider(config)
+      } else {
+        this.provider = new window.WalletConnectProvider(config)
+      }
+      if (!this.provider) {
+        throw new Error(
+          'Could not connect with WalletConnect, error in connecting to provider',
+        )
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const accounts = await this.provider.enable()
+      this.account = accounts[0].toLowerCase()
+      const {chainId} = this.provider
+      this.chainId = chainId
+      this.subscribeToEvents(this.provider)
     } else {
       throw new Error('Connector not supported')
     }
-
-    const update = await Moralis.authenticate(this._subConnector)
-
-    return update
+    return {
+      provider: this.provider,
+      account: this.account,
+      chainId: this.chainId,
+    }
   }
 
-  public deactivate(): void {
+  public async deactivate() {
+    this.account = null
+    this.chainId = null
+    if (this._subConnector === 'walletconnect') {
+      this.unsubscribeToEvents(this.provider)
+      if (this.provider) {
+        try {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          await this.provider.disconnect()
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
     if (this._subConnector) {
       if (!this.uauth.fallbackLogoutOptions.rpInitiatedLogout) {
         this.uauth.logout({rpInitiatedLogout: false})
