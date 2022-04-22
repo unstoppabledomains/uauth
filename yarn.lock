@@ -7032,7 +7032,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@uauth/js@^1.0.0, @uauth/js@workspace:*, @uauth/js@workspace:packages/js":
+"@uauth/js@^1.1.0, @uauth/js@workspace:*, @uauth/js@workspace:packages/js":
   version: 0.0.0-use.local
   resolution: "@uauth/js@workspace:packages/js"
   dependencies:
@@ -20380,7 +20380,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "login-with-unstoppable@workspace:examples/docs"
   dependencies:
-    "@uauth/js": ^1.0.0
+    "@uauth/js": ^1.1.0
     "@walletconnect/web3-provider": ^1.7.1
     parcel: ^2.3.0
   languageName: unknown
