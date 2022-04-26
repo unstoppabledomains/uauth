@@ -69,15 +69,16 @@ yarn build
 echo "Incrementing package versions..."
 yarn workspaces foreach --since --topological-dev --no-private version $new_version
 
+# Replacing global package version inside of the .version file
+echo $new_version >.version
+
 echo "Tagging..."
 git add -u
-git tag $new_version -m "$new_version"
+git commit -m "v$new_version"
+git tag $new_version -m "v$new_version"
 
 echo "Pushing..."
 git push origin "$new_version"
-
-# Replacing global package version inside of the .version file
-echo $new_version >.version
 
 echo "Publishing to npm..."
 yarn workspaces foreach --since --topological-dev --no-private npm publish

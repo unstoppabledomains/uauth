@@ -48,3 +48,7 @@ You should not need to use or expect these libraries to remain stable.
 - [`bnc-onboard`](./examples/bnc-onboard) - Integration using the `@uauth/js` & `@uauth/bnc-onboard` library.
 - [`sveltekit`](./examples/sveltekit) - Integration using the `sveltekit` framework and `@uauth/js`.
 - [`server`](./examples/server) - Integration using the `@uauth/node` library.
+
+## Documentation
+
+For a step by step integration guide and documentation please see our docs. [`login docs`](https://docs.unstoppabledomains.com/login-with-unstoppable/)

@@ -192,11 +192,7 @@ class UAuthConnector extends AbstractConnector {
       throw new Error('Must import UAuth before constructing a UAuth Object')
     }
 
-    if (
-      !uauthOptions.clientID ||
-      !uauthOptions.clientSecret ||
-      !uauthOptions.redirectUri
-    ) {
+    if (!uauthOptions.clientID || !uauthOptions.redirectUri) {
       throw new Error('Incomplete constructor options')
     }
 
