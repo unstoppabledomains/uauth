@@ -4,9 +4,9 @@ import type {UAuthConstructorOptions, UserInfo} from '@uauth/js'
 
 import AbstractWeb3Connector from './AbstractWeb3Connector'
 
-import Moralis from 'moralis'
 import {getMoralisRpcs} from './MoralisRpcs'
 import verifyChainId from './Utils'
+
 interface Window {
   WalletConnectProvider: any
   ethereum?: any
