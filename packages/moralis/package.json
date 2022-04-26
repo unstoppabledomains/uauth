@@ -10,7 +10,7 @@
     "import": "./build/index.module.mjs",
     "require": "./build/index.cjs"
   },
-  "type": "module",
+  "type": "commonjs",
   "types": "./build/index.d.ts",
   "files": [
     "build"
@@ -28,12 +28,14 @@
     "access": "public"
   },
   "devDependencies": {
-    "@walletconnect/web3-provider": "^1.7.7",
+    "@walletconnect/web3-provider": "^1.6",
+    "buffer": "^6.0.3",
     "microbundle": "^0.14.2",
     "moralis": "^1.5.9"
   },
   "peerDependencies": {
-    "@walletconnect/web3-provider": "^1.7.7",
+    "@walletconnect/web3-provider": "^1.6",
+    "buffer": "^6.0.3",
     "moralis": "^1.5.9"
   }
 }

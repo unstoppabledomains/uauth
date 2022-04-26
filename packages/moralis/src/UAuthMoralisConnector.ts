@@ -6,9 +6,11 @@ import AbstractWeb3Connector from './AbstractWeb3Connector'
 
 import Moralis from 'moralis'
 import {getMoralisRpcs} from './MoralisRpcs'
+import verifyChainId from './Utils'
 interface Window {
   WalletConnectProvider: any
   ethereum?: any
+  Buffer?: any
 }
 
 // eslint-disable-next-line no-var
@@ -61,6 +63,7 @@ class UAuthMoralisConnector extends AbstractWeb3Connector {
     // cleanup old data
     try {
       await this.deactivate()
+      this.uauth.logout({rpInitiatedLogout: false})
     } catch (error) {
       // Do nothing
     }
@@ -107,8 +110,10 @@ class UAuthMoralisConnector extends AbstractWeb3Connector {
       console.log(accounts)
       const account = accounts[0] ? accounts[0].toLowerCase() : null
 
+      const verfiedChainId = verifyChainId(chainId)
+
       const provider = window.ethereum
-      this.chainId = chainId
+      this.chainId = verfiedChainId
       this.account = account
       this.provider = provider
     } else if (user.wallet_type_hint === 'walletconnect') {
@@ -124,10 +129,13 @@ class UAuthMoralisConnector extends AbstractWeb3Connector {
       }
 
       try {
+        window.Buffer = window.Buffer || (await import('buffer'))?.Buffer
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        WalletConnectProvider = require('@walletconnect/web3-provider')?.default
+        WalletConnectProvider = (await import('@walletconnect/web3-provider'))
+          ?.default
       } catch (error) {
         // Do nothing. User might not need walletconnect
+        console.log(error)
       }
 
       if (!WalletConnectProvider) {
@@ -151,11 +159,13 @@ class UAuthMoralisConnector extends AbstractWeb3Connector {
       const accounts = await this.provider.enable()
       this.account = accounts[0].toLowerCase()
       const {chainId} = this.provider
-      this.chainId = chainId
+      const verifiedChainId = verifyChainId(chainId)
+      this.chainId = verifiedChainId
       this.subscribeToEvents(this.provider)
     } else {
       throw new Error('Connector not supported')
     }
+
     return {
       provider: this.provider,
       account: this.account,
@@ -200,11 +210,7 @@ class UAuthMoralisConnector extends AbstractWeb3Connector {
       throw new Error('Must import UAuth before constructing a UAuth Object')
     }
 
-    if (
-      !uauthOptions.clientID ||
-      !uauthOptions.clientSecret ||
-      !uauthOptions.redirectUri
-    ) {
+    if (!uauthOptions.clientID || !uauthOptions.redirectUri) {
       throw new Error('Incomplete constructor options')
     }
 
