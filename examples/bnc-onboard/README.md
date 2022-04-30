@@ -1,11 +1,11 @@
 # Blocknative Onboard Example
 
-This project was created with [Create React App](https://create-react-app.dev).
+This is an example project demonstrating the use of [`@uauth/bnc-onboard`](../../packages/bnc-onboard/).
 
 ## Files
 
 - [index.tsx](./src/index.tsx) - The root of the React app.
 
-## Resources
+## Integration Guides
 
-- This is an example demonstrating the use of [`@uauth/bnc-onboard`](../../packages/bnc-onboard)
+For step-by-step instructions for integrating with `@uath/bnc-onboard`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [BNC Onboard](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/bnc-onboard-guide/) integration guide.
