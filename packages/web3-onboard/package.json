@@ -1,0 +1,39 @@
+{
+  "name": "@uauth/web3-onboard",
+  "version": "1.1.0",
+  "source": "./src/index.ts",
+  "main": "./build/index.cjs",
+  "module": "./build/index.module.mjs",
+  "exports": {
+    "import": "./build/index.module.mjs",
+    "require": "./build/index.cjs"
+  },
+  "type": "module",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "amdName": "UAuthWeb3Onboard",
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@uauth/js": "workspace:*"
+  },
+  "devDependencies": {
+    "@walletconnect/types": "^1.6",
+    "@walletconnect/web3-provider": "^1.6",
+    "@web3-onboard/common": "^2.0.7",
+    "microbundle": "^0.14.2"
+  },
+  "peerDependencies": {
+    "@walletconnect/types": "^1.6",
+    "@walletconnect/web3-provider": "^1.6",
+    "@web3-onboard/common": "^2.0.7"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
