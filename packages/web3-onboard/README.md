@@ -3,12 +3,8 @@
 ## Installation
 
 ```sh
-yarn add b@uauth/web3-onboard @uauth/js
+yarn add @uauth/web3-onboard @uauth/js @web3-onboard/core
 ```
-
-### Migration from <0.6.x
-
-Because popups are a more integration friendly approach for integrations the `@uauth/web3-onboard` library now uses them by default. If you want the "old" redirect functinality you need to initialize the Module with this option.
 
 ```typescript
 // ... other uauthOptions properties
