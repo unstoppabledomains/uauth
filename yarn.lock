@@ -2530,6 +2530,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ethersproject/providers@npm:5.5.0":
+  version: 5.5.0
+  resolution: "@ethersproject/providers@npm:5.5.0"
+  dependencies:
+    "@ethersproject/abstract-provider": ^5.5.0
+    "@ethersproject/abstract-signer": ^5.5.0
+    "@ethersproject/address": ^5.5.0
+    "@ethersproject/basex": ^5.5.0
+    "@ethersproject/bignumber": ^5.5.0
+    "@ethersproject/bytes": ^5.5.0
+    "@ethersproject/constants": ^5.5.0
+    "@ethersproject/hash": ^5.5.0
+    "@ethersproject/logger": ^5.5.0
+    "@ethersproject/networks": ^5.5.0
+    "@ethersproject/properties": ^5.5.0
+    "@ethersproject/random": ^5.5.0
+    "@ethersproject/rlp": ^5.5.0
+    "@ethersproject/sha2": ^5.5.0
+    "@ethersproject/strings": ^5.5.0
+    "@ethersproject/transactions": ^5.5.0
+    "@ethersproject/web": ^5.5.0
+    bech32: 1.1.4
+    ws: 7.4.6
+  checksum: 8f29dfd9ef48613ffd4820ee1e77991492291172f8b87af9952380ef49231ef61b86df6df903c1bb2a7cfedc998fc337ca61c219e8aa74eeee18f6ff8cc7ad8b
+  languageName: node
+  linkType: hard
+
 "@ethersproject/providers@npm:5.5.2":
   version: 5.5.2
   resolution: "@ethersproject/providers@npm:5.5.2"
@@ -7009,15 +7036,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@uauth/web3-onboard@workspace:packages/web3-onboard"
   dependencies:
+    "@ethersproject/providers": 5.5.0
     "@uauth/js": "workspace:*"
+    "@walletconnect/client": ^1.6
+    "@walletconnect/qrcode-modal": ^1.6
     "@walletconnect/types": ^1.6
-    "@walletconnect/web3-provider": ^1.6
     "@web3-onboard/common": ^2.0.7
     microbundle: ^0.14.2
+    rxjs: ^7.5.5
   peerDependencies:
+    "@ethersproject/providers": 5.5.0
+    "@walletconnect/client": ^1.6
+    "@walletconnect/qrcode-modal": ^1.6
     "@walletconnect/types": ^1.6
-    "@walletconnect/web3-provider": ^1.6
     "@web3-onboard/common": ^2.0.7
+    rxjs: ^7.5.5
   languageName: unknown
   linkType: soft
 
@@ -7083,7 +7116,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/client@npm:^1.7.1":
+"@walletconnect/client@npm:^1.6, @walletconnect/client@npm:^1.7.1":
   version: 1.7.8
   resolution: "@walletconnect/client@npm:1.7.8"
   dependencies:
@@ -7256,7 +7289,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/qrcode-modal@npm:^1.7.1":
+"@walletconnect/qrcode-modal@npm:^1.6, @walletconnect/qrcode-modal@npm:^1.7.1":
   version: 1.7.8
   resolution: "@walletconnect/qrcode-modal@npm:1.7.8"
   dependencies:

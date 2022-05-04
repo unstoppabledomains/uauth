@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom'
 import Onboard from '@web3-onboard/core'
 import injectedModule from '@web3-onboard/injected-wallets'
 import uauthBNCModule from '@uauth/web3-onboard'
+import walletConnectModule from '@web3-onboard/walletconnect'
 import UAuth from '@uauth/js'
 
 const injected = injectedModule()
+const walletconnect = walletConnectModule()
 const uauth = new UAuth({
   clientID: process.env.REACT_APP_CLIENT_ID!,
   redirectUri: process.env.REACT_APP_REDIRECT_URI!,
@@ -20,7 +22,7 @@ const uauthOptions = {
 }
 const uauthModule = uauthBNCModule(uauthOptions)
 const onboard = Onboard({
-  wallets: [injected, uauthModule],
+  wallets: [injected, uauthModule, walletconnect],
   chains: [
     {
       id: '0x1',
@@ -35,6 +37,7 @@ const App: React.FC = () => {
   const [address, setAddress] = useState<string>()
 
   const handleConnect = async () => {
+    // uauth.logout()
     const wallets = await onboard.connectWallet()
     if (wallets.length) {
       setAddress(wallets[0].accounts[0].address)
@@ -43,7 +46,6 @@ const App: React.FC = () => {
 
   const handleLogout = async () => {
     const [primaryWallet] = onboard.state.get().wallets
-    console.log('aaa', primaryWallet.label)
     if (primaryWallet.label === 'Unstoppable') {
       uauth.logout()
     }
