@@ -6,6 +6,8 @@
     "packages/web3modal",
     "packages/web3-react",
     "packages/bnc-onboard",
+    "packages/web3-onboard",
+    "packages/moralis",
     "packages/abstract-ui",
     "packages/dom-ui"
   ],
