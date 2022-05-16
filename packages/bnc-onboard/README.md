@@ -7,5 +7,5 @@ For step-by-step instructions for integrating with `@uath/bnc-onboard`, see the 
 ## Additional Resources
 
 - A more complex [example](../../examples/bnc-onboard/README.md).
-- The `bnc-onboard` library [github](https://github.com/NoahZinsmeister/web3-react).
+- The `bnc-onboard` library [github repo](https://github.com/NoahZinsmeister/web3-react).
 - The `bnc-onboard` [docs](https://docs.blocknative.com/onboard).
