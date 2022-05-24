@@ -1,5 +1,5 @@
-import decodeState from './decodeState'
-import encodeState from './encodeState'
+// import decodeState from './decodeState'
+// import encodeState from './encodeState'
 
 describe('util/encoding/decodeState', () => {
   it('should work', () => {
@@ -7,11 +7,12 @@ describe('util/encoding/decodeState', () => {
     expect('it').toBe('it')
   })
 
-  it.todo('should encode and decode strings correctly', () => {
-    expect.hasAssertions()
+  it.todo('should encode and decode strings correctly')
+  // , () => {
+  //   expect.hasAssertions()
 
-    const str = String.fromCharCode(...new Array(1000).keys())
-    const encoded = encodeState(str)
-    expect(str).toBe(decodeState(encoded))
-  })
+  //   const str = String.fromCharCode(...new Array(1000).keys())
+  //   const encoded = encodeState(str)
+  //   expect(str).toBe(decodeState(encoded))
+  // })
 })
