@@ -24,7 +24,10 @@ interface Interaction {
 }
 
 declare module 'express-session' {
-  type SessionData = Record<string, any>
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+  interface SessionData {
+    [key: string]: any
+  }
 }
 
 type Locals = Record<string, any>
