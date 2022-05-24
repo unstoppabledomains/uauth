@@ -1,0 +1,6 @@
+releases:
+  "@uauth/node": patch
+  "@uauth/web3-react": patch
+
+declined:
+  - web3-react
