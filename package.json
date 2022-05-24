@@ -13,7 +13,7 @@
     "lint": "eslint --fix .",
     "precommit": "lint-staged",
     "prepare": "husky install",
-    "prepush": "exit; yarn jest --ci",
+    "prepush": "yarn version check",
     "test": "jest",
     "typecheck": "yarn foreach run typecheck"
   },
