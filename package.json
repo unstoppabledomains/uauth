@@ -10,10 +10,10 @@
     "build": "yarn foreach run build",
     "foreach": "yarn workspaces foreach --verbose --no-private --topological-dev",
     "format": "prettier -w .",
+    "husky": "[ -z \"${CI:-}\" ] && husky install",
     "lint": "eslint --fix .",
     "precommit": "lint-staged",
-    "prepare": "husky install",
-    "prepush": "exit; yarn jest --ci",
+    "prepush": "yarn version check",
     "test": "jest",
     "typecheck": "yarn foreach run typecheck"
   },
