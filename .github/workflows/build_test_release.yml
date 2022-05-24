@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   pull_request:
     types: [opened, reopened, synchronize]
-  # push:
-  #   branches: [main, next]
+  push:
+    branches: [main, next]
 
 env:
   ENVIRONMENT: build
