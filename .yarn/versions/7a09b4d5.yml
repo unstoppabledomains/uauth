@@ -1,0 +1,6 @@
+releases:
+  "@uauth/bnc-onboard": prerelease
+  "@uauth/js": prerelease
+  "@uauth/moralis": prerelease
+  "@uauth/web3-react": prerelease
+  "@uauth/web3modal": prerelease

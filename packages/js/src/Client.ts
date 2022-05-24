@@ -544,4 +544,8 @@ export default class Client {
       throw new Error("states don't match")
     }
   }
+
+  stupidFunction() {
+    return null
+  }
 }
