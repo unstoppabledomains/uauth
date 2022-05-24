@@ -44,6 +44,12 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: '**/build'
+          key: ${{ github.sha }}-${{ github.run_number }}
+
       - name: Lint
         run: yarn lint
 
@@ -58,6 +64,12 @@ jobs:
 
       - name: Setup
         uses: ./.github/actions/setup
+
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: '**/build'
+          key: ${{ github.sha }}-${{ github.run_number }}
 
       - name: Test
         run: yarn test
@@ -86,6 +98,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          # We use fetch-depth: 0 because yarn version check requires it
           fetch-depth: 0
 
       - run: git config user.email ${{ github.actor }}@users.noreply.github.com

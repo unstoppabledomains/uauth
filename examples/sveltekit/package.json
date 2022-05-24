@@ -14,7 +14,7 @@
 		"start": "yarn dev"
 	},
 	"dependencies": {
-		"@uauth/js": "workspace:*"
+		"@uauth/js": "link:../packages/js"
 	},
 	"devDependencies": {
 		"@sveltejs/kit": "next",
