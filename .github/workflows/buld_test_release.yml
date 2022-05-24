@@ -1,0 +1,110 @@
+name: Build, test, and release
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  # push:
+  #   branches: [main, next]
+
+env:
+  ENVIRONMENT: build
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build
+        run: yarn build
+
+      - uses: actions/cache@v3
+        id: cache-build
+        with:
+          path: '**/build'
+          key: ${{ github.sha }}-${{ github.run_number }}
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: yarn lint
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Test
+        run: yarn test
+
+  version_check:
+    name: Version Check
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Ensure Valid Versioning
+        run: yarn version check
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' }}
+    needs: [build, lint, test]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - run: git config user.email ${{ github.actor }}@users.noreply.github.com
+      - run: git config user.name ${{ github.actor }}
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: '**/build'
+          key: ${{ github.sha }}-${{ github.run_number }}
+
+      - name: Configure NPM Access Token
+        run: yarn config set npmAuthToken "${{ secrets.NPM_TOKEN }}"
+
+      - name: Ensure Valid Versioning
+        run: yarn version check
+
+      - name: Release
+        run: yarn workspaces foreach --verbose --no-private --topological-dev run release

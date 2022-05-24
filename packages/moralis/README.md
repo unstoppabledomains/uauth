@@ -30,9 +30,9 @@ UAuthMoralisConnector.setUAuthOptions({
   scope: 'openid wallet',
   // Injected and walletconnect connectors are required
   connectors: {injected, walletconnect},
-});
+})
 
-export const uauth = {connector: UAuthMoralisConnector};
+export const uauth = {connector: UAuthMoralisConnector}
 
 const connectors: Record<string, AbstractConnector> = {
   injected,
@@ -42,7 +42,6 @@ const connectors: Record<string, AbstractConnector> = {
 
 export default connectors
 ```
-
 
 ### Usage
 

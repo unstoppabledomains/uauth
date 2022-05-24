@@ -24,14 +24,10 @@ interface Interaction {
 }
 
 declare module 'express-session' {
-  interface SessionData {
-    [key: string]: any
-  }
+  type SessionData = Record<string, any>
 }
 
-interface Locals {
-  [key: string]: any
-}
+type Locals = Record<string, any>
 
 declare module 'express' {
   export interface Response {
@@ -176,7 +172,7 @@ class Client {
           a.push([k, v])
         }
         return a
-      }, [] as [string, string][]),
+      }, [] as Array<[string, string]>),
     ).toString()
 
     return url.toString()

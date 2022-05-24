@@ -17,9 +17,9 @@ UAuthMoralisConnector.setUAuthOptions({
 
   // Injected and walletconnect connectors are required
   connectors: {injected, walletconnect},
-});
+})
 
-const uauth = {connector: UAuthMoralisConnector};
+const uauth = {connector: UAuthMoralisConnector}
 
 const connectors: Record<string, any> = {
   injected,

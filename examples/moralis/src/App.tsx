@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMoralis } from 'react-moralis'
+import {useMoralis} from 'react-moralis'
 import connectors from './connectors'
 
 const App: React.FC = () => {
