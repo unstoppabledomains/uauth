@@ -1,6 +1,6 @@
 releases:
-  "@uauth/node": patch
-  "@uauth/web3-react": patch
+  "@uauth/node": prerelease
+  "@uauth/web3-react": prerelease
 
 declined:
   - web3-react
