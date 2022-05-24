@@ -10,7 +10,7 @@
     "build": "yarn foreach run build",
     "foreach": "yarn workspaces foreach --verbose --no-private --topological-dev",
     "format": "prettier -w .",
-    "postinstall": "$CI || husky install",
+    "husky": "[ -z \"${CI:-}\" ] && husky install",
     "lint": "eslint --fix .",
     "precommit": "lint-staged",
     "prepush": "yarn version check",
