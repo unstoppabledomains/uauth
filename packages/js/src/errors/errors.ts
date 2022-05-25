@@ -5,7 +5,4 @@ export const PopupTimeoutError = createError(
   'The popup has timed out.',
 )
 
-export const PopupClosedError = createError(
-  'PopupClosedError',
-  'The popup was closed.',
-)
+export const PopupClosedError = createError('PopupClosedError', 'Modal closed!')
