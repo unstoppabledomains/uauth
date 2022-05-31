@@ -24,14 +24,13 @@ interface Interaction {
 }
 
 declare module 'express-session' {
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   interface SessionData {
     [key: string]: any
   }
 }
 
-interface Locals {
-  [key: string]: any
-}
+type Locals = Record<string, any>
 
 declare module 'express' {
   export interface Response {
@@ -176,7 +175,7 @@ class Client {
           a.push([k, v])
         }
         return a
-      }, [] as [string, string][]),
+      }, [] as Array<[string, string]>),
     ).toString()
 
     return url.toString()

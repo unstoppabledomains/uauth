@@ -7,4 +7,4 @@ For step-by-step instructions for integrating with `@uath/web3modal`, see the [L
 ## Resources
 
 - A more complex [example](../../examples/web3modal/README.md).
-- The `web3modal` library [github](https://github.com/Web3Modal/web3modal).
+- The `web3modal` library [github repo](https://github.com/Web3Modal/web3modal).

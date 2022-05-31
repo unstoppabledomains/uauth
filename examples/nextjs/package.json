@@ -2,13 +2,13 @@
   "name": "nextjs",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 5000",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev -p 5000",
+    "lint": "next lint",
+    "start": "next start"
   },
   "dependencies": {
-    "@uauth/js": "workspace:*",
+    "@uauth/js": "link:../packages/js",
     "next": "^12.0.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"

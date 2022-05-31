@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "dev",
+      "path": "examples/spa",
+      "problemMatcher": [],
+      "label": "npm: dev - examples/spa",
+      "detail": "yarn start"
+    }
+  ]
+}

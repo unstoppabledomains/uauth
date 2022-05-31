@@ -1,27 +1,27 @@
 {
   "name": "@uauth/abstract-ui",
   "version": "1.1.0",
-  "source": "./src/index.ts",
-  "main": "./build/index.cjs",
-  "module": "./build/index.module.mjs",
-  "unpkg": "./build/index.umd.js",
-  "browser": "./build/index.umd.js",
+  "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
     "require": "./build/index.cjs"
   },
-  "type": "module",
+  "main": "./build/index.cjs",
+  "unpkg": "./build/index.umd.js",
+  "module": "./build/index.module.mjs",
+  "source": "./src/index.ts",
+  "browser": "./build/index.umd.js",
   "types": "./build/index.d.ts",
   "files": [
     "build"
   ],
-  "amdName": "UAuthAbstractUI",
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
-    "typecheck": "tsc --noEmit"
+    "release": "../../scripts/release.sh"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "amdName": "UAuthAbstractUI"
 }

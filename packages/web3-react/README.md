@@ -7,4 +7,4 @@ For step-by-step instructions for integrating with `@uath/web3-react`, see the [
 ## Resources
 
 - A more complex [example](../../examples/web3-react/README.md).
-- The `web3-react` library [github](https://github.com/NoahZinsmeister/web3-react).
+- The `web3-react` library [github repo](https://github.com/NoahZinsmeister/web3-react).
