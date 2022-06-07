@@ -1,0 +1,5 @@
+releases:
+  "@uauth/dom-ui": patch
+
+declined:
+  - "@uauth/js"
