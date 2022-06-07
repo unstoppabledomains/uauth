@@ -1,2 +1,5 @@
 releases:
-  "@uauth/dom-ui": minor
+  "@uauth/dom-ui": patch
+
+declined:
+  - "@uauth/js"
