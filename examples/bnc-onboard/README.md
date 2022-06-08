@@ -2,9 +2,33 @@
 
 This is an example project demonstrating the use of [`@uauth/bnc-onboard`](../../packages/bnc-onboard/).
 
-## Files
+## Running this Project
 
-- [index.tsx](./src/index.tsx) - The root of the React app.
+1. Add `localhost:5000/callback` to your [Login Client](https://dashboard.auth.unstoppabledomains.com/) **Redirect URIs**.
+
+2. Set `REACT_APP_CLIENT_ID` in the project's `.env` file. to the `clientID` from your **Client Metadata**.
+
+3. Build your local `uauth` packages.
+    ```sh
+    # From the top level of the uauth repo
+    yarn install
+    yarn build
+    ```    
+    Or add a live version of the `@uauth/onboard` package to this project.
+    ```sh
+    # Inside this project folder
+    yarn add @uauth/bnc-onboard
+    ```
+    
+4. Install the project dependencies.
+    ```shell
+    yarn install
+    ```
+
+4. Start the development server.
+    ```shell
+    yarn start
+    ```
 
 ## Integration Guides
 

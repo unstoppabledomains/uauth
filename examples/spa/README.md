@@ -1,21 +1,33 @@
 # UAuth Developer Demo
 
-This is a simple `create-react-app` demo of a `uauth` integration. If you've never heard of create react app you can learn more [here](https://create-react-app.dev).
+This is a simple `create-react-app` demo of a `uauth` integration using the `@uauth/js` package. If you've never heard of create react app you can learn more [here](https://create-react-app.dev).
 
-The entire demo project is contained and anotated inside the `src/index.ts` file.
+The entire demo project is contained and anotated inside the `src/index.tsx` file.
 
-## Installation
+## Running this Project
 
-This project uses the local versions of the `uauth` packages. If you want to test a particular version of the `uauth` packages you should checkout a version tag of this repo.
+1. Add `localhost:5000/callback` to your [Login Client](https://dashboard.auth.unstoppabledomains.com/) **Redirect URIs**.
 
-Once checked out simply install the dependencies.
+2. In the `Uauth` constructor options in `index.tsx`, set the `clientID` to the `clientID` from your **Client Metadata** and set the `redirectURI` to `http://localhost:5000/callback`.
+    
+3. Build your local copy of the `uauth` repo.
+    ```sh
+    # From the top level of the uauth repo
+    yarn install
+    yarn build
+    ```    
+    Or add a live version of the `@uauth/js` package to the project.
+    ```sh
+    # Inside this project folder
+    yarn add @uauth/js
+    ```
 
-```sh
-yarn install
-```
+4. Install the project dependencies.
+    ```sh
+    yarn install
+    ```
 
-And your good to go!
-
-## Running
-
-Simply run `yarn start` like any other `create-react-app` project.
+5. Start the development server.
+    ```sh
+    yarn start
+    ```

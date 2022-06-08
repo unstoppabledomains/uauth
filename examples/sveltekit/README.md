@@ -1,22 +1,36 @@
 # SvelteKit Example
 
-This project was created with [SvelteKit](https://kit.svelte.dev/).
+This is an example demonstrating the use of [`@uauth/js`](../../packages/js) with [SvelteKit](https://kit.svelte.dev/).
 
-## Notes for building
+## Running this Project
 
-- `@uauth/js` now depends on the WebCrypto Standard alone for all cryptographic functions.
+1. Add `localhost:5000` to your [Login Client](https://dashboard.auth.unstoppabledomains.com/) **Redirect URIs**.
 
-- `@uauth/js` no longer needs any polyfills to work.
+2. Copy the `clientID` from your **Client Metadata** to the `Uauth` constructor options in `index.svelte`.
 
-- `@uauth/js` requires the window object to be accessable when importing it.
+3. Build your local `uauth` packages.
+    ```sh
+    # From the top level of the uauth repo
+    yarn install
+    yarn build
+    ```    
+    Or add a live version of the `@uauth/js` package to this project.
+    ```sh
+    # Inside this project folder
+    yarn add @uauth/js
+    ```
+    
+4. Install the project dependencies.
+    ```shell
+    yarn install
+    ```
 
-  - This means that you cannot import the library at the top-level if you want to keep SvelteKit's SSR system in place. Instead, we are dynamically importing the library.
+5. Start the development server.
+    ```shell
+    yarn dev
+    ```
 
 ## Files
 
 - [lib/uauth.ts](./src/lib/uauth.ts) - The configuration for `@uauth/js`.
 - [routes/index.svelte](./src/routes/index.svelte) - A login page implementation.
-
-## Resources
-
-- This is an example demonstrating the use of [`@uauth/js`](../../packages/js)
