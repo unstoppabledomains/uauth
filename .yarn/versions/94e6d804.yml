@@ -1,6 +1,0 @@
-releases:
-  "@uauth/node": prerelease
-  "@uauth/web3-react": prerelease
-
-declined:
-  - "@uauth/js"
