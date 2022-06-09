@@ -14,7 +14,7 @@ This is an example project demonstrating the use of [`@uauth/bnc-onboard`](../..
     yarn install
     yarn build
     ```    
-    Or add a live version of the `@uauth/onboard` package to this project.
+    Or add a live version of the `@uauth/bnc-onboard` package to this project.
     ```sh
     # Inside this project folder
     yarn add @uauth/bnc-onboard
