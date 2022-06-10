@@ -1,6 +1,6 @@
 {
   "name": "@uauth/abstract-ui",
-  "version": "1.1.0",
+  "version": "1.1.1-rc.1",
   "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
@@ -23,5 +23,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthAbstractUI"
+  "amdName": "UAuthAbstractUI",
+  "stableVersion": "1.1.0"
 }
