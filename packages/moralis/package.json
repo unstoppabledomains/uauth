@@ -1,6 +1,6 @@
 {
   "name": "@uauth/moralis",
-  "version": "1.0.0",
+  "version": "1.1.1-rc.2",
   "type": "commonjs",
   "exports": {
     "import": "./build/index.module.mjs",
@@ -37,5 +37,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthMoralis"
+  "amdName": "UAuthMoralis",
+  "stableVersion": "1.0.0"
 }
