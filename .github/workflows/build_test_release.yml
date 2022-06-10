@@ -215,11 +215,12 @@ jobs:
 
       - name: Tag
         run: |-
-          git commit -am "v${{ steps.evaluate_bump.outputs.new_version }}"
+          git add -u packages/
+          git commit -m "v${{ steps.evaluate_bump.outputs.new_version }}"
           git tag "v${{ steps.evaluate_bump.outputs.new_version }}" -m "v${{ steps.evaluate_bump.outputs.new_version }}"
 
       - name: Publish to NPM
         run: yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} run npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}
 
       - name: Push
-        run: git push --tags
+        run: git push --atomic origin main "v${{ steps.evaluate_bump.outputs.new_version }}"
