@@ -1,0 +1,234 @@
+name: Build, test, and release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        type: choice
+        options: [major, premajor, minor, preminor, patch, prepatch, prerelease]
+        default: prerelease
+        description: Version Bump
+        required: true
+      deployAbstractUI:
+        type: boolean
+        default: false
+        description: Deploy @uauth/abstract-ui
+        required: true
+      deployBNCOnboard:
+        type: boolean
+        default: false
+        description: Deploy @uauth/bnc-onboard
+        required: true
+      deployCommon:
+        type: boolean
+        default: false
+        description: Deploy @uauth/common
+        required: true
+      deployDomUI:
+        type: boolean
+        default: false
+        description: Deploy @uauth/dom-ui
+        required: true
+      deployJS:
+        type: boolean
+        default: false
+        description: Deploy @uauth/js
+        required: true
+      deployMoralis:
+        type: boolean
+        default: false
+        description: Deploy @uauth/moralis
+        required: true
+      deployNode:
+        type: boolean
+        default: false
+        description: Deploy @uauth/node
+        required: true
+      deployWeb3React:
+        type: boolean
+        default: false
+        description: Deploy @uauth/web3-react
+        required: true
+      deployWeb3Modal:
+        type: boolean
+        default: false
+        description: Deploy @uauth/web3modal
+        required: true
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+env:
+  ENVIRONMENT: build
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build
+        run: yarn build
+
+      - uses: actions/cache@v3
+        id: cache-build
+        with:
+          path: '**/build'
+          key: ${{ github.sha }}-${{ github.run_number }}
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: '**/build'
+          key: ${{ github.sha }}-${{ github.run_number }}
+
+      - name: Lint
+        run: yarn lint
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: '**/build'
+          key: ${{ github.sha }}-${{ github.run_number }}
+
+      - name: Test
+        run: yarn test
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' }}
+    needs: [build, lint, test]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # TODO Figure out if we still need to do this
+          # We use fetch-depth: 0 because yarn version check requires it
+          fetch-depth: 0
+
+      - run: git config user.email ${{ github.actor }}@users.noreply.github.com
+      - run: git config user.name ${{ github.actor }}
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - uses: actions/cache@v3
+        id: restore-build
+        with:
+          path: '**/build'
+          key: ${{ github.sha }}-${{ github.run_number }}
+
+      - uses: oprypin/find-latest-tag@v1
+        with:
+          repository: ${{ github.repository }}
+          sort-tags: true
+          regex: '^v\d+\.\d+\.\d+(-rc.\d+)?$'
+        id: get_latest_tag
+
+      - name: Calculate Bump
+        id: calculate_bump
+        run: |-
+          BUMP="${{ github.event.inputs.bump }}"
+          if [[ ${{ github.ref_name != 'main' }} == 'true' && $BUMP != pre* ]]; then
+            BUMP="pre$BUMP"
+          fi
+          echo BUMP $BUMP
+          echo ::set-output name=bump::"$BUMP"
+
+      - name: Evaluate Bump
+        run: echo ::set-output name=new_version::$(yarn dlx --quiet semver --preid rc -i ${{ steps.calculate_bump.outputs.bump }} ${{ steps.get_latest_tag.outputs.tag }})
+        id: evaluate_bump
+
+      - uses: actions/github-script@v6
+        name: Get Workspaces to Deploy
+        id: get_workspaces
+        with:
+          script: |-
+            const inputToWorkspace = {
+              deployAbstractUI: "@uauth/abstract-ui",
+              deployBNCOnboard: "@uauth/bnc-onboard",
+              deployCommon: "@uauth/common",
+              deployDomUI: "@uauth/dom-ui",
+              deployJS: "@uauth/js",
+              deployMoralis: "@uauth/moralis",
+              deployNode: "@uauth/node",
+              deployWeb3React: "@uauth/web3-react",
+              deployWeb3Modal: "@uauth/web3modal"
+            }
+            console.log(context.payload.inputs)
+            return Object
+                .keys(inputToWorkspace)
+                .reduce((a, v) => {
+                  if (context.payload.inputs[v] === 'true') {
+                    a.push(inputToWorkspace[v])
+                  }
+                  return a
+                }, [])
+                .join(',')
+
+      - name: Configure NPM Access Token
+        run: yarn config set npmAuthToken "${{ secrets.NPM_TOKEN }}"
+
+      - name: Get NPM Tag
+        id: get_npm_tag
+        run: |-
+          if [[ ${{ steps.calculate_bump.outputs.bump }} == pre* ]]; then
+            echo ::set-output name=tag::next
+          else
+            echo ::set-output name=tag::latest
+          fi
+
+      - name: Bump package.json Version
+        run: |-
+          variable=${{ steps.get_workspaces.outputs.result }}
+          for workspace in ${variable//,/ }
+          do
+              yarn workspace "$workspace" version ${{ steps.evaluate_bump.outputs.new_version }}
+          done
+
+      - name: Tag
+        run: |-
+          git add -u packages/
+          git commit -m "v${{ steps.evaluate_bump.outputs.new_version }}"
+          git tag "v${{ steps.evaluate_bump.outputs.new_version }}" -m "v${{ steps.evaluate_bump.outputs.new_version }}"
+
+      - name: Publish to NPM
+        run: |-
+          variable=${{ steps.get_workspaces.outputs.result }}
+          for workspace in ${variable//,/ }
+          do
+              yarn workspace "$workspace" npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}
+          done
+
+      - name: Push
+        run: git push --atomic origin main "v${{ steps.evaluate_bump.outputs.new_version }}"

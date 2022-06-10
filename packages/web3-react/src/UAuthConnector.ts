@@ -145,6 +145,8 @@ class UAuthConnector extends AbstractConnector {
         )
       }
 
+      this.uauth.logout()
+
       this._subConnector.deactivate()
     }
   }

@@ -1,6 +1,6 @@
 # Web3 Modal Example
 
-This project was created with [Create React App](https://create-react-app.dev).
+This is an example project demonstrating the use of [`@uauth/web3modal`](../../packages/web3modal/)
 
 ## Files
 
@@ -9,6 +9,6 @@ This project was created with [Create React App](https://create-react-app.dev).
 - [providerOptions.ts](./src/providerOptions.ts) - The configuration for `web3modal`.
 - [App.tsx](./src/App.tsx) - A login page implementation.
 
-## Resources
+## Integration Guides
 
-- This is an example demonstrating the use of [`@uauth/web3modal`](../../packages/web3modal)
+For step-by-step instructions for integrating with `@uath/web3modal`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Web3 Modal](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/web3-modal-guide/) integration guide.

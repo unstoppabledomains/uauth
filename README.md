@@ -2,21 +2,6 @@
 
 Maybe Unstoppauthable...
 
-## Notes on versioning
-
-Until the library reaches `v1.0.0` each minor bump might be breaking. We will try to keep versions as stable as we can throughout development, but there will be no guarantees. However, each patch bump will not be breaking.
-
-**For now it is recommended to install versions of packages using a tilda `~` instead of a caret `^` (the default).**
-
-Yarn has the ability to install packages this way without having to mess with your package.json by installing packages using the `--tilde` flag:
-
-```sh
-yarn add --tilde @uauth/js
-yarn add -T @uauth/js
-```
-
-Once we release the package for version `v1.0.0`, only major releases will be breaking and developers can install the package using the `^` again.
-
 ## Core libraries
 
 - [`@uauth/js`](./packages/js) - SDK used to integrate into SPA applications.
@@ -52,3 +37,7 @@ You should not need to use or expect these libraries to remain stable.
 ## Documentation
 
 For a step by step integration guide and documentation please see our docs. [`login docs`](https://docs.unstoppabledomains.com/login-with-unstoppable/)
+
+## Development
+
+See [DEVELOPMENT.md](./DEVELOPMENT.md) for more.

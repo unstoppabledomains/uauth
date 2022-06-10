@@ -7,7 +7,7 @@
 		clientID: 'fe97f2e9-097d-41e9-af9b-f690eafca7be',
 		redirectUri: 'http://localhost:5000',
 		scope: 'openid wallet',
-		fallbackIssuer: "http://localhost:4444"
+		fallbackIssuer: 'http://localhost:4444'
 	});
 
 	let userPromise: Promise<UserInfo>;

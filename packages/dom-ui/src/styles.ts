@@ -26,6 +26,7 @@ export const container = css`
   width: 100%;
   max-width: 400px;
   position: absolute;
+  color: #000000;
   @media only screen and (max-width: 416px) {
     max-width: calc(100% - 16px);
     height: 100%;

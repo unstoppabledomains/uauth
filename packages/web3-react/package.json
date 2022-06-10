@@ -18,7 +18,7 @@
   "scripts": {
     "build": "microbundle --jsx 'React.createElement'",
     "dev": "microbundle watch --jsx 'React.createElement'",
-    "typecheck": "tsc --noEmit"
+    "release": "../../scripts/release.sh"
   },
   "dependencies": {
     "@uauth/js": "workspace:*",

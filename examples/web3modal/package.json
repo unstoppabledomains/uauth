@@ -2,43 +2,12 @@
   "name": "web3modal",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.0",
-    "@types/node": "^17.0.17",
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.11",
-    "@types/react-router": "^5.1.18",
-    "@types/react-router-dom": "^5.3.3",
-    "@uauth/js": "workspace:*",
-    "@uauth/web3modal": "workspace:*",
-    "@walletconnect/web3-provider": "^1.7.1",
-    "eslint-config-react": "^1.1.7",
-    "eslint-config-react-app": "6",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router": "^6.2.1",
-    "react-router-dom": "^6.2.1",
-    "react-scripts": "^4.0",
-    "typescript": "^4.5.5",
-    "web-vitals": "^2.1.4",
-    "web3": "^1.7.0",
-    "web3modal": "^1.9.5"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "dev": "yarn start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "dev": "yarn start",
+    "eject": "react-scripts eject",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
   },
   "browserslist": {
     "production": [
@@ -51,5 +20,36 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.17",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-router": "^5.1.18",
+    "@types/react-router-dom": "^5.3.3",
+    "@uauth/js": "link:../packages/js",
+    "@uauth/web3modal": "link:../packages/web3modal",
+    "@walletconnect/web3-provider": "^1.7.1",
+    "eslint-config-react": "^1.1.7",
+    "eslint-config-react-app": "6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router": "^6.2.1",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "^4.0",
+    "typescript": "^4.5.5",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.7.0",
+    "web3modal": "^1.9.5"
   }
 }
