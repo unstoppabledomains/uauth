@@ -26,7 +26,7 @@
     "@walletconnect/client": "^1.6",
     "@walletconnect/qrcode-modal": "^1.6",
     "@walletconnect/types": "^1.6",
-    "@web3-onboard/common": "^2.1.0",
+    "@web3-onboard/common": "^2.0",
     "microbundle": "^0.14.2",
     "rxjs": "^7.5.5"
   },
@@ -35,7 +35,7 @@
     "@walletconnect/client": "^1.6",
     "@walletconnect/qrcode-modal": "^1.6",
     "@walletconnect/types": "^1.6",
-    "@web3-onboard/common": "^2.0.7",
+    "@web3-onboard/common": "^2.0",
     "rxjs": "^7.5.5"
   },
   "publishConfig": {
