@@ -124,22 +124,6 @@ jobs:
       - name: Test
         run: yarn test
 
-  # version_check:
-  #   name: Version Check
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.event_name == 'pull_request' }}
-  #   needs: [build]
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-
-  #     - name: Setup
-  #       uses: ./.github/actions/setup
-
-  #     - name: Ensure Valid Versioning
-  #       run: yarn version check
-
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -148,6 +132,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          # TODO Figure out if we still need to do this
           # We use fetch-depth: 0 because yarn version check requires it
           fetch-depth: 0
 
@@ -170,8 +155,6 @@ jobs:
           regex: '^v\d+\.\d+\.\d+(-rc.\d+)?$'
         id: get_latest_tag
 
-      - run: echo "UAuth is at version ${{ steps.get_latest_tag.outputs.tag }}"
-
       - name: Calculate Bump
         id: calculate_bump
         run: |-
@@ -186,9 +169,8 @@ jobs:
         run: echo ::set-output name=new_version::$(yarn dlx --quiet semver --preid rc -i ${{ steps.calculate_bump.outputs.bump }} ${{ steps.get_latest_tag.outputs.tag }})
         id: evaluate_bump
 
-      - run: echo "UAuth was bumped to version ${{ steps.evaluate_bump.outputs.new_version }}"
-
       - uses: actions/github-script@v6
+        name: Get Workspaces to Deploy
         id: get_workspaces
         with:
           script: |-
@@ -228,18 +210,16 @@ jobs:
             echo ::set-output name=tag::latest
           fi
 
-      - name: Version
+      - name: Bump package.json Version
         run: yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} run version ${{ steps.evaluate_bump.outputs.new_version }}
 
       - name: Tag
         run: |-
           git commit -am "v${{ steps.evaluate_bump.outputs.new_version }}"
           git tag "v${{ steps.evaluate_bump.outputs.new_version }}" -m "v${{ steps.evaluate_bump.outputs.new_version }}"
-          git tag
 
-      - name: Publish
-        run: echo "yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} run npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}"
+      - name: Publish to NPM
+        run: yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} run npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}
 
       - name: Push
-        run: exit
-        # git push --tags
+        run: git push --tags
