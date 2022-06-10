@@ -227,7 +227,7 @@ jobs:
           variable=${{ steps.get_workspaces.outputs.result }}
           for workspace in ${variable//,/ }
           do
-              yarn workspace "$workspace" run npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}
+              yarn workspace "$workspace" npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}
           done
 
       - name: Push
