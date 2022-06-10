@@ -203,17 +203,18 @@ jobs:
               deployWeb3React: "@uauth/web3-react",
               deployWeb3Modal: "@uauth/web3modal" 
             }
-            process.stdout.write(
-              `{${Object
+            console.log(context.payload.inputs)
+            return `{${
+              Object
                 .keys(inputToWorkspace)
                 .reduce((a, v) => {
-                  if (context.payload.inputs[v]) {
+                  if (context.payload.inputs[v] === 'true') {
                     a.push(inputToWorkspace[v])
                   }
                   return a
                 }, [])
-                .join(',')}}`
-            )
+                .join(',')
+            }}`
 
       - name: Configure NPM Access Token
         run: yarn config set npmAuthToken "${{ secrets.NPM_TOKEN }}"
@@ -236,7 +237,7 @@ jobs:
           git tag "v${{ steps.evaluate_bump.outputs.new_version }}" -m "v${{ steps.evaluate_bump.outputs.new_version }}"
           git tag
 
-      - name: Release
+      - name: Publish
         run: echo "yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} run npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}"
 
       - name: Push
