@@ -8,6 +8,14 @@
       "problemMatcher": [],
       "label": "npm: dev - examples/spa",
       "detail": "yarn start"
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "path": "examples/web3-onboard",
+      "problemMatcher": [],
+      "label": "npm: dev - examples/web3-onboard",
+      "detail": "yarn start"
     }
   ]
 }

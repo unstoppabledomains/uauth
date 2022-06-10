@@ -4391,7 +4391,7 @@ __metadata:
     "@walletconnect/client": ^1.6
     "@walletconnect/qrcode-modal": ^1.6
     "@walletconnect/types": ^1.6
-    "@web3-onboard/common": ^2.0.7
+    "@web3-onboard/common": ^2.1.0
     microbundle: ^0.14.2
     rxjs: ^7.5.5
   peerDependencies:
@@ -4814,15 +4814,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-onboard/common@npm:^2.0.7":
-  version: 2.0.7
-  resolution: "@web3-onboard/common@npm:2.0.7"
+"@web3-onboard/common@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@web3-onboard/common@npm:2.1.0"
   dependencies:
     "@ethereumjs/common": 2.6.2
     ethers: 5.5.4
     joi: ^17.4.2
     rxjs: ^7.5.2
-  checksum: 163421683dd86eaa8dd281d308128089e073fca7e1cbd461e6f3378e2b8e8270bd1ba392682713bded53e4d56a14034edea93ec6316a159254642c1ecc41957d
+  checksum: ebd41f0681e34bcff4f24e80b1bdb800c05c497abe90295a39949ef992373e4ccca7d7f4694cf9d5d610553be8d8408b6c8e74c2676266934aaab251673a3b57
   languageName: node
   linkType: hard
 
