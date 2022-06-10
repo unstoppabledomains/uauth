@@ -150,7 +150,7 @@ jobs:
 
       - uses: oprypin/find-latest-tag@v1
         with:
-          repository: ${{ github.action_repository }}
+          repository: ${{ github.repository }}
           sort-tags: true
           regex: '^v\d+\.\d+\.\d+(-rc.\d+)?$'
         id: get_latest_tag
@@ -159,7 +159,7 @@ jobs:
         id: calculate_bump
         run: |-
           BUMP="${{ github.event.inputs.bump }}"
-          if [[ ${{ github.ref_name != 'main' }} == 'true' && $BUMP != pre* ]]; then 
+          if [[ ${{ github.ref_name != 'main' }} == 'true' && $BUMP != pre* ]]; then
             BUMP="pre$BUMP"
           fi
           echo BUMP $BUMP
@@ -183,7 +183,7 @@ jobs:
               deployMoralis: "@uauth/moralis",
               deployNode: "@uauth/node",
               deployWeb3React: "@uauth/web3-react",
-              deployWeb3Modal: "@uauth/web3modal" 
+              deployWeb3Modal: "@uauth/web3modal"
             }
             console.log(context.payload.inputs)
             return `{${
