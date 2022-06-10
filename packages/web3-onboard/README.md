@@ -34,7 +34,7 @@ const uauthOptions = {
 }
 const uauthModule = uauthBNCModule(uauthOptions)
 const onboard = Onboard({
-  wallets: [uauthModule]
+  wallets: [uauthModule],
 })
 ```
 
@@ -72,9 +72,7 @@ import onboard from './onboard'
 // On login button click...
 
 await onboard.connectWallet()
-
 ```
-
 
 ## Resources
 
