@@ -124,21 +124,21 @@ jobs:
       - name: Test
         run: yarn test
 
-  version_check:
-    name: Version Check
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  # version_check:
+  #   name: Version Check
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.event_name == 'pull_request' }}
+  #   needs: [build]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Setup
-        uses: ./.github/actions/setup
+  #     - name: Setup
+  #       uses: ./.github/actions/setup
 
-      - name: Ensure Valid Versioning
-        run: yarn version check
+  #     - name: Ensure Valid Versioning
+  #       run: yarn version check
 
   release:
     name: Release
@@ -228,16 +228,16 @@ jobs:
           fi
 
       - name: Version
-        run: yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.data }} run version ${{ steps.evaluate_bump.outputs.new_version }}
+        run: yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} run version ${{ steps.evaluate_bump.outputs.new_version }}
 
       - name: Tag
         run: |-
-          git commit -am "Version ${{ steps.evaluate_bump.outputs.new_version }}"
+          git commit -am "v${{ steps.evaluate_bump.outputs.new_version }}"
           git tag "v${{ steps.evaluate_bump.outputs.new_version }}" -m "v${{ steps.evaluate_bump.outputs.new_version }}"
           git tag
 
       - name: Release
-        run: echo "yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.data }} run npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}"
+        run: echo "yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} run npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}"
 
       - name: Push
         run: exit
