@@ -211,7 +211,7 @@ jobs:
           fi
 
       - name: Bump package.json Version
-        run: yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} run version ${{ steps.evaluate_bump.outputs.new_version }}
+        run: yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.result }} version ${{ steps.evaluate_bump.outputs.new_version }}
 
       - name: Tag
         run: |-
