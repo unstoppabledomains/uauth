@@ -2,10 +2,60 @@ name: Build, test, and release
 
 on:
   workflow_dispatch:
+    inputs:
+      bump:
+        type: choice
+        options: [major, premajor, minor, preminor, patch, prepatch, prerelease]
+        default: prerelease
+        description: Version Bump
+        required: true
+      deployAbstractUI:
+        type: boolean
+        default: false
+        description: Deploy @uauth/abstract-ui
+        required: true
+      deployBNCOnboard:
+        type: boolean
+        default: false
+        description: Deploy @uauth/bnc-onboard
+        required: true
+      deployCommon:
+        type: boolean
+        default: false
+        description: Deploy @uauth/common
+        required: true
+      deployDomUI:
+        type: boolean
+        default: false
+        description: Deploy @uauth/dom-ui
+        required: true
+      deployJS:
+        type: boolean
+        default: false
+        description: Deploy @uauth/js
+        required: true
+      deployMoralis:
+        type: boolean
+        default: false
+        description: Deploy @uauth/moralis
+        required: true
+      deployNode:
+        type: boolean
+        default: false
+        description: Deploy @uauth/node
+        required: true
+      deployWeb3React:
+        type: boolean
+        default: false
+        description: Deploy @uauth/web3-react
+        required: true
+      deployWeb3Modal:
+        type: boolean
+        default: false
+        description: Deploy @uauth/web3modal
+        required: true
   pull_request:
     types: [opened, reopened, synchronize]
-  push:
-    branches: [main, next]
 
 env:
   ENVIRONMENT: build
@@ -113,11 +163,82 @@ jobs:
           path: '**/build'
           key: ${{ github.sha }}-${{ github.run_number }}
 
+      - uses: oprypin/find-latest-tag@v1
+        with:
+          repository: ${{ github.action_repository }}
+          sort-tags: true
+          regex: '^v\d+\.\d+\.\d+(-rc.\d+)?$'
+        id: get_latest_tag
+
+      - run: echo "UAuth is at version ${{ steps.get_latest_tag.outputs.tag }}"
+
+      - name: Calculate Bump
+        id: calculate_bump
+        run: |-
+          BUMP="${{ github.event.inputs.bump }}"
+          if [[ ${{ github.ref_name != 'main' }} == 'true' && $BUMP != pre* ]]; then 
+            BUMP="pre$BUMP"
+          fi
+          echo BUMP $BUMP
+          echo ::set-output name=bump::"$BUMP"
+
+      - name: Evaluate Bump
+        run: echo ::set-output name=new_version::$(yarn dlx --quiet semver --preid rc -i ${{ steps.calculate_bump.outputs.bump }} ${{ steps.get_latest_tag.outputs.tag }})
+        id: evaluate_bump
+
+      - run: echo "UAuth was bumped to version ${{ steps.evaluate_bump.outputs.new_version }}"
+
+      - uses: actions/github-script@v6
+        id: get_workspaces
+        with:
+          script: |-
+            const inputToWorkspace = {
+              deployAbstractUI: "@uauth/abstract-ui",
+              deployBNCOnboard: "@uauth/bnc-onboard",
+              deployCommon: "@uauth/common",
+              deployDomUI: "@uauth/dom-ui",
+              deployJS: "@uauth/js",
+              deployMoralis: "@uauth/moralis",
+              deployNode: "@uauth/node",
+              deployWeb3React: "@uauth/web3-react",
+              deployWeb3Modal: "@uauth/web3modal" 
+            }
+            process.stdout.write(
+              `{${Object
+                .keys(inputToWorkspace)
+                .reduce((a, v) => {
+                  if (context.payload.inputs[v]) {
+                    a.push(inputToWorkspace[v])
+                  }
+                  return a
+                }, [])
+                .join(',')}}`
+            )
+
       - name: Configure NPM Access Token
         run: yarn config set npmAuthToken "${{ secrets.NPM_TOKEN }}"
 
-      - name: Ensure Valid Versioning
-        run: yarn version check
+      - name: Get NPM Tag
+        id: get_npm_tag
+        run: |-
+          if [[ ${{ steps.calculate_bump.outputs.bump }} == pre* ]]; then
+            echo ::set-output name=tag::next
+          else
+            echo ::set-output name=tag::latest
+          fi
+
+      - name: Version
+        run: yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.data }} run version ${{ steps.evaluate_bump.outputs.new_version }}
+
+      - name: Tag
+        run: |-
+          git commit -am "Version ${{ steps.evaluate_bump.outputs.new_version }}"
+          git tag "v${{ steps.evaluate_bump.outputs.new_version }}" -m "v${{ steps.evaluate_bump.outputs.new_version }}"
+          git tag
 
       - name: Release
-        run: yarn workspaces foreach --verbose --no-private --topological-dev run release
+        run: echo "yarn workspaces foreach --verbose --no-private --topological-dev --from ${{ steps.get_workspaces.outputs.data }} run npm publish --tolerate-republish --tag ${{ steps.get_npm_tag.outputs.tag }}"
+
+      - name: Push
+        run: exit
+        # git push --tags
