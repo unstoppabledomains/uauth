@@ -9,11 +9,6 @@ on:
         default: prerelease
         description: Version Bump
         required: true
-      deployAbstractUI:
-        type: boolean
-        default: false
-        description: Deploy @uauth/abstract-ui
-        required: true
       deployBNCOnboard:
         type: boolean
         default: false
@@ -180,7 +175,6 @@ jobs:
         with:
           script: |-
             const inputToWorkspace = {
-              deployAbstractUI: "@uauth/abstract-ui",
               deployBNCOnboard: "@uauth/bnc-onboard",
               deployCommon: "@uauth/common",
               deployDomUI: "@uauth/dom-ui",
