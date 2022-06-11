@@ -54,6 +54,11 @@ on:
         default: false
         description: Deploy @uauth/web3modal
         required: true
+      deployWeb3Onboard:
+        type: boolean
+        default: false
+        description: Deploy @uauth/web3-onboard
+        required: true
   pull_request:
     types: [opened, reopened, synchronize]
 
@@ -183,7 +188,8 @@ jobs:
               deployMoralis: "@uauth/moralis",
               deployNode: "@uauth/node",
               deployWeb3React: "@uauth/web3-react",
-              deployWeb3Modal: "@uauth/web3modal"
+              deployWeb3Modal: "@uauth/web3modal",
+              deployWeb3Onboard: "@uauth/web3-onboard",
             }
             console.log(context.payload.inputs)
             return Object
