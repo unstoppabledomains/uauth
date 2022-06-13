@@ -9,19 +9,19 @@ This is an example project demonstrating the use of [`@uauth/moralis`](../../pac
 2. Set `REACT_APP_CLIENT_ID` in the project's `.env` file. to the `clientID` from your **Client Metadata**.
 
 3. Build your local `uauth` packages.
-    ```sh
+    ```shell
     # From the top level of the uauth repo
     yarn install
     yarn build
     ```    
     Or add a live version of the `@uauth/moralis` package to this project.
-    ```sh
+    ```shell
     # Inside this project folder
     yarn add @uauth/moralis
     ```
 
 4. Install the project dependencies.
-    ```yarn
+    ```shell
     yarn install
     ```
     

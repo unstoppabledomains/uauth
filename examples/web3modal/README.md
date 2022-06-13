@@ -9,24 +9,24 @@ This is an example project demonstrating the use of [`@uauth/web3modal`](../../p
 2. Set the `REACT_APP_CLIENT_ID` in the project's `.env` file to the `clientID` from your **Client Metadata**.
 
 3. Build your local `uauth` packages.
-    ```sh
+    ```shell
     # From the top level of the uauth repo
     yarn install
     yarn build
     ```    
     Or add a live version of the `@uauth/web3modal` package to this project.
-    ```sh
+    ```shell
     # Inside this project folder
     yarn add @uauth/web3modal
     ```
 
 4. Install the project dependencies.
-    ```sh
+    ```shell
     yarn install
     ```
 
 5. Start the development server.
-    ```sh
+    ```shell
     yarn start
     ```
 

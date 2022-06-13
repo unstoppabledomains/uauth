@@ -9,24 +9,24 @@ This is an example project demonstrating the use of [`@uauth/node`](../../packag
 2. Copy the `clientID` from your **Client Metadata** to the `Client` constructor options in `index.ts`.
 
 3. Build your local copy of the `uauth` repo.
-    ```sh
+    ```shell
     # From the top level of the uauth repo
     yarn install
     yarn build
     ```    
     Or add a live version of the `@uauth/node` package to the project.
-    ```sh
+    ```shell
     # Inside this project folder
     yarn add @uauth/node
     ```
     
 4. Install the project dependencies.
-    ```sh
+    ```shell
     yarn install
     ```
 
 6. Start the development server.
-    ```sh
+    ```shell
     yarn start
     ```
 
