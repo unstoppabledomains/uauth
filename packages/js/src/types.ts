@@ -91,6 +91,8 @@ export interface UserInfo
     Partial<PhoneClaims>,
     Partial<ProfileClaims> {
   sub: string
+  eip4361_message?: string
+  eip4361_signature?: string
 }
 
 export interface JWTClaims {
