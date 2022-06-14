@@ -51,6 +51,8 @@ export type WalletType = 'web3' | 'walletconnect'
 export interface WalletClaims {
   wallet_address: string
   wallet_type_hint: WalletType
+  eip4361_message?: string
+  eip4361_signature?: string
 }
 
 export interface EmailClaims {
@@ -91,8 +93,6 @@ export interface UserInfo
     Partial<PhoneClaims>,
     Partial<ProfileClaims> {
   sub: string
-  eip4361_message?: string
-  eip4361_signature?: string
 }
 
 export interface JWTClaims {
