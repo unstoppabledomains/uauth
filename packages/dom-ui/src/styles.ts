@@ -1,6 +1,7 @@
 import {css, keyframes} from '@emotion/css'
 
-export const overlay = css`
+export const overlay = css(
+  `
   position: fixed;
   top: 0;
   left: 0;
@@ -17,24 +18,29 @@ export const overlay = css`
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   }
-`
+`,
+  {label: 'uauth'},
+)
 
-export const container = css`
+export const container = css(
+  `
   background-color: #ffffff;
   border-radius: 4px;
   overflow: hidden;
   width: 100%;
   max-width: 400px;
   position: absolute;
-  color: #000000;
   @media only screen and (max-width: 416px) {
     max-width: calc(100% - 16px);
     height: 100%;
     max-height: calc(100% - 16px);
   }
-`
+`,
+  {label: 'uauth'},
+)
 
-export const close = css`
+export const close = css(
+  `
   position: absolute;
   top: 0;
   right: 0;
@@ -61,18 +67,24 @@ export const close = css`
   &:before {
     content: '\\2715';
   }
-`
+`,
+  {label: 'uauth'},
+)
 
-export const header = css`
+export const header = css(
+  `
   padding: 16px;
   padding-bottom: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`
+`,
+  {label: 'uauth'},
+)
 
-export const logo = css`
+export const logo = css(
+  `
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,33 +99,45 @@ export const logo = css`
     height: 96px;
     /* padding-bottom: 4px; */
   }
-`
+`,
+  {label: 'uauth'},
+)
 
-export const innerCircle = css`
+export const innerCircle = css(
+  `
   width: 192px;
   height: 192px;
   border-radius: 50%;
   border: 1px solid #e8e9ea;
   position: absolute;
-`
+`,
+  {label: 'uauth'},
+)
 
-export const middleCircle = css`
+export const middleCircle = css(
+  `
   width: 240px;
   height: 240px;
   border-radius: 50%;
   border: 1px solid #e8e9eabb;
   position: absolute;
-`
+`,
+  {label: 'uauth'},
+)
 
-export const outerCircle = css`
+export const outerCircle = css(
+  `
   width: 288px;
   height: 288px;
   border-radius: 50%;
   border: 1px solid #e8e9ea66;
   position: absolute;
-`
+`,
+  {label: 'uauth'},
+)
 
-export const title = css`
+export const title = css(
+  `
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -122,9 +146,12 @@ export const title = css`
   background-image: linear-gradient(#fff0, #fff, #fff);
   height: 72px;
   width: calc(100% + 64px);
-`
+`,
+  {label: 'uauth'},
+)
 
-export const content = css`
+export const content = css(
+  `
   padding: 0 16px;
   width: 100%;
   max-width: 375px;
@@ -169,9 +196,12 @@ export const content = css`
       border: 1.5px solid #e0e2ea;
     }
   }
-`
+`,
+  {label: 'uauth'},
+)
 
-export const alert = css`
+export const alert = css(
+  `
   width: 100%;
   text-align: center;
   border-radius: 4px;
@@ -181,9 +211,12 @@ export const alert = css`
   padding: 8px;
   margin-top: 8px;
   font-weight: 600;
-`
+`,
+  {label: 'uauth'},
+)
 
-export const footer = css`
+export const footer = css(
+  `
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -204,12 +237,17 @@ export const footer = css`
     width: 1rem;
     margin-right: 3px;
   }
-`
+`,
+  {label: 'uauth'},
+)
 
-export const hidden = css`
+export const hidden = css(
+  `
   /* visibility: hidden; */
   display: none;
-`
+`,
+  {label: 'uauth'},
+)
 
 export const spin = keyframes`
   0% {
@@ -220,7 +258,8 @@ export const spin = keyframes`
   }
 `
 
-export const loading = css`
+export const loading = css(
+  `
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -235,4 +274,6 @@ export const loading = css`
     border-color: currentColor currentColor currentColor transparent;
     animation: ${spin} 1.2s linear infinite;
   }
-`
+`,
+  {label: 'uauth'},
+)
