@@ -1,6 +1,4 @@
-import type AbstractUI from '@uauth/abstract-ui'
 import type {DomainResolver} from '@uauth/common'
-import type {DomUIConstructorOptions} from '@uauth/dom-ui'
 import type {AuthorizeRequest} from './api'
 import type {Store, StoreType} from './store'
 
@@ -46,13 +44,13 @@ export interface AddressClaim {
   country: string
 }
 
-export type WalletType = 'web3' | 'walletconnect'
+export type WalletType = 'web3' | 'walletconnect' | 'coinbase-wallet'
 
 export interface WalletClaims {
   wallet_address: string
   wallet_type_hint: WalletType
-  eip4361_message?: string
-  eip4361_signature?: string
+  eip4361_message: string
+  eip4361_signature: string
 }
 
 export interface EmailClaims {
@@ -86,12 +84,17 @@ export interface ProfileClaims {
   updated_at: string
 }
 
+export interface HumanityCheckClaims {
+  humanity_check_id: string
+}
+
 export interface UserInfo
   extends Partial<WalletClaims>,
     Partial<EmailClaims>,
     Partial<AddressClaims>,
     Partial<PhoneClaims>,
-    Partial<ProfileClaims> {
+    Partial<ProfileClaims>,
+    Partial<HumanityCheckClaims> {
   sub: string
 }
 
@@ -161,8 +164,6 @@ export interface LogoutCallbackOptions {
 export interface CacheOptions {
   issuer?: boolean | number
   userinfo?: boolean
-  getDefaultUsername(): Promise<string> | string
-  setDefaultUsername?(username: string): Promise<void> | void
 }
 
 export interface ClientOptions {
@@ -183,9 +184,6 @@ export interface ClientOptions {
 
   // Cache Options
   cacheOptions?: CacheOptions
-
-  ui?: AbstractUI<AuthorizeRequest>
-  uiOptions?: DomUIConstructorOptions
 
   // Other Options
   window?: Window | undefined
@@ -208,6 +206,7 @@ export interface BaseLoginOptions {
   redirectUri: string
   responseMode: ResponseMode
   scope: string
+  flowId?: 'login' | 'signup'
 }
 
 export interface LoginOptions extends Partial<BaseLoginOptions> {

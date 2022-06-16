@@ -4,10 +4,9 @@
 	import { onMount } from 'svelte';
 
 	const uauth = new UAuth({
-		clientID: 'fe97f2e9-097d-41e9-af9b-f690eafca7be',
+		clientID: '1421c29a-cf20-4a5c-a6fa-65fbcc8c6151',
 		redirectUri: 'http://localhost:5000',
-		scope: 'openid wallet',
-		fallbackIssuer: 'http://localhost:4444'
+		scope: 'openid wallet'
 	});
 
 	let userPromise: Promise<UserInfo>;

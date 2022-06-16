@@ -3,9 +3,9 @@ import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 
 const uauth = new UAuth({
-  clientID: '6d61d594-773a-4117-8caa-98a6d99f2332',
-  scope: 'openid',
-  redirectUri: '',
+  clientID: '1421c29a-cf20-4a5c-a6fa-65fbcc8c6151',
+  scope: 'openid wallet',
+  redirectUri: 'http://localhost:5000',
 })
 
 const App: React.FC = () => {

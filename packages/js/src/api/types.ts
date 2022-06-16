@@ -11,7 +11,8 @@ export interface AuthorizeRequest extends BaseRequest {
   client_id: string
   code_challenge: string
   code_challenge_method: CodeChallengeMethod
-  login_hint: string
+  login_hint?: string
+  flow_id?: string
   max_age: number
   nonce: string
   prompt: string
@@ -30,6 +31,8 @@ export interface AuthorizeWithJWTRequest {
 export interface PopupConfig {
   timeout?: number
   popup?: Window
+  width?: number
+  height?: number
 }
 
 export interface AuthorizeResponse {

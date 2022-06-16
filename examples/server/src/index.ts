@@ -13,9 +13,8 @@ import 'whatwg-fetch'
 const resolution = new Resolution()
 
 const client = new Client({
-  clientID: 'uauth_example_spa_id',
-  clientSecret: 'uauth_example_spa_secret',
-  redirectUri: 'http://localhost:5000/callback',
+  clientID: '1421c29a-cf20-4a5c-a6fa-65fbcc8c6151',
+  redirectUri: 'http://localhost:5000',
   resolution,
 })
 

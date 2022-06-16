@@ -69,12 +69,15 @@ export default class Api {
     const timeout: number = config.timeout ?? 3600000
 
     if (!popup) {
+      const width = config.width ?? 600
+      const height = config.height ?? 800
+
       popup = window.open(
         url,
         'uauth:authorize:popup',
-        `left=${window.screenX + (window.innerWidth - 400) / 2},top=${
-          window.screenY + (window.innerHeight - 600) / 2
-        },width=400,height=600,resizable,scrollbars=yes,status=1`,
+        `left=${window.screenX + (window.innerWidth - width) / 2},top=${
+          window.screenY + (window.innerHeight - height) / 2
+        },width=${width},height=${height},resizable,scrollbars=yes,status=1`,
       )
 
       if (!popup) {

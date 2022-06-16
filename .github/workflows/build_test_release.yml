@@ -19,11 +19,6 @@ on:
         default: false
         description: Deploy @uauth/common
         required: true
-      deployDomUI:
-        type: boolean
-        default: false
-        description: Deploy @uauth/dom-ui
-        required: true
       deployJS:
         type: boolean
         default: false
@@ -177,7 +172,6 @@ jobs:
             const inputToWorkspace = {
               deployBNCOnboard: "@uauth/bnc-onboard",
               deployCommon: "@uauth/common",
-              deployDomUI: "@uauth/dom-ui",
               deployJS: "@uauth/js",
               deployMoralis: "@uauth/moralis",
               deployNode: "@uauth/node",
