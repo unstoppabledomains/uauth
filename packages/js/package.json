@@ -1,6 +1,6 @@
 {
   "name": "@uauth/js",
-  "version": "1.2.1",
+  "version": "2.0.0-rc.0",
   "source": "./src/index.ts",
   "main": "./build/index.cjs",
   "module": "./build/index.module.mjs",
@@ -24,7 +24,7 @@
     "test-ci": "jest --ci"
   },
   "dependencies": {
-    "@uauth/common": "1.1.0",
+    "@uauth/common": "2.0.0-rc.0",
     "@unstoppabledomains/resolution": "^7.0",
     "global": "^4.4.0",
     "jose": "^4.5.0"
@@ -35,5 +35,6 @@
   },
   "devDependencies": {
     "microbundle": "^0.14.2"
-  }
+  },
+  "stableVersion": "1.2.1"
 }
