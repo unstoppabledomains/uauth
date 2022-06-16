@@ -96,12 +96,6 @@ class ClientStore {
 
     const expiresIn = authorization.expiresAt - Date.now()
 
-    if (this.client.cacheOptions.setDefaultUsername) {
-      await this.client.cacheOptions.setDefaultUsername(
-        authorization.idToken.sub,
-      )
-    }
-
     await this.set('username', authorizationOptions.username, expiresIn)
     await this.set(
       await this._getAuthorizationKey(authorizationOptions),

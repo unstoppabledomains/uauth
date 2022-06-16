@@ -1,4 +1,3 @@
-import AbstractUI from '@uauth/abstract-ui'
 import {
   DefaultIPFSResolver,
   DefaultIssuerResolver,
@@ -6,7 +5,6 @@ import {
   DomainResolver,
   IssuerResolver,
 } from '@uauth/common'
-import DomUI from '@uauth/dom-ui'
 import {
   Resolution,
   ResolutionError,
@@ -53,7 +51,6 @@ export default class Client {
   cacheOptions: CacheOptions
   issuerResolver: IssuerResolver
   resolution: DomainResolver
-  ui: AbstractUI<AuthorizeRequest>
 
   store?: Store
   storeOptions: {
@@ -93,16 +90,6 @@ export default class Client {
       options.fallbackIssuer ?? 'https://auth.unstoppabledomains.com'
     this.resolution = options.resolution ?? new Resolution()
 
-    if (options.ui) {
-      this.ui = options.ui
-    } else {
-      if (options.uiOptions) {
-        this.ui = new DomUI(options.uiOptions)
-      } else {
-        this.ui = new DomUI()
-      }
-    }
-
     this.storeOptions = {
       store: options.store,
       storeType: options.storeType ?? 'localstore',
@@ -111,18 +98,7 @@ export default class Client {
     this.cacheOptions = {
       issuer: false,
       userinfo: true,
-      getDefaultUsername: () =>
-        window.localStorage.getItem('uauth-default-username') ?? '',
       ...(options.cacheOptions ?? {}),
-    }
-
-    if (
-      !options.cacheOptions?.getDefaultUsername &&
-      !options.cacheOptions?.setDefaultUsername
-    ) {
-      this.cacheOptions.setDefaultUsername = (username: string) => {
-        window.localStorage.setItem('uauth-default-username', username)
-      }
     }
 
     this.api = new Api({
@@ -182,96 +158,73 @@ export default class Client {
     })
   }
 
-  private _createAuthorizeRequestBuilder(
+  async buildAuthorizeRequest(
     options: Partial<LoginOptions>,
-  ): (username: string) => Promise<AuthorizeRequest> {
+  ): Promise<AuthorizeRequest> {
     // TODO: Ensure nothing is missing
     const loginOptions: FullLoginOptions = {
       ...this.fallbackLoginOptions,
       ...options,
     } as FullLoginOptions
 
-    const builder = async (username: string): Promise<AuthorizeRequest> => {
-      await new Promise(r => setTimeout(r, 2000))
-      const openidConfiguration = await this.getOpenIdConfiguration(username)
+    const loginHint = options.username
 
-      const {verifier, challenge} =
-        await util.crypto.createCodeChallengeAndVerifier(43, 'S256')
+    const openidConfiguration = await this.getOpenIdConfiguration(loginHint)
 
-      const nonce = util.encoding.toBase64(
-        util.encoding.stringFromBuffer(util.crypto.getRandomBytes(32)),
+    const {verifier, challenge} =
+      await util.crypto.createCodeChallengeAndVerifier(43, 'S256')
 
-        /* util.encoding.textDecoder.decode */
-      )
+    const nonce = util.encoding.toBase64(
+      util.encoding.stringFromBuffer(util.crypto.getRandomBytes(32)),
 
-      const state = util.encoding.encodeState(loginOptions.state)
+      /* util.encoding.textDecoder.decode */
+    )
 
-      const request: AuthorizeRequest = {
-        // Generated options
-        url: openidConfiguration.authorization_endpoint,
-        code_challenge: challenge,
-        nonce,
-        state,
+    const state = util.encoding.encodeState(loginOptions.state)
 
-        // Parameterized options
-        client_id: loginOptions.clientID,
-        client_secret: loginOptions.clientSecret,
-        client_auth_method: loginOptions.clientAuthMethod,
-        login_hint: username,
-        max_age: loginOptions.maxAge,
-        prompt: loginOptions.prompt,
-        resource: loginOptions.resource,
-        redirect_uri: loginOptions.redirectUri,
-        response_mode: loginOptions.responseMode,
-        scope: loginOptions.scope,
+    const request: AuthorizeRequest = {
+      // Generated options
+      url: openidConfiguration.authorization_endpoint,
+      code_challenge: challenge,
+      nonce,
+      state,
 
-        // Constant options
-        code_challenge_method: 'S256',
-        response_type: 'code',
-      }
+      // Builder options
+      flow_id: loginOptions.flowId ?? 'login',
+      login_hint: loginHint,
 
-      await this._clientStore.setAuthorizeRequest(request)
-      await this._clientStore.setVerifier(challenge, verifier)
+      // Parameterized options
+      client_id: loginOptions.clientID,
+      client_secret: loginOptions.clientSecret,
+      client_auth_method: loginOptions.clientAuthMethod,
+      max_age: loginOptions.maxAge,
+      prompt: loginOptions.prompt,
+      resource: loginOptions.resource,
+      redirect_uri: loginOptions.redirectUri,
+      response_mode: loginOptions.responseMode,
+      scope: loginOptions.scope,
 
-      return request
+      // Constant options
+      code_challenge_method: 'S256',
+      response_type: 'code',
     }
 
-    return builder
-  }
+    await this._clientStore.setAuthorizeRequest(request)
+    await this._clientStore.setVerifier(challenge, verifier)
 
-  async buildAuthorizeRequest(
-    options: Partial<LoginOptions>,
-  ): Promise<AuthorizeRequest> {
-    const builder = this._createAuthorizeRequestBuilder(options)
-
-    if (options.username) {
-      return builder(options.username)
-    }
-
-    return this.ui.open({
-      closeOnFinish: false,
-      defaultValue: await this.cacheOptions.getDefaultUsername(),
-      submit: builder,
-    })
+    return request
   }
 
   async loginWithPopup(
     options: Partial<Omit<LoginOptions, 'responseMode'>> = {},
     config?: PopupConfig,
   ): Promise<Authorization> {
-    try {
-      ;(options as Partial<LoginOptions>).responseMode = 'fragment'
-      const request = await this.buildAuthorizeRequest(options)
-      const response = await this.api.authorizeWithPopup(request, config)
-      const authorization = await this.verifyAuthorizeResponse(
-        request,
-        response,
-      )
+    ;(options as Partial<LoginOptions>).responseMode = 'fragment'
+    const request = await this.buildAuthorizeRequest(options)
+    const response = await this.api.authorizeWithPopup(request, config)
+    const authorization = await this.verifyAuthorizeResponse(request, response)
 
-      return authorization
-    } finally {
-      this.ui.close()
-    }
+    return authorization
   }
 
   async login(options: Partial<LoginOptions> = {}): Promise<void> {
@@ -359,22 +312,27 @@ export default class Client {
     return authorization
   }
 
-  async getOpenIdConfiguration(username: string): Promise<any> {
+  async getOpenIdConfiguration(username?: string): Promise<any> {
     if (this.cacheOptions.issuer) {
       const openidConfiguration =
-        await this._clientStore.getOpenIdConfiguration(username)
+        await this._clientStore.getOpenIdConfiguration(username ?? '')
       if (openidConfiguration) {
         return openidConfiguration
       }
     }
 
-    const openidConfiguration = await this.issuerResolver.resolve(
-      username,
-      this.fallbackIssuer,
-    )
+    const openidConfiguration = username
+      ? await this.issuerResolver.resolve(username, this.fallbackIssuer)
+      : await fetch(
+          this.fallbackIssuer + '/.well-known/openid-configuration',
+        ).then(resp =>
+          resp.ok
+            ? resp.json()
+            : Promise.reject(new Error('bad openid-configuration response')),
+        )
 
     await this._clientStore.setOpenIdConfiguration(
-      username,
+      username ?? '',
       openidConfiguration,
       typeof this.cacheOptions.issuer === 'number'
         ? this.cacheOptions.issuer
@@ -415,6 +373,7 @@ export default class Client {
       'wallet_type_hint',
       'eip4361_message',
       'eip4361_signature',
+      'humanity_check_id',
     ]
 
     const authorization = await this.authorization(options)

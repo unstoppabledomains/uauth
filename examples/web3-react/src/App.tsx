@@ -14,7 +14,7 @@ const App: React.FC = () => {
         // Taken from https://github.com/NoahZinsmeister/web3-react/issues/124#issuecomment-817631654
         if (
           connector instanceof WalletConnectConnector &&
-          connector.walletConnectProvider?.wc?.uri
+          connector.walletConnectProvider
         ) {
           connector.walletConnectProvider = undefined
         }

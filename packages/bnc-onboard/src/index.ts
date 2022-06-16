@@ -154,6 +154,7 @@ export default class UAuthBNCOnboard {
           provider.autoRefreshOnNetworkChange = false
 
           provider.wc.on('disconnect', () => {
+            void this.uauth.logout({rpInitiatedLogout: false})
             resetWalletState({disconnected: true, walletName: 'Unstoppable'})
           })
 

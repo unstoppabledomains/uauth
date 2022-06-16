@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react'
 
 const uauth = new UAuth({
   clientID: process.env.NEXT_PUBLIC_CLIENT_ID!,
-  clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET!,
   scope: 'openid email wallet',
   redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI!,
 })

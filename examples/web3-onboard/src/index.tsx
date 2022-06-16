@@ -11,7 +11,6 @@ const walletconnect = walletConnectModule()
 const uauth = new UAuth({
   clientID: process.env.REACT_APP_CLIENT_ID!,
   redirectUri: process.env.REACT_APP_REDIRECT_URI!,
-  fallbackIssuer: process.env.REACT_APP_FALLBACK_ISSUER!,
   scope: 'openid wallet',
 })
 const uauthOptions = {

@@ -6,29 +6,29 @@ This is an example project demonstrating the use of [`@uauth/web3-react`](../../
 
 1. Add `localhost:5000/callback` to your [Login Client](https://dashboard.auth.unstoppabledomains.com/) **Redirect URIs**.
 
-2. Copy the `clientID` from your **Client Metadata** and set the `redirectURI` to `http://localhost:5000/callback` in the `Uauth` constructor options in `index.tsx`.
+2. Copy the `clientID` from your **Client Metadata** and set the `redirectURI` to `http://localhost:5000` in the `Uauth` constructor options in `index.tsx`.
 
 3. Build your local copy of the `uauth` repo.
-    ```shell
-    # From the top level of the uauth repo
-    yarn install
-    yarn build
-    ```    
-    Or add a live version of the `@uauth/web3-react` package to the project.
-    ```shell
-    # Inside this project folder
-    yarn add @uauth/web3-react
-    ```
-    
+   ```shell
+   # From the top level of the uauth repo
+   yarn install
+   yarn build
+   ```
+   Or add a live version of the `@uauth/web3-react` package to the project.
+   ```shell
+   # Inside this project folder
+   yarn add @uauth/web3-react
+   ```
 4. Install the project dependencies.
-    ```shell
-    yarn install
-    ```
 
-6. Start the development server.
-    ```shell
-    yarn start
-    ```
+   ```shell
+   yarn install
+   ```
+
+5. Start the development server.
+   ```shell
+   yarn start
+   ```
 
 ## Files
 
