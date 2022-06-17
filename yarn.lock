@@ -4214,7 +4214,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@uauth/common@1.1.0, @uauth/common@workspace:*, @uauth/common@workspace:packages/common":
+"@uauth/common@workspace:*, @uauth/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@uauth/common@workspace:packages/common"
   dependencies:
@@ -4228,7 +4228,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@uauth/js@workspace:packages/js"
   dependencies:
-    "@uauth/common": 1.1.0
+    "@uauth/common": "workspace:*"
     "@unstoppabledomains/resolution": ^7.0
     global: ^4.4.0
     jose: ^4.5.0
