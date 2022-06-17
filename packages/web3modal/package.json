@@ -31,6 +31,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthWeb3Modal",
-  "stableVersion": "1.1.0"
+  "amdName": "UAuthWeb3Modal"
 }

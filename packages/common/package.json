@@ -29,6 +29,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthCommon",
-  "stableVersion": "1.1.0"
+  "amdName": "UAuthCommon"
 }

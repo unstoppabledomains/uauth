@@ -41,6 +41,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthWeb3Onboard",
-  "stableVersion": "1.2.0"
+  "amdName": "UAuthWeb3Onboard"
 }

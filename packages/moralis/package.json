@@ -37,6 +37,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthMoralis",
-  "stableVersion": "1.0.1"
+  "amdName": "UAuthMoralis"
 }

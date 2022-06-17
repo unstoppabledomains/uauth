@@ -33,6 +33,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthBncOnboard",
-  "stableVersion": "1.1.0"
+  "amdName": "UAuthBncOnboard"
 }

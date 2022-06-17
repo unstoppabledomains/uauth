@@ -28,6 +28,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthWeb3React",
-  "stableVersion": "1.1.0"
+  "amdName": "UAuthWeb3React"
 }

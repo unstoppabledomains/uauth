@@ -1,40 +1,39 @@
 {
   "name": "@uauth/js",
   "version": "2.0.0-rc.0",
-  "source": "./src/index.ts",
-  "main": "./build/index.cjs",
-  "module": "./build/index.module.mjs",
-  "unpkg": "./build/index.umd.js",
-  "browser": "./build/index.umd.js",
+  "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
     "require": "./build/index.cjs"
   },
-  "type": "module",
+  "main": "./build/index.cjs",
+  "unpkg": "./build/index.umd.js",
+  "module": "./build/index.module.mjs",
+  "source": "./src/index.ts",
+  "browser": "./build/index.umd.js",
   "types": "./build/index.d.ts",
   "files": [
     "build"
   ],
-  "amdName": "UAuth",
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
-    "typecheck": "tsc --noEmit",
     "test": "exit; jest --watch",
-    "test-ci": "jest --ci"
+    "test-ci": "jest --ci",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@uauth/common": "2.0.0-rc.0",
+    "@uauth/common": "workspace:*",
     "@unstoppabledomains/resolution": "^7.0",
     "global": "^4.4.0",
     "jose": "^4.5.0"
+  },
+  "devDependencies": {
+    "microbundle": "^0.14.2"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
   },
-  "devDependencies": {
-    "microbundle": "^0.14.2"
-  },
-  "stableVersion": "1.2.1"
+  "amdName": "UAuth"
 }

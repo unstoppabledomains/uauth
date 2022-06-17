@@ -40,6 +40,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthNode",
-  "stableVersion": "1.1.0"
+  "amdName": "UAuthNode"
 }
