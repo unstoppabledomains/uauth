@@ -1,80 +1,11 @@
 # @uauth/web3-onboard
 
-## Installation
+## Integration Guides
 
-```sh
-yarn add @uauth/web3-onboard @uauth/js @web3-onboard/core
-```
+For step-by-step instructions for integrating with `@uath/web3-onboard`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Web3 Onboard](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/web3-onboard-guide/) integration guide.
 
-```typescript
-// ... other uauthOptions properties
-shouldLoginWithRedirect: true
-```
-
-## A Simple Example
-
-### Configuration
-
-```typescript
-//
-// uauthOnboard.ts
-//
-
-const uauth = new UAuth({
-  clientID: process.env.REACT_APP_CLIENT_ID!,
-  redirectUri: process.env.REACT_APP_REDIRECT_URI!,
-  fallbackIssuer: process.env.REACT_APP_FALLBACK_ISSUER!,
-  scope: 'openid wallet',
-})
-const uauthOptions = {
-  uauth: uauth,
-  walletconnect: {
-    infuraId: process.env.REACT_APP_INFURA_ID!,
-  },
-}
-const uauthModule = uauthBNCModule(uauthOptions)
-const onboard = Onboard({
-  wallets: [uauthModule],
-})
-```
-
-Once configured, the `web3-onboard/core` library needs to be configured.
-
-```typescript
-//
-// onboard.ts
-//
-
-import Onboard from '@web3-onboard/core'
-import injectedModule from '@web3-onboard/injected-wallets'
-import uauthBNCModule from '@uauth/web3-onboard'
-
-...
-const uauthModule = uauthBNCModule(uauthOptions)
-...
-
-const onboard = initOnboard({
-    wallets: [injected, uauthModule],
-    ...
-  },
-})
-```
-
-### Usage
-
-```typescript
-//
-// login-page.ts
-//
-
-import onboard from './onboard'
-
-// On login button click...
-
-await onboard.connectWallet()
-```
-
-## Resources
+## Additional Resources
 
 - A more complex [example](../../examples/web3-onboard/README.md).
-- The `web3-onboard` library [github](https://github.com/blocknative/web3-onboard).
+- The `web3-onboard` library [github repo](https://github.com/blocknative/web3-onboard).
+- The `web3-onboard` [docs](https://docs.blocknative.com/onboard).
