@@ -4,11 +4,7 @@ This is an example project demonstrating the use of [`@uauth/web3modal`](../../p
 
 ## Running this Project
 
-1. Add `localhost:5000/callback` to your [Login Client](https://dashboard.auth.unstoppabledomains.com/) **Redirect URIs**.
-
-2. Set the `REACT_APP_CLIENT_ID` in the project's `.env` file to the `clientID` from your **Client Metadata**.
-
-3. Build your local `uauth` packages.
+1. Build your local `uauth` packages.
     ```shell
     # From the top level of the uauth repo
     yarn install
@@ -20,12 +16,12 @@ This is an example project demonstrating the use of [`@uauth/web3modal`](../../p
     yarn add @uauth/web3modal
     ```
 
-4. Install the project dependencies.
+2. Install the project dependencies.
     ```shell
     yarn install
     ```
 
-5. Start the development server.
+3. Start the development server.
     ```shell
     yarn start
     ```

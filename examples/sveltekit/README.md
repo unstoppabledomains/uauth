@@ -4,11 +4,7 @@ This is an example demonstrating the use of [`@uauth/js`](../../packages/js) wit
 
 ## Running this Project
 
-1. Add `localhost:5000` to your [Login Client](https://dashboard.auth.unstoppabledomains.com/) **Redirect URIs**.
-
-2. Copy the `clientID` from your **Client Metadata** to the `Uauth` constructor options in `index.svelte`.
-
-3. Build your local `uauth` packages.
+1. Build your local `uauth` packages.
     ```shell
     # From the top level of the uauth repo
     yarn install
@@ -20,12 +16,12 @@ This is an example demonstrating the use of [`@uauth/js`](../../packages/js) wit
     yarn add @uauth/js
     ```
     
-4. Install the project dependencies.
+2. Install the project dependencies.
     ```shell
     yarn install
     ```
 
-5. Start the development server.
+3. Start the development server.
     ```shell
     yarn dev
     ```

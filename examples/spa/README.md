@@ -6,10 +6,7 @@ The entire demo project is contained and anotated inside the `src/index.tsx` fil
 
 ## Running this Project
 
-1. Add `localhost:5000/callback` to your [Login Client](https://dashboard.auth.unstoppabledomains.com/) **Redirect URIs**.
-
-2. In the `Uauth` constructor options in `index.tsx`, set the `clientID` to the `clientID` from your **Client Metadata** and set the `redirectURI` to `http://localhost:5000`.
-3. Build your local copy of the `uauth` repo.
+1. Build your local copy of the `uauth` repo.
 
    ```shell
    # From the top level of the uauth repo
@@ -24,13 +21,13 @@ The entire demo project is contained and anotated inside the `src/index.tsx` fil
    yarn add @uauth/js
    ```
 
-4. Install the project dependencies.
+2. Install the project dependencies.
 
    ```shell
    yarn install
    ```
 
-5. Start the development server.
+3. Start the development server.
    ```shell
    yarn start
    ```
