@@ -39,3 +39,11 @@ For a step by step integration guide and documentation please see our docs. [`lo
 ## Development
 
 See [DEVELOPMENT.md](./DEVELOPMENT.md) for more.
+
+## Get help
+
+[Join our discord community](https://discord.gg/unstoppabledomains) and ask questions.
+
+## Help us improve
+
+We're always looking for ways to improve how developers use and integrate our products into their applications. We'd love to hear about your experience to help us improve by [taking our survey](https://form.typeform.com/to/uHPQyHO6).
