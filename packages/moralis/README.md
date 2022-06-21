@@ -2,7 +2,7 @@
 
 ## Integration Guides
 
-For step-by-step instructions for integrating with `@uath/moralis`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Moralis](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/moralis-guide/) integration guide.
+For step-by-step instructions for integrating with `@uauth/moralis`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Moralis](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/moralis-guide/) integration guide.
 
 ## Additional Resources
 

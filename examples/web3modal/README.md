@@ -35,4 +35,4 @@ This is an example project demonstrating the use of [`@uauth/web3modal`](../../p
 
 ## Integration Guides
 
-For step-by-step instructions for integrating with `@uath/web3modal`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Web3 Modal](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/web3-modal-guide/) integration guide.
+For step-by-step instructions for integrating with `@uauth/web3modal`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Web3 Modal](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/web3-modal-guide/) integration guide.

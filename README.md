@@ -11,7 +11,9 @@ Maybe Unstoppauthable...
 
 - [`@uauth/web3-react`](./packages/web3-react) - Middleware used to help integrate `@uauth/js` into `web3-react` applications.
 - [`@uauth/web3modal`](./packages/web3modal) - Middleware used to help integrate `@uauth/js` into `web3modal` applications.
+- [`@uauth/web3-onboard`](./packages/web3-onboard/) - Middleware used to help integrate `@uauth/js` into `web3-onboard` applications.
 - [`@uauth/bnc-onboard`](./packages/bnc-onboard) - Middleware used to help integrate `@uauth/js` into `bnc-onboard` applications.
+- [`@uauth/moralis`](./packages/moralis/) - Middleware used to help integrate `@uauth/js` into `moralis` applications.
 
 ### Utility libraries
 
@@ -28,7 +30,9 @@ You should not need to use or expect these libraries to remain stable.
 - [`spa`](./examples/spa) - Basic integration using the `@uauth/js` library.
 - [`web3-react`](./examples/web3-react) - Integration using the `@uauth/js` & `@uauth/web3-react` library.
 - [`web3modal`](./examples/web3modal) - Integration using the `@uauth/js` & `@uauth/web3modal` library.
+- [`web3-onboard`](./examples/web3-onboard/) - Integration using the `@uauth/js` & `@uauth/web3-onboard` library.
 - [`bnc-onboard`](./examples/bnc-onboard) - Integration using the `@uauth/js` & `@uauth/bnc-onboard` library.
+- [`moralis'](./examples/moralis/) - Integration using the `@uauth/js` & `@uauth/moralis` library.
 - [`sveltekit`](./examples/sveltekit) - Integration using the `sveltekit` framework and `@uauth/js`.
 - [`server`](./examples/server) - Integration using the `@uauth/node` library.
 

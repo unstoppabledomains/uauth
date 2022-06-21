@@ -28,4 +28,4 @@ This is an example project demonstrating the use of [`@uauth/node`](../../packag
 
 ## Integration Guides
 
-For step-by-step instructions for integrating with `@uath/web3-react`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Node.js Server](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/node-js-server-guide/) integration guide.
+For step-by-step instructions for integrating with `@uauth/web3-react`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Node.js Server](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/node-js-server-guide/) integration guide.
