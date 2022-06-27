@@ -1,10 +1,11 @@
 import type UAuthSPA from '@uauth/js'
 import type {UAuthConstructorOptions, UserInfo} from '@uauth/js'
-import Web3Modal, {
-  connectors,
+
+import type {
   IAbstractConnectorOptions,
   IProviderDisplay,
 } from 'web3modal'
+import Web3Modal, { connectors } from 'web3modal'
 
 export interface IUAuthOptions
   extends Partial<IAbstractConnectorOptions>,
