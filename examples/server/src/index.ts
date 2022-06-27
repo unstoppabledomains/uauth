@@ -13,8 +13,9 @@ import 'whatwg-fetch'
 const resolution = new Resolution()
 
 const client = new Client({
-  clientID: '1421c29a-cf20-4a5c-a6fa-65fbcc8c6151',
-  redirectUri: 'http://localhost:5000',
+  clientID: '1f7296d5-e6de-4a70-bcfd-c6a6d90e3974',
+  clientSecret: 'gTHcQVsVC~1RgXfnC.tkEc4rQ3',
+  redirectUri: 'http://localhost:5000/callback',
   resolution,
 })
 
@@ -25,7 +26,6 @@ app.use(morgan('dev'))
 app.get('/', (_, res) => {
   const indexPage = `<!DOCTYPE html><html><body>
 <form action="/login" method="POST">
-  <input name="login_hint" id="login_hint" />
   <button type="submit">Login</button>
 </form></body></html>`
 
@@ -41,14 +41,10 @@ app.use(express.urlencoded({extended: true}))
 const {login, callback, middleware} = client.createExpressSessionLogin()
 
 app.post('/login', (req, res, next) => {
-  return login(req, res, next, {
-    username: req.body.login_hint,
-  })
+  return login(req, res, next, {})
 })
 
 app.post('/callback', async (req, res, next) => {
-  console.log('Calling back!')
-
   await callback(req, res, next)
 
   return res.redirect('/profile')
