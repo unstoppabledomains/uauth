@@ -59,7 +59,7 @@ export type ClientConstructorOptions = Optional<
 >
 
 interface BuildAuthorizationUrlAndInteractionOptions {
-  username: string
+  username?: string
 }
 
 interface LoginOptions extends BuildAuthorizationUrlAndInteractionOptions {
@@ -184,10 +184,18 @@ class Client {
   async buildAuthorizationUrlAndInteraction(
     options: BuildAuthorizationUrlAndInteractionOptions,
   ): Promise<{url: string; interaction: Interaction}> {
-    const openidConfiguration = await this.issuerResolver.resolve(
-      options.username,
-      this.options.fallbackIssuer,
-    )
+    const openidConfiguration = options.username
+      ? await this.issuerResolver.resolve(
+          options.username,
+          this.options.fallbackIssuer,
+        )
+      : await fetch(
+          this.options.fallbackIssuer + '/.well-known/openid-configuration',
+        ).then(resp =>
+          resp.ok
+            ? resp.json()
+            : Promise.reject(new Error('bad openid-configuration response')),
+        )
 
     if (!openidConfiguration.authorization_endpoint) {
       throw new Error('no authorization_endpoint')

@@ -237,7 +237,7 @@ export interface AuthorizationEndpointRequest {
   client_id: string
   code_challenge: string
   code_challenge_method: CodeChallengeMethod
-  login_hint: string
+  login_hint?: string
   max_age: number // number ?
   nonce: string
   prompt: string
