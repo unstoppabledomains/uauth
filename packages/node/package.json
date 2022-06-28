@@ -1,6 +1,6 @@
 {
   "name": "@uauth/node",
-  "version": "2.0.0",
+  "version": "2.0.1-rc.0",
   "type": "commonjs",
   "exports": {
     "module": "./build/index.module.js",
@@ -40,5 +40,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthNode"
+  "amdName": "UAuthNode",
+  "stableVersion": "2.0.0"
 }
