@@ -32,7 +32,7 @@ You should not need to use or expect these libraries to remain stable.
 - [`web3modal`](./examples/web3modal) - Integration using the `@uauth/js` & `@uauth/web3modal` library.
 - [`web3-onboard`](./examples/web3-onboard/) - Integration using the `@uauth/js` & `@uauth/web3-onboard` library.
 - [`bnc-onboard`](./examples/bnc-onboard) - Integration using the `@uauth/js` & `@uauth/bnc-onboard` library.
-- [`moralis'](./examples/moralis/) - Integration using the `@uauth/js` & `@uauth/moralis` library.
+- [`moralis`](./examples/moralis/) - Integration using the `@uauth/js` & `@uauth/moralis` library.
 - [`sveltekit`](./examples/sveltekit) - Integration using the `sveltekit` framework and `@uauth/js`.
 - [`server`](./examples/server) - Integration using the `@uauth/node` library.
 
