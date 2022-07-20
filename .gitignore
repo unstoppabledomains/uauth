@@ -183,4 +183,4 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-**/src/version.ts
+packages/*/src/version.ts
