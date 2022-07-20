@@ -16,9 +16,10 @@
     "build"
   ],
   "scripts": {
-    "build": "microbundle --jsx 'React.createElement'",
-    "dev": "microbundle watch --jsx 'React.createElement'",
-    "release": "../../scripts/release.sh"
+    "build": "yarn export-version; microbundle --jsx 'React.createElement'",
+    "dev": "yarn export-version; microbundle watch --jsx 'React.createElement'",
+    "release": "../../scripts/release.sh",
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
   },
   "dependencies": {
     "@uauth/js": "workspace:*",

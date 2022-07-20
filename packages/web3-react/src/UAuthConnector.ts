@@ -10,6 +10,11 @@ import {
   ConnectorEvent,
   ConnectorUpdate,
 } from '@web3-react/types'
+import {VERSION} from './version'
+
+const _w = window as any
+_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+_w.UAUTH_VERSION.WEB3_REACT = VERSION
 
 export interface UAuthConnectors {
   injected: AbstractConnector

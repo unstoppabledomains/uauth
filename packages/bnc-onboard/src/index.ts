@@ -6,6 +6,11 @@ import type {
 } from '@uauth/js'
 import type {IWalletConnectProviderOptions} from '@walletconnect/types'
 import type {API, WalletModule} from 'bnc-onboard/dist/src/interfaces'
+import {VERSION} from './version'
+
+const _w = window as any
+_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+_w.UAUTH_VERSION.BNC_ONBOARD = VERSION
 
 export interface ConstructorOptions extends Partial<UAuthConstructorOptions> {
   uauth?: UAuth

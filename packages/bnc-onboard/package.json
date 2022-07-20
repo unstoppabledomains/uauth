@@ -14,9 +14,10 @@
     "build"
   ],
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
-    "release": "../../scripts/release.sh"
+    "build": "yarn export-version; microbundle",
+    "dev": "yarn export-version; microbundle watch",
+    "release": "../../scripts/release.sh",
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
   },
   "dependencies": {
     "@uauth/js": "workspace:*",

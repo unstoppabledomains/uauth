@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type UAuth from '@uauth/js'
 import type {UAuthConstructorOptions, UserInfo} from '@uauth/js'
-
 import AbstractWeb3Connector from './AbstractWeb3Connector'
 
 import {getMoralisRpcs} from './MoralisRpcs'
 import verifyChainId from './Utils'
+import {VERSION} from './version'
+
+const _w = window as any
+_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+_w.UAUTH_VERSION.MORALIS = VERSION
 
 interface Window {
   WalletConnectProvider: any
