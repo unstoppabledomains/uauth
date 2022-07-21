@@ -218,6 +218,7 @@ jobs:
 
       - name: Publish to NPM
         run: |-
+          yarn build
           variable=${{ steps.get_workspaces.outputs.result }}
           for workspace in ${variable//,/ }
           do
@@ -225,4 +226,4 @@ jobs:
           done
 
       - name: Push
-        run: git push --atomic origin main "v${{ steps.evaluate_bump.outputs.new_version }}"
+        run: git push --atomic origin ${{ github.ref_name }} "v${{ steps.evaluate_bump.outputs.new_version }}"
