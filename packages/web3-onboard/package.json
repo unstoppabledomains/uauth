@@ -1,6 +1,6 @@
 {
   "name": "@uauth/web3-onboard",
-  "version": "2.0.0",
+  "version": "2.0.1-rc.1",
   "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
@@ -14,9 +14,10 @@
     "build"
   ],
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
-    "typecheck": "tsc --noEmit"
+    "build": "yarn export-version; microbundle",
+    "dev": "yarn export-version; microbundle watch",
+    "typecheck": "tsc --noEmit",
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
   },
   "dependencies": {
     "@uauth/js": "workspace:*"
@@ -41,5 +42,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthWeb3Onboard"
+  "amdName": "UAuthWeb3Onboard",
+  "stableVersion": "2.0.0"
 }

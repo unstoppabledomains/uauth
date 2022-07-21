@@ -5,6 +5,11 @@ import Web3Modal, {
   IAbstractConnectorOptions,
   IProviderDisplay,
 } from 'web3modal'
+import {VERSION} from './version'
+
+const _w = window as any
+_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+_w.UAUTH_VERSION.WEB3MODAL = VERSION
 
 export interface IUAuthOptions
   extends Partial<IAbstractConnectorOptions>,

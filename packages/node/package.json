@@ -1,6 +1,6 @@
 {
   "name": "@uauth/node",
-  "version": "2.0.1",
+  "version": "2.0.1-rc.1",
   "type": "commonjs",
   "exports": {
     "module": "./build/index.module.js",
@@ -18,7 +18,8 @@
   "scripts": {
     "build": "microbundle --target node",
     "dev": "microbundle watch --target node",
-    "release": "../../scripts/release.sh"
+    "release": "../../scripts/release.sh",
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
   },
   "dependencies": {
     "@types/express": "^4.17.13",
@@ -40,5 +41,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthNode"
+  "amdName": "UAuthNode",
+  "stableVersion": "2.0.1"
 }

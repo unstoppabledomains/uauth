@@ -40,6 +40,11 @@ import {
   UserOptions,
 } from './types'
 import * as util from './util'
+import {VERSION} from './version'
+
+const _w = window as any
+_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+_w.UAUTH_VERSION.JS = VERSION
 
 export default class Client {
   util = util
