@@ -1,6 +1,6 @@
 {
   "name": "@uauth/bnc-onboard",
-  "version": "2.0.0",
+  "version": "2.0.1-rc.1",
   "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
@@ -34,5 +34,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthBncOnboard"
+  "amdName": "UAuthBncOnboard",
+  "stableVersion": "2.0.0"
 }

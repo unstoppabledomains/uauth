@@ -1,6 +1,6 @@
 {
   "name": "@uauth/common",
-  "version": "2.0.1",
+  "version": "2.0.1-rc.1",
   "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
@@ -30,5 +30,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthCommon"
+  "amdName": "UAuthCommon",
+  "stableVersion": "2.0.1"
 }
