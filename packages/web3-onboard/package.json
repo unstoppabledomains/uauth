@@ -1,6 +1,6 @@
 {
   "name": "@uauth/web3-onboard",
-  "version": "2.0.1-rc.1",
+  "version": "2.1.0",
   "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
@@ -42,6 +42,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthWeb3Onboard",
-  "stableVersion": "2.0.0"
+  "amdName": "UAuthWeb3Onboard"
 }
