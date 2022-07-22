@@ -8,9 +8,11 @@ import type {IWalletConnectProviderOptions} from '@walletconnect/types'
 import type {API, WalletModule} from 'bnc-onboard/dist/src/interfaces'
 import {VERSION} from './version'
 
-const _w = window as any
-_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
-_w.UAUTH_VERSION.BNC_ONBOARD = VERSION
+if (typeof window !== 'undefined') {
+  const _w = window as any
+  _w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+  _w.UAUTH_VERSION.BNC_ONBOARD = VERSION
+}
 
 export interface ConstructorOptions extends Partial<UAuthConstructorOptions> {
   uauth?: UAuth
@@ -126,7 +128,10 @@ export default class UAuthBNCOnboard {
           }
 
           if (this.options.shouldLoginWithRedirect) {
-            await this.uauth.login()
+            await this.uauth.login({
+              packageName: '@uauth/bnc-onboard',
+              packageVersion: VERSION,
+            })
 
             // NOTE: We don't want to throw because the page will take some time to
             // load the redirect page.
@@ -135,7 +140,10 @@ export default class UAuthBNCOnboard {
             // We need to throw here otherwise typescript won't know that user isn't null.
             throw new Error('Should never get here.')
           } else {
-            await this.uauth.loginWithPopup()
+            await this.uauth.loginWithPopup({
+              packageName: '@uauth/bnc-onboard',
+              packageVersion: VERSION,
+            })
             user = await this.uauth.user()
           }
         }

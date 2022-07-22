@@ -22,6 +22,8 @@ export interface AuthorizeRequest extends BaseRequest {
   response_mode: ResponseMode
   scope: string
   state: string
+  package_name?: string
+  package_version?: string
 }
 
 export interface AuthorizeWithJWTRequest {

@@ -207,6 +207,8 @@ export interface BaseLoginOptions {
   responseMode: ResponseMode
   scope: string
   flowId?: 'login' | 'signup'
+  packageName?: string
+  packageVersion?: string
 }
 
 export interface LoginOptions extends Partial<BaseLoginOptions> {

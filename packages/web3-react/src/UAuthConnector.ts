@@ -12,9 +12,11 @@ import {
 } from '@web3-react/types'
 import {VERSION} from './version'
 
-const _w = window as any
-_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
-_w.UAUTH_VERSION.WEB3_REACT = VERSION
+if (typeof window !== 'undefined') {
+  const _w = window as any
+  _w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+  _w.UAUTH_VERSION.WEB3_REACT = VERSION
+}
 
 export interface UAuthConnectors {
   injected: AbstractConnector
@@ -92,7 +94,10 @@ class UAuthConnector extends AbstractConnector {
       }
 
       if (this.options.shouldLoginWithRedirect) {
-        await this.uauth.login()
+        await this.uauth.login({
+          packageName: '@uauth/web3-react',
+          packageVersion: VERSION,
+        })
 
         // NOTE: We don't want to throw because the page will take some time to
         // load the redirect page.
@@ -101,7 +106,10 @@ class UAuthConnector extends AbstractConnector {
         // We need to throw here otherwise typescript won't know that user isn't null.
         throw new Error('Should never get here.')
       } else {
-        await this.uauth.loginWithPopup()
+        await this.uauth.loginWithPopup({
+          packageName: '@uauth/web3-react',
+          packageVersion: VERSION,
+        })
         user = await this.uauth.user()
       }
     }
