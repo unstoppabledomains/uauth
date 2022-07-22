@@ -14,9 +14,11 @@ import {
 } from '@web3-onboard/common'
 import {VERSION} from './version'
 
-const _w = window as any
-_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
-_w.UAUTH_VERSION.WEB3_ONBOARD = VERSION
+if (typeof window !== 'undefined') {
+  const _w = window as any
+  _w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+  _w.UAUTH_VERSION.WEB3_ONBOARD = VERSION
+}
 
 export interface ConstructorOptions {
   uauth: UAuth
@@ -50,7 +52,10 @@ export default function uauthBNCModule(
           }
 
           if (options.shouldLoginWithRedirect) {
-            await uauth.login()
+            await uauth.login({
+              packageName: '@uauth/web3-onboard',
+              packageVersion: VERSION,
+            })
 
             // NOTE: We don't want to throw because the page will take some time to
             // load the redirect page.
@@ -59,7 +64,10 @@ export default function uauthBNCModule(
             // We need to throw here otherwise typescript won't know that user isn't null.
             throw new Error('Should never get here.')
           } else {
-            await uauth.loginWithPopup()
+            await uauth.loginWithPopup({
+              packageName: '@uauth/web3-onboard',
+              packageVersion: VERSION,
+            })
             user = await uauth.user()
           }
         }

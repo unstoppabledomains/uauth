@@ -42,9 +42,11 @@ import {
 import * as util from './util'
 import {VERSION} from './version'
 
-const _w = window as any
-_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
-_w.UAUTH_VERSION.JS = VERSION
+if (typeof window !== 'undefined') {
+  const _w = window as any
+  _w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+  _w.UAUTH_VERSION.JS = VERSION
+}
 
 export default class Client {
   util = util
@@ -212,6 +214,10 @@ export default class Client {
       // Constant options
       code_challenge_method: 'S256',
       response_type: 'code',
+
+      // package info
+      package_name: loginOptions?.packageName || '@uauth/js',
+      package_version: loginOptions?.packageVersion || VERSION,
     }
 
     await this._clientStore.setAuthorizeRequest(request)

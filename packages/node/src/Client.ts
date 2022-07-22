@@ -13,6 +13,7 @@ import {
 import type {Request, Response, NextFunction} from 'express'
 import {generateCodeChallengeAndVerifier, getRandomBytes} from './util'
 import verifyIdToken from './verifyIdToken'
+import {VERSION} from './version'
 
 interface Interaction {
   state: string
@@ -224,6 +225,8 @@ class Client {
       response_mode: 'form_post',
       scope: this.options.scope,
       prompt: 'login',
+      package_name: '@uauth/node',
+      package_version: VERSION,
     }
 
     const interaction: Interaction = {

@@ -7,9 +7,11 @@ import Web3Modal, {
 } from 'web3modal'
 import {VERSION} from './version'
 
-const _w = window as any
-_w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
-_w.UAUTH_VERSION.WEB3MODAL = VERSION
+if (typeof window !== 'undefined') {
+  const _w = window as any
+  _w.UAUTH_VERSION = _w.UAUTH_VERSION || {}
+  _w.UAUTH_VERSION.WEB3MODAL = VERSION
+}
 
 export interface IUAuthOptions
   extends Partial<IAbstractConnectorOptions>,
@@ -50,7 +52,10 @@ export const connector = async (
     }
 
     if (opts.shouldLoginWithRedirect) {
-      await uauth.login()
+      await uauth.login({
+        packageName: '@uauth/web3modal',
+        packageVersion: VERSION,
+      })
 
       // NOTE: We don't want to throw because the page will take some time to
       // load the redirect page.
@@ -59,7 +64,10 @@ export const connector = async (
       // We need to throw here otherwise typescript won't know that user isn't null.
       throw new Error('Should never get here.')
     } else {
-      await uauth.loginWithPopup()
+      await uauth.loginWithPopup({
+        packageName: '@uauth/web3modal',
+        packageVersion: VERSION,
+      })
       user = await uauth.user()
     }
   }

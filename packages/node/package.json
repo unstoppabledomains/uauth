@@ -16,8 +16,8 @@
     "build"
   ],
   "scripts": {
-    "build": "microbundle --target node",
-    "dev": "microbundle watch --target node",
+    "build": "yarn export-version; microbundle --target node",
+    "dev": "yarn export-version; microbundle watch --target node",
     "release": "../../scripts/release.sh",
     "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
   },

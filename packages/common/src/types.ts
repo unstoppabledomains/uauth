@@ -250,6 +250,10 @@ export interface AuthorizationEndpointRequest {
   // sessionToken: string
   state: string
 
+  // version tracking
+  package_name?: string
+  package_version?: string
+
   // Added for Index Signature
   [key: string]: any
 }
