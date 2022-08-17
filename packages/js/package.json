@@ -17,15 +17,15 @@
   ],
   "scripts": {
     "build": "yarn export-version; microbundle",
-    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts",
     "dev": "yarn export-version; microbundle watch",
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts",
     "test": "exit; jest --watch",
     "test-ci": "jest --ci",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@uauth/common": "workspace:*",
-    "@unstoppabledomains/resolution": "^7.0",
+    "@unstoppabledomains/resolution": "^8.0",
     "global": "^4.4.0",
     "jose": "^4.5.0"
   },

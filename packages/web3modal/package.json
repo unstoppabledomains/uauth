@@ -1,25 +1,15 @@
 {
   "name": "@uauth/web3modal",
   "version": "2.2.0",
-  "type": "module",
-  "exports": {
-    "import": "./build/index.module.mjs",
-    "require": "./build/index.cjs"
-  },
-  "main": "./build/index.cjs",
-  "unpkg": "./build/index.umd.js",
-  "module": "./build/index.module.mjs",
-  "source": "./src/index.ts",
-  "browser": "./build/index.umd.js",
-  "types": "./build/index.d.ts",
+  "main": "./build/index.js",
   "files": [
     "build"
   ],
   "scripts": {
     "build": "yarn export-version; microbundle",
     "dev": "yarn export-version; microbundle watch",
-    "release": "../../scripts/release.sh",
-    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts",
+    "release": "../../scripts/release.sh"
   },
   "devDependencies": {
     "@uauth/js": "workspace:*",
@@ -31,6 +21,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "amdName": "UAuthWeb3Modal"
+  }
 }

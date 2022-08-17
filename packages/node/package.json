@@ -18,8 +18,8 @@
   "scripts": {
     "build": "yarn export-version; microbundle --target node",
     "dev": "yarn export-version; microbundle watch --target node",
-    "release": "../../scripts/release.sh",
-    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts",
+    "release": "../../scripts/release.sh"
   },
   "dependencies": {
     "@types/express": "^4.17.13",
@@ -29,12 +29,12 @@
     "jwk-to-pem": "^2.0.5"
   },
   "devDependencies": {
-    "@unstoppabledomains/resolution": "^7.0",
+    "@unstoppabledomains/resolution": "^8.0",
     "express": "^4.17",
     "express-session": "^1.17"
   },
   "peerDependencies": {
-    "@unstoppabledomains/resolution": "^7.0",
+    "@unstoppabledomains/resolution": "^8.0",
     "express": "^4.17",
     "express-session": "^1.17"
   },
