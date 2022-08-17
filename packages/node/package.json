@@ -1,6 +1,6 @@
 {
   "name": "@uauth/node",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "commonjs",
   "exports": {
     "module": "./build/index.module.js",
