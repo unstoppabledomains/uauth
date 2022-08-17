@@ -18,14 +18,14 @@
   "scripts": {
     "build": "yarn export-version; microbundle",
     "dev": "yarn export-version; microbundle watch",
-    "release": "../../scripts/release.sh",
-    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts",
+    "release": "../../scripts/release.sh"
   },
   "devDependencies": {
-    "@unstoppabledomains/resolution": "^7.0"
+    "@unstoppabledomains/resolution": "^8.0"
   },
   "peerDependencies": {
-    "@unstoppabledomains/resolution": "^7.0"
+    "@unstoppabledomains/resolution": "^8.0"
   },
   "publishConfig": {
     "access": "public"
