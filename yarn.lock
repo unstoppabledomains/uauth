@@ -4218,9 +4218,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@uauth/common@workspace:packages/common"
   dependencies:
-    "@unstoppabledomains/resolution": ^7.0
+    "@unstoppabledomains/resolution": ^8.0
   peerDependencies:
-    "@unstoppabledomains/resolution": ^7.0
+    "@unstoppabledomains/resolution": ^8.0
   languageName: unknown
   linkType: soft
 
@@ -4229,7 +4229,7 @@ __metadata:
   resolution: "@uauth/js@workspace:packages/js"
   dependencies:
     "@uauth/common": "workspace:*"
-    "@unstoppabledomains/resolution": ^7.0
+    "@unstoppabledomains/resolution": ^8.0
     global: ^4.4.0
     jose: ^4.5.0
     microbundle: ^0.14.2
@@ -4259,13 +4259,13 @@ __metadata:
     "@types/express": ^4.17.13
     "@types/express-session": ^1.17.4
     "@uauth/common": "workspace:*"
-    "@unstoppabledomains/resolution": ^7.0
+    "@unstoppabledomains/resolution": ^8.0
     express: ^4.17
     express-session: ^1.17
     jsonwebtoken: ^8.5.1
     jwk-to-pem: ^2.0.5
   peerDependencies:
-    "@unstoppabledomains/resolution": ^7.0
+    "@unstoppabledomains/resolution": ^8.0
     express: ^4.17
     express-session: ^1.17
   languageName: unknown
@@ -4315,17 +4315,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@unstoppabledomains/resolution@npm:^7.0":
-  version: 7.1.4
-  resolution: "@unstoppabledomains/resolution@npm:7.1.4"
+"@unstoppabledomains/resolution@npm:^8.0":
+  version: 8.3.1
+  resolution: "@unstoppabledomains/resolution@npm:8.3.1"
   dependencies:
     "@ethersproject/abi": ^5.0.1
     bn.js: ^4.4.0
     cross-fetch: ^3.1.4
+    crypto-js: ^4.1.1
     elliptic: ^6.5.4
-    js-sha256: ^0.9.0
-    js-sha3: ^0.8.0
-  checksum: 689cea35c198ef827dbdcfca9f143fd880cee1e36ec964dd55d48d3d6ac501effe137d115b9908b4106344e2618501032b07ba8cc7f4ef9349696284d667d6b1
+  checksum: afdac005f8b299fa53e187f142bff17e5ac54fafb0e7a2a28ea8649463a07b49f0a73c019a516a06995084514e57bffded0c4a3a466df9b8dec90a74baeb8357
   languageName: node
   linkType: hard
 
@@ -6832,7 +6831,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:4.1.1, crypto-js@npm:^4.0.0":
+"crypto-js@npm:4.1.1, crypto-js@npm:^4.0.0, crypto-js@npm:^4.1.1":
   version: 4.1.1
   resolution: "crypto-js@npm:4.1.1"
   checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
@@ -10964,7 +10963,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-sha256@npm:0.9.0, js-sha256@npm:^0.9.0":
+"js-sha256@npm:0.9.0":
   version: 0.9.0
   resolution: "js-sha256@npm:0.9.0"
   checksum: ffad54b3373f81581e245866abfda50a62c483803a28176dd5c28fd2d313e0bdf830e77dac7ff8afd193c53031618920f3d98daf21cbbe80082753ab639c0365
