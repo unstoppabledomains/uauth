@@ -13,7 +13,7 @@ This is an example project demonstrating the use of [`@uauth/bnc-onboard`](../..
     Or add a live version of the `@uauth/bnc-onboard` package to this project.
     ```shell
     # Inside this project folder
-    yarn add @uauth/bnc-onboard
+    yarn add @uauth/js @uauth/bnc-onboard
     ```
     
 2. Install the project dependencies.

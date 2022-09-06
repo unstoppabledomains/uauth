@@ -13,7 +13,7 @@ This is an example project demonstrating the use of [`@uauth/moralis`](../../pac
     Or add a live version of the `@uauth/moralis` package to this project.
     ```shell
     # Inside this project folder
-    yarn add @uauth/moralis
+    yarn add @uauth/js @uauth/moralis
     ```
 
 2. Install the project dependencies.

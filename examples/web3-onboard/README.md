@@ -13,7 +13,7 @@ This is an example project demonstrating the use of [`@uauth/web3-onboard`](../.
     Or add live versions of the `@uauth/js` and `@uauth/web3-onboard` packages to this project.
     ```shell
     # Inside this project folder
-    yarn add @uauth/web3-onboard
+    yarn add @uauth/js @uauth/web3-onboard
     ```
     
 2. Install the project dependencies.

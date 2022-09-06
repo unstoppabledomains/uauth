@@ -13,7 +13,7 @@ This is an example project demonstrating the use of [`@uauth/web3modal`](../../p
     Or add a live version of the `@uauth/web3modal` package to this project.
     ```shell
     # Inside this project folder
-    yarn add @uauth/web3modal
+    yarn add @uauth/js @uauth/web3modal
     ```
 
 2. Install the project dependencies.

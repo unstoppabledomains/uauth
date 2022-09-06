@@ -13,7 +13,7 @@ This is an example project demonstrating the use of [`@uauth/web3-react`](../../
    Or add a live version of the `@uauth/web3-react` package to the project.
    ```shell
    # Inside this project folder
-   yarn add @uauth/web3-react
+   yarn add @uauth/js @uauth/web3-react
    ```
 2. Install the project dependencies.
 
