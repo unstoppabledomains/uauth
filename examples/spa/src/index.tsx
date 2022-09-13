@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 
 const uauth = new UAuth({
-  clientID: '1421c29a-cf20-4a5c-a6fa-65fbcc8c6151',
+  clientID: '096fea0f-d284-4896-b847-c8e21e7f173e',
   scope: 'openid wallet',
   redirectUri: 'http://localhost:5000',
 })
@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error>()
   const [user, setUser] = useState<any>()
+  const [authorization, setAuthorization] = useState<any>()
 
   // Check to see if the user is inside the cache
   useEffect(() => {
@@ -28,6 +29,7 @@ const App: React.FC = () => {
     setLoading(true)
     uauth
       .loginWithPopup()
+      .then(setAuthorization)
       .then(() => uauth.user().then(setUser))
       .catch(setError)
       .finally(() => setLoading(false))
@@ -52,10 +54,19 @@ const App: React.FC = () => {
     return <>{String(error.stack)}</>
   }
 
-  if (user) {
+  if (user && authorization) {
     return (
       <>
+        <b>User</b>
         <pre>{JSON.stringify(user, null, 2)}</pre>
+        <br />
+        <b>Proof</b>
+        <pre>
+          {JSON.stringify(uauth.getAuthorizationProof(authorization), null, 2)}
+        </pre>
+        <br />
+        <b>Authorization</b>
+        <pre>{JSON.stringify(authorization, null, 2)}</pre>
         <button onClick={handleLogout}>Logout</button>
       </>
     )

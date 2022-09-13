@@ -26,6 +26,7 @@ import {StorageStore, Store, StoreType} from './store'
 import {
   Authorization,
   AuthorizationOptions,
+  AuthorizationProof,
   BaseLoginOptions,
   BaseLogoutOptions,
   CacheOptions,
@@ -321,6 +322,34 @@ export default class Client {
     await this._clientStore.setAuthorization(authorization)
 
     return authorization
+  }
+
+  getAuthorizationProof(
+    authorization: Authorization,
+    type = 'sig',
+    version = 'v1',
+  ): AuthorizationProof {
+    // find the requested proof key from AMR field
+    const sigProofKeys = authorization.idToken.amr?.filter((key: string) =>
+      key.startsWith(`${version}.${type}`),
+    )
+
+    // validate the proof key was located
+    if (!sigProofKeys || sigProofKeys.length == 0) {
+      throw new Error(`Authorization proof for ${version}.${type} not found`)
+    }
+    // validate the proof exists
+    if (!authorization.idToken.proof) {
+      throw new Error('Authorization proof data not found in idToken')
+    }
+    // return the requested proof data
+    const proof = authorization.idToken.proof[sigProofKeys[0]]
+    return {
+      address: proof.template.params.address,
+      chain: proof.template.params.chainName,
+      message: proof.message,
+      signature: proof.signature,
+    }
   }
 
   async getOpenIdConfiguration(username?: string): Promise<any> {

@@ -111,7 +111,6 @@ export interface JWTClaims {
   at_hash: string
   c_hash: string
   acr: string
-  amr: string
   sub_jwk: string
   cnf: string
   sid: string
@@ -135,6 +134,13 @@ export interface Authorization {
   idToken: IdToken
   scope: string
   resource?: string
+}
+
+export interface AuthorizationProof {
+  address: string
+  chain: string
+  message: string
+  signature: string
 }
 
 export interface LoginCallbackOptions {
