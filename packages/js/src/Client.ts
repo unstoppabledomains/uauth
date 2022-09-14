@@ -26,6 +26,7 @@ import {StorageStore, Store, StoreType} from './store'
 import {
   Authorization,
   AuthorizationOptions,
+  VerifiedAddress,
   BaseLoginOptions,
   BaseLogoutOptions,
   CacheOptions,
@@ -321,6 +322,65 @@ export default class Client {
     await this._clientStore.setAuthorization(authorization)
 
     return authorization
+  }
+
+  // getVerifiedAccounts retrieves all verified accounts associated with the domain
+  getVerifiedAccounts(
+    authorization: Authorization,
+    symbols: string[] = [],
+  ): VerifiedAddress[] {
+    // ensure the authorization includes verified_addresses field
+    const verifiedAddresses: VerifiedAddress[] = []
+    if (!authorization.idToken.verified_addresses) {
+      return verifiedAddresses
+    }
+    authorization.idToken.verified_addresses.forEach((record: any) => {
+      // filter for requested symbols if provided
+      if (symbols.length > 0 && !symbols.includes(record.symbol)) {
+        return
+      }
+      // include the verified address
+      verifiedAddresses.push({
+        address: record.address,
+        message: record.proof.message,
+        signature: record.proof.signature,
+        symbol: record.symbol,
+      })
+    })
+
+    // return the verified address list
+    return verifiedAddresses
+  }
+
+  // getAuthorizationAccount retrieves the address that authorized the request
+  getAuthorizationAccount(
+    authorization: Authorization,
+    type = 'sig',
+    version = 'v1',
+  ): VerifiedAddress | undefined {
+    // find the requested proof key from AMR field
+    const sigProofKeys = authorization.idToken.amr?.filter((key: string) =>
+      key.startsWith(`${version}.${type}`),
+    )
+
+    // validate the proof key is located
+    if (!sigProofKeys || sigProofKeys.length == 0) {
+      return undefined
+    }
+
+    // extract the signature address
+    const sigAddress = sigProofKeys[0].split('.')[3]
+    const verifiedAccounts = this.getVerifiedAccounts(authorization)
+    if (!verifiedAccounts) {
+      return undefined
+    }
+
+    // find and return the proof address from verified account list
+    for (const account of verifiedAccounts) {
+      if (account.address === sigAddress) {
+        return account
+      }
+    }
   }
 
   async getOpenIdConfiguration(username?: string): Promise<any> {
