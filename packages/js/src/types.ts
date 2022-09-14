@@ -136,11 +136,11 @@ export interface Authorization {
   resource?: string
 }
 
-export interface AuthorizationProof {
+export interface VerifiedAddress {
   address: string
-  chain: string
   message: string
   signature: string
+  symbol: string
 }
 
 export interface LoginCallbackOptions {

@@ -60,9 +60,18 @@ const App: React.FC = () => {
         <b>User</b>
         <pre>{JSON.stringify(user, null, 2)}</pre>
         <br />
-        <b>Proof</b>
+        <b>Signature account</b>
         <pre>
-          {JSON.stringify(uauth.getAuthorizationProof(authorization), null, 2)}
+          {JSON.stringify(
+            uauth.getAuthorizationAccount(authorization),
+            null,
+            2,
+          )}
+        </pre>
+        <br />
+        <b>All verified accounts</b>
+        <pre>
+          {JSON.stringify(uauth.getVerifiedAccounts(authorization), null, 2)}
         </pre>
         <br />
         <b>Authorization</b>
