@@ -4,7 +4,7 @@ import React from 'react'
 import connectors from './connectors'
 
 const App: React.FC = () => {
-  const {active, account, activate, deactivate} = useWeb3React()
+  const {active, account, error, activate, deactivate} = useWeb3React()
 
   function createConnectHandler(connectorId: string) {
     return async () => {
@@ -20,6 +20,9 @@ const App: React.FC = () => {
         }
 
         await activate(connector)
+        if (error) {
+          throw error;
+        }
       } catch (error) {
         console.error(error)
       }
