@@ -4,17 +4,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 
-function getLibrary(provider: any): Web3Provider {
-  const library = new Web3Provider(provider)
-  library.pollingInterval = 12000
-  return library
-}
+// function getLibrary(provider: any): Web3Provider {
+//   const library = new Web3Provider(provider)
+//   library.pollingInterval = 12000
+//   return library
+// }
 
 ReactDOM.render(
   <React.StrictMode>
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <App />
-    </Web3ReactProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 )

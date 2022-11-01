@@ -1,1 +1,1 @@
-export {default as UAuthConnector} from './UAuthConnector'
+export {default as CoolConnector, parseChainId} from './UAuthConnector'

@@ -1,33 +1,46 @@
-import {UAuthConnector} from '@uauth/web3-react'
-import type {AbstractConnector} from '@web3-react/abstract-connector'
-import {InjectedConnector} from '@web3-react/injected-connector'
-import {WalletConnectConnector} from '@web3-react/walletconnect-connector'
+import {CoolConnector} from '@uauth/web3-react'
+import {initializeConnector} from '@web3-react/core'
+import {MetaMask} from '@web3-react/metamask'
+import {WalletConnect} from '@web3-react/walletconnect'
+import {AsyncConnector, ConnectorManager} from './types';
 
-// Instanciate your other connectors.
-const supportedChainIds = [1]
-export const injected = new InjectedConnector({
-  supportedChainIds: supportedChainIds,
-})
+const [metaMaskConnector, metaMaskHooks] = initializeConnector<MetaMask>((actions) => new MetaMask({ actions }));
+export const metaMask = {connector: metaMaskConnector, hooks: metaMaskHooks};
 
-export const walletconnect = new WalletConnectConnector({
-  supportedChainIds: supportedChainIds,
-  infuraId: process.env.REACT_APP_INFURA_ID!,
-  qrcode: true,
-})
+const rbcObj = {
+  1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID!}` 
+};
+const [walletConnectConnector, walletConnectHooks] = initializeConnector<WalletConnect>(
+  (actions) =>
+    new WalletConnect({
+      actions,
+      options: {
+        rpc: rbcObj,
+        qrcode: true,
+      },
+    })
+)
+export const walletConnect = {connector: walletConnectConnector, hooks: walletConnectHooks};
 
-export const uauth = new UAuthConnector({
-  clientID: process.env.REACT_APP_CLIENT_ID!,
-  redirectUri: process.env.REACT_APP_REDIRECT_URI!,
-  // Scope must include openid and wallet
-  scope: 'openid wallet',
+const [uauthConnector, uauthHooks] = initializeConnector<CoolConnector>(
+  (actions) => new CoolConnector({
+    actions,
+    options: {
+      clientID: process.env.REACT_APP_CLIENT_ID!,
+      redirectUri: process.env.REACT_APP_REDIRECT_URI!,
+      // Scope must include openid and wallet
+      scope: 'openid wallet',
 
-  // Injected and walletconnect connectors are required
-  connectors: {injected, walletconnect},
-})
+      // Injected and walletconnect connectors are required
+      connectors: {injected: metaMask.connector, walletconnect: walletConnect.connector}
+    },
+  })
+)
+export const uauth = {connector: uauthConnector, hooks: uauthHooks};
 
-const connectors: Record<string, AbstractConnector> = {
-  injected,
-  walletconnect,
+const connectors: Record<string, ConnectorManager> = {
+  metaMask,
+  walletConnect,
   uauth,
 }
 
