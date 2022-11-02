@@ -1,4 +1,4 @@
-import {CoolConnector} from '@uauth/web3-react'
+import {UAuthConnector} from '@uauth/web3-react'
 import {initializeConnector} from '@web3-react/core'
 import {MetaMask} from '@web3-react/metamask'
 import {WalletConnect} from '@web3-react/walletconnect'
@@ -22,8 +22,8 @@ const [walletConnectConnector, walletConnectHooks] = initializeConnector<WalletC
 )
 export const walletConnect = {connector: walletConnectConnector, hooks: walletConnectHooks};
 
-const [uauthConnector, uauthHooks] = initializeConnector<CoolConnector>(
-  (actions) => new CoolConnector({
+const [uauthConnector, uauthHooks] = initializeConnector<UAuthConnector>(
+  (actions) => new UAuthConnector({
     actions,
     options: {
       clientID: process.env.REACT_APP_CLIENT_ID!,
