@@ -1,11 +1,11 @@
 {
-  "include": ["./src"],
+  "include": ["src/*.ts"],
   "compilerOptions": {
     "outDir": "./build",
-    "target": "ES6",
-    "module": "ESNext",
+    "target": "es6",
+    "module": "commonjs",
     "allowJs": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "declaration": true,
     "strict": true,
     "skipLibCheck": true
