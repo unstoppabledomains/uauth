@@ -4406,6 +4406,17 @@ __metadata:
   languageName: node
   linkType: soft
 
+"@web3-react/coinbase-wallet@npm:8.0.34-beta.0":
+  version: 8.0.34-beta.0
+  resolution: "@web3-react/coinbase-wallet@npm:8.0.34-beta.0"
+  dependencies:
+    "@web3-react/types": ^8.0.20-beta.0
+  peerDependencies:
+    "@coinbase/wallet-sdk": ^3.0.4
+  checksum: 9a22b949e875bb65bd83c882384556a101887472b4f03f7de10df4f98f983341f46216074a3a02d44b4db4232a61a74fc199f295c9f08a01d54e2f69d4475930
+  languageName: node
+  linkType: hard
+
 "@web3-react/core@npm:8.0.35-beta.0":
   version: 8.0.35-beta.0
   resolution: "@web3-react/core@npm:8.0.35-beta.0"
@@ -16934,6 +16945,7 @@ __metadata:
     "@types/react-router-dom": ^5.3.3
     "@uauth/js": "link:../packages/js"
     "@uauth/web3-react": "link:../packages/web3-react"
+    "@web3-react/coinbase-wallet": 8.0.34-beta.0
     "@web3-react/core": 8.0.35-beta.0
     "@web3-react/eip1193": 8.0.26-beta.0
     "@web3-react/metamask": 8.0.28-beta.0

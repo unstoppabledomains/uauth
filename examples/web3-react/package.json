@@ -40,6 +40,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@uauth/js": "link:../packages/js",
     "@uauth/web3-react": "link:../packages/web3-react",
+    "@web3-react/coinbase-wallet": "8.0.34-beta.0",
     "@web3-react/core": "8.0.35-beta.0",
     "@web3-react/eip1193": "8.0.26-beta.0",
     "@web3-react/metamask": "8.0.28-beta.0",

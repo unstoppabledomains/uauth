@@ -1,16 +1,13 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-// import { CoinbaseWallet } from '@web3-react/coinbase-wallet'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Web3ReactHooks } from '@web3-react/core'
-import { MetaMask } from '@web3-react/metamask'
-import { WalletConnect } from '@web3-react/walletconnect'
 import { Status } from './Status'
 import { Accounts } from './Account'
-import { AsyncConnector, ConnectionStatuses } from '../types'
+import { ConnectionStatuses } from '../types'
 import { Connector } from '@web3-react/types'
 
 interface Props {
   name: string;
-  connector: AsyncConnector;
+  connector: Connector;
   hooks: Web3ReactHooks;
   state: ConnectionStatuses;
   setState: Dispatch<SetStateAction<ConnectionStatuses>>;
@@ -46,9 +43,10 @@ export default function ConnectorCard({
     else if (!isActivating) {
       setState(ConnectionStatuses.CONNECTING);
 
-      connector
-        .activate(1)
-        .then(() => {
+      // Activate the connector and update states
+      const activate: Promise<void> = connector.activate(1) as Promise<void>;
+
+      activate.then(() => {
           setError(undefined);
           setState(ConnectionStatuses.CONNECTED);
         })
