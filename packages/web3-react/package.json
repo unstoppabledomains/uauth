@@ -10,7 +10,7 @@
   "exports": "./build/index.js",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "tsc",
+    "build": "yarn export-version; tsc",
     "start": "tsc --watch",
     "release": "../../scripts/release.sh",
     "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
