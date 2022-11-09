@@ -4,12 +4,7 @@ import type {
   UAuthConstructorOptions,
   UserInfo,
 } from '@uauth/js'
-import {AbstractConnector} from '@web3-react/abstract-connector'
-import {
-  AbstractConnectorArguments,
-  ConnectorEvent,
-  ConnectorUpdate,
-} from '@web3-react/types'
+import {Actions, Connector, Provider} from '@web3-react/types'
 import {VERSION} from './version'
 
 if (typeof window !== 'undefined') {
@@ -19,22 +14,30 @@ if (typeof window !== 'undefined') {
 }
 
 export interface UAuthConnectors {
-  injected: AbstractConnector
-  walletconnect: AbstractConnector
+  injected: Connector
+  walletconnect: Connector
 }
 
-export interface UAuthConnectorOptions
-  extends AbstractConnectorArguments,
-    Partial<UAuthConstructorOptions> {
+type UAuthConnectorOptions = UAuthConstructorOptions & {
   uauth?: UAuth
   connectors: UAuthConnectors
   shouldLoginWithRedirect?: boolean
 }
+export interface UAuthConnectorConstructorArgs {
+  actions: Actions
+  options: UAuthConnectorOptions
+  onError?: (error: Error) => void
+}
 
+type MetaMaskProvider = Provider & {
+  isMetaMask?: boolean
+  isConnected?: () => boolean
+  providers?: MetaMaskProvider[]
+}
 export interface ConnectorLoginCallbackOptions {
   url?: string
   activate: (
-    connector: AbstractConnector,
+    connector: Connector,
     onError?: (error: Error) => void,
     throwErrors?: boolean,
   ) => Promise<void>
@@ -42,7 +45,15 @@ export interface ConnectorLoginCallbackOptions {
   throwErrors?: boolean
 }
 
-class UAuthConnector extends AbstractConnector {
+export function parseChainId(chainId: string) {
+  return Number.parseInt(chainId, 16)
+}
+class UAuthConnector extends Connector {
+  public declare provider?: MetaMaskProvider
+  private options: UAuthConnectorOptions
+  private _subConnector?: Connector
+  private _uauth?: UAuth
+  private eagerConnection?: Promise<void>
   static UAuth: typeof UAuth
 
   static registerUAuth(pkg: typeof UAuth): void {
@@ -57,11 +68,9 @@ class UAuthConnector extends AbstractConnector {
     }
   }
 
-  private _subConnector?: AbstractConnector
-  private _uauth?: UAuth
-
-  constructor(public options: UAuthConnectorOptions) {
-    super({supportedChainIds: options.supportedChainIds})
+  constructor({actions, options, onError}: UAuthConnectorConstructorArgs) {
+    super(actions, onError)
+    this.options = options
   }
 
   async callbackAndActivate<T>(
@@ -80,7 +89,8 @@ class UAuthConnector extends AbstractConnector {
     return activate(this, onError, throwErrors)
   }
 
-  public async activate(): Promise<ConnectorUpdate> {
+  public async activate(): Promise<void> {
+    const cancelActivation = this.actions.startActivation()
     await UAuthConnector.importUAuth()
 
     let user: UserInfo
@@ -126,15 +136,26 @@ class UAuthConnector extends AbstractConnector {
       throw new Error('Connector not supported')
     }
 
-    if ((this as any)?._subConnector?.on) {
-      this._subConnector.on(ConnectorEvent.Update, this.handleUpdate)
-      this._subConnector.on(ConnectorEvent.Deactivate, this.handleDeactivate)
-      this._subConnector.on(ConnectorEvent.Error, this.handleError)
+    await this._subConnector!.activate()
+    if (this._subConnector.provider) {
+      this.provider = this._subConnector.provider
     }
+    if (!this.provider) return cancelActivation()
 
-    const update = await this._subConnector!.activate()
-
-    return update
+    return Promise.all([
+      this.provider.request({method: 'eth_chainId'}) as Promise<string>,
+      this.provider.request({method: 'eth_requestAccounts'}) as Promise<
+        string[]
+      >,
+    ])
+      .then(([chainId, accounts]) => {
+        const receivedChainId = parseChainId(chainId)
+        return this.actions.update({chainId: receivedChainId, accounts})
+      })
+      .catch(error => {
+        cancelActivation?.()
+        throw error
+      })
   }
 
   public deactivate(): void {
@@ -143,57 +164,23 @@ class UAuthConnector extends AbstractConnector {
         this.uauth.logout({rpInitiatedLogout: false})
       }
 
-      if ((this as any)?._subConnector?.removeListener) {
-        this._subConnector.removeListener(
-          ConnectorEvent.Update,
-          this.handleUpdate,
-        )
-        this._subConnector.removeListener(
-          ConnectorEvent.Deactivate,
-          this.handleDeactivate,
-        )
-        this._subConnector.removeListener(
-          ConnectorEvent.Error,
-          this.handleError,
-        )
-      }
-
-      this.uauth.logout()
-
-      this._subConnector.deactivate()
+      ;(this as any)?._subConnector.deactivate()
     }
   }
 
   public async isAuthorized(): Promise<boolean> {
     const user = await this.uauth.user()
 
-    if (!user || typeof this.subConnector?.isAuthorized !== 'function') {
-      return false
-    }
-
-    return this.subConnector.isAuthorized()
+    return Boolean(user && this._subConnector?.provider)
   }
 
-  public getProvider(): Promise<any> {
-    return this.subConnector.getProvider()
-  }
-
-  public getChainId(): Promise<number | string> {
-    return this.subConnector.getChainId()
-  }
-
-  public getAccount(): Promise<null | string> {
-    return this.subConnector.getAccount()
+  public getProvider(): Provider | undefined {
+    return this.subConnector?.provider
   }
 
   public get uauth(): UAuth {
-    const {
-      supportedChainIds,
-      connectors,
-      uauth,
-      shouldLoginWithRedirect,
-      ...uauthOptions
-    } = this.options
+    const {connectors, uauth, shouldLoginWithRedirect, ...uauthOptions} =
+      this.options
 
     if (uauth) {
       return uauth
@@ -218,7 +205,7 @@ class UAuthConnector extends AbstractConnector {
     return this._uauth
   }
 
-  public get subConnector(): AbstractConnector & {
+  public get subConnector(): Connector & {
     isAuthorized?(): Promise<boolean>
   } {
     if (this._subConnector == null) {
@@ -227,11 +214,6 @@ class UAuthConnector extends AbstractConnector {
 
     return this._subConnector
   }
-
-  private handleUpdate = (update: ConnectorUpdate<string | number>) =>
-    this.emitUpdate(update)
-  private handleDeactivate = () => this.emitDeactivate()
-  private handleError = error => this.emitError(error)
 }
 
 export default UAuthConnector
