@@ -136,7 +136,7 @@ class UAuthConnector extends Connector {
       throw new Error('Connector not supported')
     }
 
-    await this._subConnector!.activate(1)
+    await this._subConnector!.activate()
     if (this._subConnector.provider) {
       this.provider = this._subConnector.provider
     }
