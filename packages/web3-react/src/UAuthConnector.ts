@@ -164,7 +164,13 @@ class UAuthConnector extends Connector {
         this.uauth.logout({rpInitiatedLogout: false})
       }
 
-      ;(this as any)?._subConnector.deactivate()
+      this.actions.resetState()
+
+      if ((this as any)?._subConnector?.deactivate) {
+        void (this as any)?._subConnector.deactivate()
+      } else if ((this as any)?._subConnector?.resetState) {
+        void (this as any)?._subConnector.resetState()
+      }
     }
   }
 
