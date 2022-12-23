@@ -1,6 +1,6 @@
 {
   "name": "@uauth/web3-react",
-  "version": "2.4.1-rc.0",
+  "version": "3.1.0",
   "files": [
     "build/*"
   ],
@@ -26,6 +26,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "amdName": "UAuthWeb3React",
-  "stableVersion": "3.0.0"
+  "amdName": "UAuthWeb3React"
 }
