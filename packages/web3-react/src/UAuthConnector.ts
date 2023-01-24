@@ -142,6 +142,36 @@ class UAuthConnector extends Connector {
     }
     if (!this.provider) return cancelActivation()
 
+    this.provider.on('connect', ({chainId}): void => {
+      this.actions.update({chainId: parseChainId(chainId)})
+    })
+
+    this.provider.on('disconnect', (error): void => {
+      // 1013 indicates that MetaMask is attempting to reestablish the connection
+      // https://github.com/MetaMask/providers/releases/tag/v8.0.0
+      if (error.code === 1013) {
+        console.debug(
+          'MetaMask logged connection error 1013: "Try again later"',
+        )
+        return
+      }
+      this.actions.resetState()
+      this.onError?.(error)
+    })
+
+    this.provider.on('chainChanged', (chainId: string): void => {
+      this.actions.update({chainId: parseChainId(chainId)})
+    })
+
+    this.provider.on('accountsChanged', (accounts: string[]): void => {
+      if (accounts.length === 0) {
+        // handle this edge case by disconnecting
+        this.actions.resetState()
+      } else {
+        this.actions.update({accounts})
+      }
+    })
+
     return Promise.all([
       this.provider.request({method: 'eth_chainId'}) as Promise<string>,
       this.provider.request({method: 'eth_requestAccounts'}) as Promise<
