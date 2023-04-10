@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CustomButton from './components/CustomButton';
 
 const App: React.FC = () => {
@@ -17,8 +17,7 @@ const App: React.FC = () => {
           background: '#ececec',
         }}
       >
-        Wagmi Uauth Connector
-        <i>Login with Unstoppable</i>
+        Wagmi Uauth Connector <i style={{color: '#0d67fe'}}>Login with Unstoppable</i>
       </div>
       <div>
         {/* Custom button */}
