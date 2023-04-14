@@ -33,7 +33,6 @@ const uauthClient = new UAuth({
 const metaMaskConnector = new MetaMaskConnector()
 const walletConnectConnector = new WalletConnectConnector({
   options: {
-    showQrModal: false,
     projectId: process.env.REACT_APP_WC_PROJECT_ID,
   },
 })

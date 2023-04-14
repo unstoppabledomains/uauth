@@ -33,7 +33,12 @@ class UAuthWagmiConnector extends Connector<
   id: string
   name: string
   ready: boolean
-  public provider?: Ethereum | WalletConnectProvider | undefined
+  public provider?:
+    | Ethereum
+    | WalletConnectProvider
+    | providers.ExternalProvider
+    | providers.JsonRpcFetchFunc
+    | undefined
   private _metaMaskConnector?: any
   private _walletConnectConnector?: any
   private _subConnector?: Connector
@@ -50,7 +55,7 @@ class UAuthWagmiConnector extends Connector<
 
   protected onChainChanged(chainId: string | number): void {
     const id = normalizeChainId(chainId)
-    const unsupported = this.isChainUnsupported(id)
+    const unsupported = false
     this.emit('change', {chain: {id, unsupported}})
   }
 
@@ -122,13 +127,10 @@ class UAuthWagmiConnector extends Connector<
       throw new Error('Connector not supported')
     }
 
-    // Should be connected, ensure that the subconnector is connected also
-    await this._subConnector!.connect()
-
     // Set the provider using subconnector
     const provider = await this._subConnector?.getProvider()
-    this.provider = provider
-    if (!this.provider) {
+
+    if (!provider) {
       throw new Error('Provider not found')
     }
     if (provider.on) {
@@ -136,6 +138,9 @@ class UAuthWagmiConnector extends Connector<
       provider.on('chainChanged', this.onChainChanged)
       provider.on('disconnect', this.onDisconnect)
     }
+
+    // Should be connected, ensure that the subconnector is connected also
+    await this._subConnector!.connect()
 
     const accountPromise = async (): Promise<`0x${string}`> => {
       const accounts = await provider.request({
@@ -170,6 +175,7 @@ class UAuthWagmiConnector extends Connector<
         chainPromise(),
         providerPromise(),
       ])
+
       connectorData = {
         account: data[0],
         chain: data[1],
