@@ -31,11 +31,9 @@ declare module 'express-session' {
   }
 }
 
-type Locals = Record<string, any>
-
 declare module 'express' {
   export interface Response {
-    locals: Locals
+    locals: Record<string, any>
   }
 }
 

@@ -1,12 +1,15 @@
 import {JsonRpcSigner} from '@ethersproject/providers'
 import type UAuth from '@uauth/js'
 import type {UserInfo} from '@uauth/js'
-import {Connector} from '@wagmi/connectors'
-import {Ethereum, UserRejectedRequestError, normalizeChainId} from '@wagmi/core'
+import {
+  Connector,
+  Ethereum,
+  UserRejectedRequestError,
+  normalizeChainId,
+} from '@wagmi/core'
 import WalletConnectProvider from '@walletconnect/ethereum-provider'
 import {providers} from 'ethers'
 import {getAddress} from 'ethers/lib/utils.js'
-import 'eventemitter3'
 import {Chain, mainnet} from 'wagmi/chains'
 
 import {ConnectorData} from 'wagmi'
@@ -30,6 +33,7 @@ class UAuthWagmiConnector extends Connector<
   UAuthWagmiConnectorOptions,
   JsonRpcSigner
 > {
+  [x: string]: any
   id: string
   name: string
   ready: boolean
