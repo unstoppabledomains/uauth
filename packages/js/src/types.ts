@@ -215,6 +215,7 @@ export interface BaseLoginOptions {
   flowId?: 'login' | 'signup'
   packageName?: string
   packageVersion?: string
+  signupSuggestion?: string
 }
 
 export interface LoginOptions extends Partial<BaseLoginOptions> {

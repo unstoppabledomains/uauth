@@ -219,6 +219,8 @@ export default class Client {
       // package info
       package_name: loginOptions?.packageName || '@uauth/js',
       package_version: loginOptions?.packageVersion || VERSION,
+
+      signup_suggestion: loginOptions.signupSuggestion,
     }
 
     await this._clientStore.setAuthorizeRequest(request)
