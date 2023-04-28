@@ -24,6 +24,7 @@ export interface AuthorizeRequest extends BaseRequest {
   state: string
   package_name?: string
   package_version?: string
+  signup_suggestion?: string
 }
 
 export interface AuthorizeWithJWTRequest {
