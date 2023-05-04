@@ -1,0 +1,36 @@
+{
+  "name": "@uauth/wagmi",
+  "version": "3.0.0",
+  "files": [
+    "build/*"
+  ],
+  "type": "commonjs",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "yarn export-version; tsc",
+    "release": "../../scripts/release.sh",
+    "export-version": "node -p \"'export const VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > ./src/version.ts"
+  },
+  "dependencies": {
+    "@uauth/js": "workspace:*",
+    "ethers": "^5",
+    "wagmi": "^0.12.9"
+  },
+  "devDependencies": {
+    "esbuild": "0.15.13",
+    "esbuild-register": "^3.4.2",
+    "tsup": "^6.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "amdName": "UAuthWagmi"
+}
