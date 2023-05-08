@@ -418,7 +418,28 @@ export default class Client {
   async authorization(
     options: AuthorizationOptions = {},
   ): Promise<Authorization> {
-    return this._clientStore.getAuthorization(options)
+    const authorization = await this._clientStore.getAuthorization(options)
+
+    if (
+      authorization.scope &&
+      authorization.scope.length > 0 &&
+      !this.checkPremiumScopes(authorization.scope)
+    ) {
+      authorization.upgrade = {
+        text: 'Please contact Unstoppable Domains to upgrade your account to access premium scopes',
+      }
+    }
+
+    return authorization
+  }
+
+  checkPremiumScopes(scopes: string) {
+    return (
+      scopes
+        .split(' ')
+        .filter(el => el !== 'openid')
+        .filter(el => el !== 'wallet').length > 0
+    )
   }
 
   async user(options: UserOptions = {}): Promise<UserInfo> {

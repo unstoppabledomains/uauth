@@ -134,6 +134,9 @@ export interface Authorization {
   idToken: IdToken
   scope: string
   resource?: string
+  upgrade?: {
+    text: string
+  }
 }
 
 export interface VerifiedAddress {
