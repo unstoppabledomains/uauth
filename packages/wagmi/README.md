@@ -6,5 +6,5 @@ For step-by-step instructions for integrating with `@uauth/wagmi`, see the [Logi
 
 ## Resources
 
-- A more complex [example](../../examples/web3-react/README.md).
-- The `web3-react` library [github repo](https://github.com/NoahZinsmeister/web3-react).
+- A more complex [example](../../examples/wagmi/README.md).
+- The `wagmi` [library reference](https://wagmi.sh/).
