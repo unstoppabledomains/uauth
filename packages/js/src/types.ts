@@ -1,5 +1,4 @@
 import type {DomainResolver} from '@uauth/common'
-import type {AuthorizeRequest} from './api'
 import type {Store, StoreType} from './store'
 
 export interface Fetcher {
@@ -7,7 +6,6 @@ export interface Fetcher {
 }
 
 export type CodeChallengeMethod = 'S256' | 'plain'
-
 export type StandardResponseMode = 'fragment' | 'query'
 export type FormPostResponseMode = 'form_post'
 export type WebMessageResponseMode = 'web_message'
@@ -31,8 +29,6 @@ export type SubjectType = 'public' | 'pairwise'
 export type ClientAuthMethod =
   | 'client_secret_basic'
   | 'client_secret_post'
-  // | 'client_secret_jwt'
-  // | 'private_key_jwt'
   | 'none'
 
 export interface AddressClaim {
@@ -96,6 +92,9 @@ export interface UserInfo
     Partial<ProfileClaims>,
     Partial<HumanityCheckClaims> {
   sub: string
+  upgrade?: {
+    text: string
+  }
 }
 
 export interface JWTClaims {

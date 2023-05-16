@@ -420,13 +420,9 @@ export default class Client {
   ): Promise<Authorization> {
     const authorization = await this._clientStore.getAuthorization(options)
 
-    if (
-      authorization.scope &&
-      authorization.scope.length > 0 &&
-      !this.checkPremiumScopes(authorization.scope)
-    ) {
+    if (authorization.scope && !this.checkPremiumScopes(authorization.scope)) {
       authorization.upgrade = {
-        text: 'Please contact Unstoppable Domains to upgrade your account to access premium scopes',
+        text: 'Please contact Unstoppable Domains to upgrade your account to access premium scopes bd@unstoppabledomains.com',
       }
     }
 
@@ -435,10 +431,8 @@ export default class Client {
 
   checkPremiumScopes(scopes: string) {
     return (
-      scopes
-        .split(' ')
-        .filter(el => el !== 'openid')
-        .filter(el => el !== 'wallet').length > 0
+      scopes.split(' ').filter(el => !['openid', 'wallet'].includes(el))
+        .length > 0
     )
   }
 
@@ -474,6 +468,10 @@ export default class Client {
 
     const userinfo: UserInfo = {
       sub: authorization.idToken.sub,
+    }
+
+    if (authorization.upgrade) {
+      userinfo.upgrade = authorization.upgrade
     }
 
     // If we should only read from cache.
