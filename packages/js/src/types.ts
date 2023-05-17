@@ -92,9 +92,7 @@ export interface UserInfo
     Partial<ProfileClaims>,
     Partial<HumanityCheckClaims> {
   sub: string
-  upgrade?: {
-    text: string
-  }
+  upgrade?: UpgradeInfo
 }
 
 export interface JWTClaims {
@@ -127,15 +125,18 @@ export interface CryptoKeyGetter {
   (kid: string): Promise<CryptoKey>
 }
 
+export interface UpgradeInfo {
+  text: string
+  upgrade_for_premium: string
+}
+
 export interface Authorization {
   accessToken: string
   expiresAt: number
   idToken: IdToken
   scope: string
   resource?: string
-  upgrade?: {
-    text: string
-  }
+  upgrade?: UpgradeInfo
 }
 
 export interface VerifiedAddress {
