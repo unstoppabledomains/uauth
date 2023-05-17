@@ -28,10 +28,10 @@ This is an example project demonstrating the use of [`@uauth/wagmi`](../../packa
 
 ## Files
 
-- [CustomButtom.tsx](./src/components/CustomButtom.tsx) - An example wagmi custom button that incorporates the wagmi uath connector
+- [CustomButton.tsx](./src/components/CustomButton.tsx) - An example wagmi custom button that incorporates the wagmi uath connector
 - [index.tsx](./src/index.tsx) - The root of the React app.
 - [App.tsx](./src/App.tsx) - A login page implementation.
 
 ## Integration Guides
 
-For step-by-step instructions for integrating with `@uauth/wagmi`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/) and the [Web3 Modal](https://docs.unstoppabledomains.com/login-with-unstoppable/login-integration-guides/web3-modal-guide/) integration guide.
+For step-by-step instructions for integrating with `@uauth/wagmi`, see the [Login Integration Pathways](https://docs.unstoppabledomains.com/login-with-unstoppable/get-started-login/integration-pathways/)
