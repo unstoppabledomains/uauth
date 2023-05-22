@@ -1,6 +1,15 @@
 {
   "name": "@uauth/moralis",
   "version": "2.7.0",
+  "homepage": "https://github.com/unstoppabledomains/uauth/tree/main/packages/moralis#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unstoppabledomains/uauth.git",
+    "directory": "packages/moralis"
+  },
+  "bugs": {
+    "url": "https://github.com/unstoppabledomains/uauth/issues"
+  },
   "type": "commonjs",
   "exports": {
     "import": "./build/index.module.mjs",
