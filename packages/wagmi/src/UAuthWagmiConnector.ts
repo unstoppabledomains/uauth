@@ -1,19 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {JsonRpcSigner} from '@ethersproject/providers'
 import type UAuth from '@uauth/js'
 import type {UserInfo} from '@uauth/js'
-import {
-  Connector,
-  Ethereum,
-  UserRejectedRequestError,
-  normalizeChainId,
-} from '@wagmi/core'
 import WalletConnectProvider from '@walletconnect/ethereum-provider'
 import {providers} from 'ethers'
 import {getAddress} from 'ethers/lib/utils.js'
 import {Chain, mainnet} from 'wagmi/chains'
 
-import {ConnectorData} from 'wagmi'
 import {VERSION} from './version'
+import EventEmitter = require('eventemitter3')
+
+const normalizeChainId = (chainId: string | number | BigInt): number => {
+  return Number(chainId)
+}
 
 if (typeof window !== 'undefined') {
   const _w = window as any
@@ -28,31 +27,53 @@ type UAuthWagmiConnectorOptions = {
   uauth: UAuth
 }
 
-class UAuthWagmiConnector extends Connector<
-  Ethereum | WalletConnectProvider,
-  UAuthWagmiConnectorOptions,
-  JsonRpcSigner
-> {
+type ConnectorData<Provider = any> = {
+  account?: `0x${string}`
+  chain?: {
+    id: number
+    unsupported: boolean
+  }
+  provider?: Provider
+}
+
+interface ConnectorEvents<Provider = any> {
+  change(data: ConnectorData<Provider>): void
+  connect(data: ConnectorData<Provider>): void
+  message({type, data}: {type: string; data?: unknown}): void
+  disconnect(): void
+  error(error: Error): void
+}
+
+class UAuthWagmiConnector<
+  Provider = any,
+  Options = UAuthWagmiConnectorOptions,
+  Signer = JsonRpcSigner,
+> extends EventEmitter<ConnectorEvents<Provider>> {
   [x: string]: any
   id: string
   name: string
   ready: boolean
   public provider?:
-    | Ethereum
     | WalletConnectProvider
     | providers.ExternalProvider
     | providers.JsonRpcFetchFunc
     | undefined
+    | any
+  // | Ethereum
+  public options: UAuthWagmiConnectorOptions
   private _metaMaskConnector?: any
   private _walletConnectConnector?: any
-  private _subConnector?: Connector
+  private _subConnector?: any
   private _uauth: UAuth
+  private chains: Chain[] | undefined
 
   protected onAccountsChanged(accounts: Array<`0x${string}`>): void {
     if (accounts.length === 0) this.emit('disconnect')
     else {
-      const account = accounts[0]
-      const formattedAddress = account ? getAddress(account) : undefined
+      const currentAccount = accounts[0]
+      const formattedAddress = currentAccount
+        ? (getAddress(currentAccount) as `0x${string}`)
+        : undefined
       if (formattedAddress) this.emit('change', {account: formattedAddress})
     }
   }
@@ -74,7 +95,9 @@ class UAuthWagmiConnector extends Connector<
     chains?: Chain[]
     options: UAuthWagmiConnectorOptions
   }) {
-    super({chains, options})
+    super()
+    this.options = options
+    this.chains = chains
     this.id = 'custom-uauth'
     this.name = 'UauthWagmiConnector'
     this._metaMaskConnector = options.metaMaskConnector
@@ -151,7 +174,7 @@ class UAuthWagmiConnector extends Connector<
         method: 'eth_requestAccounts',
       })
       const connectedAccount = accounts[0]
-      const formattedAddress = getAddress(connectedAccount)
+      const formattedAddress = getAddress(connectedAccount) as `0x${string}`
       const account: `0x${string}` = formattedAddress ?? '0x0'
       return account
     }
@@ -164,8 +187,8 @@ class UAuthWagmiConnector extends Connector<
         method: 'eth_chainId',
       })
       const id = normalizeChainId(providerChain)
-      const unsupported = this.isChainUnsupported(id)
-      return {id, unsupported}
+      // const unsupported = this.isChainUnsupported(id)
+      return {id, unsupported: false}
     }
 
     const providerPromise = async (): Promise<any> => {
@@ -187,9 +210,9 @@ class UAuthWagmiConnector extends Connector<
       }
       return connectorData
     } catch (error: any) {
-      if (error.code === 4001) {
-        throw new UserRejectedRequestError(error)
-      }
+      // if (error.code === 4001) {
+      //   throw new UserRejectedRequestError(error)
+      // }
       if (error.code === -32002) {
         throw error instanceof Error ? error : new Error(String(error))
       }
@@ -212,7 +235,9 @@ class UAuthWagmiConnector extends Connector<
     const accounts: string[] = await provider!.request({
       method: 'eth_accounts',
     })
-    const account = accounts[0] ? getAddress(accounts[0]) : '0x0'
+    const account = accounts[0]
+      ? (getAddress(accounts[0]) as `0x${string}`)
+      : '0x0'
     return account
   }
   async getChainId() {
@@ -223,7 +248,8 @@ class UAuthWagmiConnector extends Connector<
     return normalizeChainId(chainId)
   }
 
-  async getProvider(): Promise<Ethereum | WalletConnectProvider> {
+  // Provider should be of type: Ethereum | WalletConnectProvider
+  async getProvider(): Promise<WalletConnectProvider | any> {
     const subProvider = await this._subConnector?.getProvider()
     return subProvider
   }
@@ -247,7 +273,7 @@ class UAuthWagmiConnector extends Connector<
     }
   }
 
-  public get subConnector(): Connector & {
+  public get subConnector(): any & {
     isAuthorized?(): Promise<boolean>
   } {
     if (this._subConnector == null) {

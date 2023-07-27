@@ -22,6 +22,7 @@
   "dependencies": {
     "@uauth/js": "workspace:*",
     "ethers": "^5",
+    "eventemitter3": "4.0.7",
     "wagmi": "^0.12.9"
   },
   "devDependencies": {

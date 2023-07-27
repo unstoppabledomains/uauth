@@ -5889,6 +5889,7 @@ __metadata:
     esbuild: 0.15.13
     esbuild-register: ^3.4.2
     ethers: ^5
+    eventemitter3: 4.0.7
     tsup: ^6.5.0
     wagmi: ^0.12.9
   languageName: unknown
