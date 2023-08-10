@@ -5,10 +5,12 @@ import type {UserInfo} from '@uauth/js'
 import WalletConnectProvider from '@walletconnect/ethereum-provider'
 import {providers} from 'ethers'
 import {getAddress} from 'ethers/lib/utils.js'
-import {Chain, mainnet} from 'wagmi/chains'
+import type {Chain} from 'wagmi/chains'
 
 import {VERSION} from './version'
 import EventEmitter = require('eventemitter3')
+
+const MAINNET_ID = 1
 
 const normalizeChainId = (chainId: string | number | BigInt): number => {
   return Number(chainId)
@@ -254,7 +256,7 @@ class UAuthWagmiConnector<
     return subProvider
   }
 
-  async getSigner({chainId = mainnet.id} = {}): Promise<JsonRpcSigner> {
+  async getSigner({chainId = MAINNET_ID} = {}): Promise<JsonRpcSigner> {
     const [provider, account] = await Promise.all([
       this.getProvider(),
       this.getAccount(),
