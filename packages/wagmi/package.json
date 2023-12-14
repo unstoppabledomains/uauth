@@ -23,7 +23,7 @@
     "@uauth/js": "workspace:*",
     "ethers": "^5",
     "eventemitter3": "4.0.7",
-    "wagmi": "^0.12.9"
+    "wagmi": "^1.4.12"
   },
   "devDependencies": {
     "esbuild": "0.15.13",
