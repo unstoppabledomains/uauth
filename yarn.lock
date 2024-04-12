@@ -2028,6 +2028,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ensdomains/address-encoder@npm:^0.2.22":
+  version: 0.2.22
+  resolution: "@ensdomains/address-encoder@npm:0.2.22"
+  dependencies:
+    bech32: ^2.0.0
+    blakejs: ^1.1.0
+    bn.js: ^4.11.8
+    bs58: ^4.0.1
+    crypto-addr-codec: ^0.1.8
+    js-crc: ^0.2.0
+    js-sha256: ^0.9.0
+    js-sha512: ^0.8.0
+    nano-base32: ^1.0.1
+    ripemd160: ^2.0.2
+    sha3: ^2.1.3
+  checksum: c21dde6170984cde68977a8bdb84560630ee8e94ee890bae6ed5819004b95ac87a259df3268eaef15891b66a16a4cd9f4d9b0320c8a40c84583f9f600572cc42
+  languageName: node
+  linkType: hard
+
 "@ensdomains/ens@npm:0.4.5":
   version: 0.4.5
   resolution: "@ensdomains/ens@npm:0.4.5"
@@ -6149,9 +6168,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@uauth/common@workspace:packages/common"
   dependencies:
-    "@unstoppabledomains/resolution": ^8.0
+    "@unstoppabledomains/resolution": ^9.2
   peerDependencies:
-    "@unstoppabledomains/resolution": ^8.0
+    "@unstoppabledomains/resolution": ^9.2
   languageName: unknown
   linkType: soft
 
@@ -6160,7 +6179,7 @@ __metadata:
   resolution: "@uauth/js@workspace:packages/js"
   dependencies:
     "@uauth/common": "workspace:*"
-    "@unstoppabledomains/resolution": ^8.0
+    "@unstoppabledomains/resolution": ^9.2
     global: ^4.4.0
     jose: ^4.5.0
     microbundle: ^0.14.2
@@ -6190,13 +6209,13 @@ __metadata:
     "@types/express": ^4.17.13
     "@types/express-session": ^1.17.4
     "@uauth/common": "workspace:*"
-    "@unstoppabledomains/resolution": ^8.0
+    "@unstoppabledomains/resolution": ^9.2
     express: ^4.17
     express-session: ^1.17
     jsonwebtoken: ^8.5.1
     jwk-to-pem: ^2.0.5
   peerDependencies:
-    "@unstoppabledomains/resolution": ^8.0
+    "@unstoppabledomains/resolution": ^9.2
     express: ^4.17
     express-session: ^1.17
   languageName: unknown
@@ -6263,16 +6282,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@unstoppabledomains/resolution@npm:^8.0":
-  version: 8.3.1
-  resolution: "@unstoppabledomains/resolution@npm:8.3.1"
+"@unstoppabledomains/resolution@npm:^9.2":
+  version: 9.2.2
+  resolution: "@unstoppabledomains/resolution@npm:9.2.2"
   dependencies:
+    "@ensdomains/address-encoder": ^0.2.22
     "@ethersproject/abi": ^5.0.1
+    bip44-constants: ^8.0.103
     bn.js: ^4.4.0
-    cross-fetch: ^3.1.4
+    content-hash: ^2.5.2
+    cross-fetch: 4.0.0
     crypto-js: ^4.1.1
     elliptic: ^6.5.4
-  checksum: afdac005f8b299fa53e187f142bff17e5ac54fafb0e7a2a28ea8649463a07b49f0a73c019a516a06995084514e57bffded0c4a3a466df9b8dec90a74baeb8357
+    ethereum-ens-network-map: ^1.0.2
+    js-sha256: ^0.9.0
+    js-sha3: ^0.8.0
+  checksum: 4f7fbcfc41c4e4ce1c5e5431df80cecec3341bdf7b81c18b5830d4f33cf05ff6af522d1c5e75e906630f64fe7f109ced9f85b5791eb132a84a107897193b64cd
   languageName: node
   linkType: hard
 
@@ -8242,6 +8267,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bip44-constants@npm:^8.0.103":
+  version: 8.0.103
+  resolution: "bip44-constants@npm:8.0.103"
+  checksum: 945fc98f21282fc8473d71726d934d00e4577ae7d642077a548ec79a5308fceac1b0e2aae63600a9c1536eb8f6b1133848f369d1d939a90982f689357959d946
+  languageName: node
+  linkType: hard
+
 "bip66@npm:^1.1.0, bip66@npm:^1.1.5":
   version: 1.1.5
   resolution: "bip66@npm:1.1.5"
@@ -9525,6 +9557,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-fetch@npm:4.0.0":
+  version: 4.0.0
+  resolution: "cross-fetch@npm:4.0.0"
+  dependencies:
+    node-fetch: ^2.6.12
+  checksum: ecca4f37ffa0e8283e7a8a590926b66713a7ef7892757aa36c2d20ffa27b0ac5c60dcf453119c809abe5923fc0bae3702a4d896bfb406ef1077b0d0018213e24
+  languageName: node
+  linkType: hard
+
 "cross-fetch@npm:^2.1.0":
   version: 2.2.6
   resolution: "cross-fetch@npm:2.2.6"
@@ -9567,6 +9608,21 @@ __metadata:
     safe-buffer: ^5.2.0
     sha3: ^2.1.1
   checksum: 76a198dea3703b92ecb9329783d30a83257cf5bc8b3c2ed09c2f0a46bf93479fb9d04449bed7cd1702158b3f65060c5fd275300187a5e86feb3bc6acfcaf6fa3
+  languageName: node
+  linkType: hard
+
+"crypto-addr-codec@npm:^0.1.8":
+  version: 0.1.8
+  resolution: "crypto-addr-codec@npm:0.1.8"
+  dependencies:
+    base-x: ^3.0.8
+    big-integer: 1.6.36
+    blakejs: ^1.1.0
+    bs58: ^4.0.1
+    ripemd160-min: 0.0.6
+    safe-buffer: ^5.2.0
+    sha3: ^2.1.1
+  checksum: c9d16a81eeb7cf6ac9392349dcf7d4bd5b9f3dd73c60e472fe6cba256dc2f9ba45b756f23b65a2e1abfe0612cfb4e85dd8e480783288bba239eade8abb4c4f43
   languageName: node
   linkType: hard
 
@@ -11478,6 +11534,13 @@ __metadata:
     "@scure/bip32": 1.3.1
     "@scure/bip39": 1.2.1
   checksum: 2e8f7b8cc90232ae838ab6a8167708e8362621404d26e79b5d9e762c7b53d699f7520aff358d9254de658fcd54d2d0af168ff909943259ed27dc4cef2736410c
+  languageName: node
+  linkType: hard
+
+"ethereum-ens-network-map@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "ethereum-ens-network-map@npm:1.0.2"
+  checksum: 34fa160f2b1ee8ec31bfe3dcec7b4becd4a6110acde171f43b9c28e0adc126dbded9dc6747d03088b6c99f04582887e6a23cb24b718321712c85208965835ea1
   languageName: node
   linkType: hard
 
@@ -14344,7 +14407,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-sha256@npm:0.9.0":
+"js-crc@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "js-crc@npm:0.2.0"
+  checksum: 3e307ae64236b745658e0df50d56809a810e67f39e45b7c1302433f10560819bea1d457841b2bac0eb42b72c96d60ae4c3232613275ea6c482b3cdb98a8bab09
+  languageName: node
+  linkType: hard
+
+"js-sha256@npm:0.9.0, js-sha256@npm:^0.9.0":
   version: 0.9.0
   resolution: "js-sha256@npm:0.9.0"
   checksum: ffad54b3373f81581e245866abfda50a62c483803a28176dd5c28fd2d313e0bdf830e77dac7ff8afd193c53031618920f3d98daf21cbbe80082753ab639c0365
@@ -14362,6 +14432,13 @@ __metadata:
   version: 0.8.0
   resolution: "js-sha3@npm:0.8.0"
   checksum: 75df77c1fc266973f06cce8309ce010e9e9f07ec35ab12022ed29b7f0d9c8757f5a73e1b35aa24840dced0dea7059085aa143d817aea9e188e2a80d569d9adce
+  languageName: node
+  linkType: hard
+
+"js-sha512@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "js-sha512@npm:0.8.0"
+  checksum: 32ca371ebd14c6c5c83360fd8b036cad2211537bef546b199ac8b901917299cab4c68f7f7c26ae72f836bbce0349cb463df9a62cdb4c90e38090fdb4db89ee87
   languageName: node
   linkType: hard
 
@@ -16101,6 +16178,20 @@ __metadata:
     encoding:
       optional: true
   checksum: acb04f9ce7224965b2b59e71b33c639794d8991efd73855b0b250921382b38331ffc9d61bce502571f6cc6e11a8905ca9b1b6d4aeb586ab093e2756a1fd190d0
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.6.12":
+  version: 2.7.0
+  resolution: "node-fetch@npm:2.7.0"
+  dependencies:
+    whatwg-url: ^5.0.0
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: d76d2f5edb451a3f05b15115ec89fc6be39de37c6089f1b6368df03b91e1633fd379a7e01b7ab05089a25034b2023d959b47e59759cb38d88341b2459e89d6e5
   languageName: node
   linkType: hard
 
@@ -19138,7 +19229,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sha3@npm:^2.1.1":
+"sha3@npm:^2.1.1, sha3@npm:^2.1.3":
   version: 2.1.4
   resolution: "sha3@npm:2.1.4"
   dependencies:

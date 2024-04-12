@@ -29,12 +29,12 @@
     "jwk-to-pem": "^2.0.5"
   },
   "devDependencies": {
-    "@unstoppabledomains/resolution": "^8.0",
+    "@unstoppabledomains/resolution": "^9.2",
     "express": "^4.17",
     "express-session": "^1.17"
   },
   "peerDependencies": {
-    "@unstoppabledomains/resolution": "^8.0",
+    "@unstoppabledomains/resolution": "^9.2",
     "express": "^4.17",
     "express-session": "^1.17"
   },
