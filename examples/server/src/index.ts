@@ -10,7 +10,9 @@ import 'whatwg-fetch'
   (global as any).XMLHttpRequest as any
 ).XMLHttpRequestUpload
 
-const resolution = new Resolution()
+// obtain a key by following this document https://docs.unstoppabledomains.com/domain-distribution-and-management/quickstart/retrieve-an-api-key/#api-key
+const REPLACE_WITH_YOUR_OWN_KEY = 'TODO'
+const resolution = new Resolution({apiKey: REPLACE_WITH_YOUR_OWN_KEY})
 
 const client = new Client({
   clientID: '1f7296d5-e6de-4a70-bcfd-c6a6d90e3974',
