@@ -1,6 +1,6 @@
 {
   "name": "@uauth/js",
-  "version": "2.9.0",
+  "version": "3.0.1",
   "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
