@@ -27,7 +27,7 @@
     "@uauth/common": "workspace:*",
     "@unstoppabledomains/resolution": "^9.2",
     "global": "^4.4.0",
-    "jose": "^4.5.0"
+    "jose": "^4.9.2"
   },
   "devDependencies": {
     "microbundle": "^0.14.2"
