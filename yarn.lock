@@ -6181,7 +6181,7 @@ __metadata:
     "@uauth/common": "workspace:*"
     "@unstoppabledomains/resolution": ^9.2
     global: ^4.4.0
-    jose: ^4.5.0
+    jose: ^4.9.2
     microbundle: ^0.14.2
   languageName: unknown
   linkType: soft
@@ -14386,10 +14386,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^4.5.0":
-  version: 4.6.0
-  resolution: "jose@npm:4.6.0"
-  checksum: 7f48cb030c9e8586e825ad5cc71e792f7b71b420afd3c45913e0719fd4abe6a756179c732604d42fbbb53c64b63f78818669599eeef11c988c0c34dd1178fe43
+"jose@npm:^4.9.2":
+  version: 4.15.9
+  resolution: "jose@npm:4.15.9"
+  checksum: 41abe1c99baa3cf8a78ebbf93da8f8e50e417b7a26754c4afa21865d87527b8ac2baf66de2c5f6accc3f7d7158658dae7364043677236ea1d07895b040097f15
   languageName: node
   linkType: hard
 
