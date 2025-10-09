@@ -42,6 +42,7 @@ import {
 } from './types'
 import * as util from './util'
 import {VERSION} from './version'
+import {getScopesList} from './util/getScopesList'
 
 if (typeof window !== 'undefined') {
   const _w = window as any
@@ -96,7 +97,11 @@ export default class Client {
   constructor(options: ClientOptions) {
     this.fallbackIssuer =
       options.fallbackIssuer ?? 'https://auth.unstoppabledomains.com'
-    this.resolution = options.resolution ?? new Resolution()
+    this.resolution =
+      options.resolution ??
+      // obtain a key by following the following document, and set the environment variable RESOLUTION_API_KEY.
+      // https://docs.unstoppabledomains.com/domain-distribution-and-management/quickstart/retrieve-an-api-key/#api-key
+      new Resolution({apiKey: process.env.RESOLUTION_API_KEY})
 
     this.storeOptions = {
       store: options.store,
@@ -219,6 +224,8 @@ export default class Client {
       // package info
       package_name: loginOptions?.packageName || '@uauth/js',
       package_version: loginOptions?.packageVersion || VERSION,
+
+      signup_suggestion: loginOptions.signupSuggestion,
     }
 
     await this._clientStore.setAuthorizeRequest(request)
@@ -416,7 +423,24 @@ export default class Client {
   async authorization(
     options: AuthorizationOptions = {},
   ): Promise<Authorization> {
-    return this._clientStore.getAuthorization(options)
+    const authorization = await this._clientStore.getAuthorization(options)
+
+    if (authorization.scope && !this.checkPremiumScopes(authorization.scope)) {
+      authorization.upgrade = {
+        text: 'Please contact Unstoppable Domains to upgrade your account to access premium scopes bd@unstoppabledomains.com',
+        upgrade_for_premium: getScopesList({premium: true}).join(' '),
+      }
+    }
+
+    return authorization
+  }
+
+  checkPremiumScopes(scopes: string) {
+    return (
+      scopes
+        .split(' ')
+        .filter(el => !getScopesList({premium: false}).includes(el)).length > 0
+    )
   }
 
   async user(options: UserOptions = {}): Promise<UserInfo> {
@@ -451,6 +475,36 @@ export default class Client {
 
     const userinfo: UserInfo = {
       sub: authorization.idToken.sub,
+    }
+
+    if (authorization.upgrade) {
+      userinfo.upgrade = authorization.upgrade
+      userinfo.email = 'upgrade-for-premium'
+      userinfo.address = {
+        formatted: 'upgrade-for-premium',
+        street_address: 'upgrade-for-premium',
+        locality: 'upgrade-for-premium',
+        region: 'upgrade-for-premium',
+        postal_code: 'upgrade-for-premium',
+        country: 'upgrade-for-premium',
+      }
+      userinfo.phone_number = 'upgrade-for-premium'
+      userinfo.name = 'upgrade-for-premium'
+      userinfo.given_name = 'upgrade-for-premium'
+      userinfo.family_name = 'upgrade-for-premium'
+      userinfo.middle_name = 'upgrade-for-premium'
+      userinfo.nickname = 'upgrade-for-premium'
+      userinfo.preferred_username = 'upgrade-for-premium'
+      userinfo.profile = 'upgrade-for-premium'
+      userinfo.picture =
+        'https://storage.googleapis.com/unstoppable-client-assets/images/partners/avatar-placeholder.png'
+      userinfo.website = 'upgrade-for-premium'
+      userinfo.gender = 'upgrade-for-premium'
+      userinfo.birthdate = 'upgrade-for-premium'
+      userinfo.zoneinfo = 'upgrade-for-premium'
+      userinfo.locale = 'upgrade-for-premium'
+      userinfo.updated_at = 'upgrade-for-premium'
+      userinfo.humanity_check_id = 'upgrade-for-premium'
     }
 
     // If we should only read from cache.

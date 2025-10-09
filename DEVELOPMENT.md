@@ -10,6 +10,7 @@ For more info on deferred versioning check out the [Yarn Documentation](https://
 2. Make changes...
 3. Commit changes.
 4. Run the `yarn version check --interactive` command to configure which versions you want to release.
-5. To review your changes, look at the `.yarn/versions/<commit>.yml`. If you are satisfied with the versioning.
-6. Push the branch and make a PR into main.
-7. Run the _Build, test, and release_ action on main.
+5. To review your changes, look at the `.yarn/versions/<commit>.yml`. 
+6. If you are satisfied with the versioning, run `yarn version apply --all`
+7. Push the branch and make a PR into main.
+8. Run the _Build, test, and release_ action on main.
