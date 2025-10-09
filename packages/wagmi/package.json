@@ -1,6 +1,6 @@
 {
   "name": "@uauth/wagmi",
-  "version": "2.9.0",
+  "version": "3.0.1",
   "files": [
     "build/*"
   ],
@@ -22,7 +22,8 @@
   "dependencies": {
     "@uauth/js": "workspace:*",
     "ethers": "^5",
-    "wagmi": "^0.12.9"
+    "eventemitter3": "4.0.7",
+    "wagmi": "^1.4.12"
   },
   "devDependencies": {
     "esbuild": "0.15.13",

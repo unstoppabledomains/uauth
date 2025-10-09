@@ -97,7 +97,11 @@ export default class Client {
   constructor(options: ClientOptions) {
     this.fallbackIssuer =
       options.fallbackIssuer ?? 'https://auth.unstoppabledomains.com'
-    this.resolution = options.resolution ?? new Resolution()
+    this.resolution =
+      options.resolution ??
+      // obtain a key by following the following document, and set the environment variable RESOLUTION_API_KEY.
+      // https://docs.unstoppabledomains.com/domain-distribution-and-management/quickstart/retrieve-an-api-key/#api-key
+      new Resolution({apiKey: process.env.RESOLUTION_API_KEY})
 
     this.storeOptions = {
       store: options.store,
@@ -492,7 +496,8 @@ export default class Client {
       userinfo.nickname = 'upgrade-for-premium'
       userinfo.preferred_username = 'upgrade-for-premium'
       userinfo.profile = 'upgrade-for-premium'
-      userinfo.picture = 'https://storage.googleapis.com/unstoppable-client-assets/images/partners/avatar-placeholder.png'
+      userinfo.picture =
+        'https://storage.googleapis.com/unstoppable-client-assets/images/partners/avatar-placeholder.png'
       userinfo.website = 'upgrade-for-premium'
       userinfo.gender = 'upgrade-for-premium'
       userinfo.birthdate = 'upgrade-for-premium'
