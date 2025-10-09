@@ -1,6 +1,6 @@
 {
   "name": "@uauth/bnc-onboard",
-  "version": "2.7.0",
+  "version": "3.0.1",
   "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",

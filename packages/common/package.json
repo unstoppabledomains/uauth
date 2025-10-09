@@ -1,6 +1,6 @@
 {
   "name": "@uauth/common",
-  "version": "2.3.0",
+  "version": "3.0.1",
   "type": "module",
   "exports": {
     "import": "./build/index.module.mjs",
@@ -22,10 +22,10 @@
     "release": "../../scripts/release.sh"
   },
   "devDependencies": {
-    "@unstoppabledomains/resolution": "^8.0"
+    "@unstoppabledomains/resolution": "^9.2"
   },
   "peerDependencies": {
-    "@unstoppabledomains/resolution": "^8.0"
+    "@unstoppabledomains/resolution": "^9.2"
   },
   "publishConfig": {
     "access": "public"

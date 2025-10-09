@@ -4064,6 +4064,12 @@ __metadata:
   languageName: node
   linkType: soft
 
+"@uauth/wagmi@link:../packages/wagmi::locator=wagmi%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@uauth/wagmi@link:../packages/wagmi::locator=wagmi%40workspace%3A."
+  languageName: node
+  linkType: soft
+
 "@wagmi/chains@npm:0.2.15":
   version: 0.2.15
   resolution: "@wagmi/chains@npm:0.2.15"
@@ -7853,7 +7859,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^5, ethers@npm:^5.7.2":
+"ethers@npm:^5.7.2":
   version: 5.7.2
   resolution: "ethers@npm:5.7.2"
   dependencies:
@@ -15315,7 +15321,7 @@ __metadata:
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^13.5.0
     "@uauth/js": "link:../packages/js"
-    ethers: ^5
+    "@uauth/wagmi": "link:../packages/wagmi"
     react: ^18.2.0
     react-dom: ^18.2.0
     react-scripts: 5.0.1
