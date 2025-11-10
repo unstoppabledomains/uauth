@@ -1,11 +1,13 @@
 import type UAuthSPA from '@uauth/js'
 import type {UAuthConstructorOptions, UserInfo} from '@uauth/js'
 import Web3Modal, {
-  connectors,
   IAbstractConnectorOptions,
   IProviderDisplay,
 } from 'web3modal'
 import {VERSION} from './version'
+
+import * as web3modal from 'web3modal'
+const {connectors} = web3modal
 
 if (typeof window !== 'undefined') {
   const _w = window as any
