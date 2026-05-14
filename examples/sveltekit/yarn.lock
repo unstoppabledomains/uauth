@@ -768,10 +768,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devalue@npm:^5.6.3":
-  version: 5.6.3
-  resolution: "devalue@npm:5.6.3"
-  checksum: f2ade995d38bc298442d98dc06bdeadb2e255ef7546ece6920ba5c8e050f620ba685f97669f40f32acb007f32c31364131051fd7345d510124f700f25a548143
+"devalue@npm:^5.8.1":
+  version: 5.8.1
+  resolution: "devalue@npm:5.8.1"
+  checksum: 344fdf2e90f19319ead25078984e008e15db9bdad8f073c38d08b09c4a8127968c33e1307699e8f0525f29ab00b3e57b54ba7d4b22efcd346092a93b0b1d61d5
   languageName: node
   linkType: hard
 
@@ -1186,12 +1186,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esrap@npm:^2.2.2":
-  version: 2.2.3
-  resolution: "esrap@npm:2.2.3"
+"esrap@npm:^2.2.4":
+  version: 2.2.8
+  resolution: "esrap@npm:2.2.8"
   dependencies:
     "@jridgewell/sourcemap-codec": ^1.4.15
-  checksum: f21a8d3e68e8f529b12c37ebb709ca255fb78887225114e54ac07db915e6d6a21520f2de922f7b254d741a20adba2eea48dbde8217cab58d3e1c619023dff915
+  peerDependencies:
+    "@typescript-eslint/types": ^8.2.0
+  peerDependenciesMeta:
+    "@typescript-eslint/types":
+      optional: true
+  checksum: b5dd4119c4befda5189ff33457571c481c4eed0448eb5c424f6ae82f405ad653a49feb2102ad1ccca46e3b62a6367564e3f24deff5bc0bbefb6183208fa3d3e4
   languageName: node
   linkType: hard
 
@@ -2561,9 +2566,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^5.51.5":
-  version: 5.53.5
-  resolution: "svelte@npm:5.53.5"
+"svelte@npm:^5.55.7":
+  version: 5.55.7
+  resolution: "svelte@npm:5.55.7"
   dependencies:
     "@jridgewell/remapping": ^2.3.4
     "@jridgewell/sourcemap-codec": ^1.5.0
@@ -2574,14 +2579,14 @@ __metadata:
     aria-query: 5.3.1
     axobject-query: ^4.1.0
     clsx: ^2.1.1
-    devalue: ^5.6.3
+    devalue: ^5.8.1
     esm-env: ^1.2.1
-    esrap: ^2.2.2
+    esrap: ^2.2.4
     is-reference: ^3.0.3
     locate-character: ^3.0.0
     magic-string: ^0.30.11
     zimmerframe: ^1.1.2
-  checksum: 286401d30df282c249d63116ada54eb93e68cc94b29a2f9f913fbe638240204bc4081a6a57cacb88040b6c0d1659e1302c228303d138495d600eafc3d76a553f
+  checksum: 1cde7c0c9be3c8ada9d275ea6eb42231db1450a281d278d150d957fad10c05384ecee941558c2cf3e75b59a3e9c368c47e0f59e2e7871e49d4314101a31949ec
   languageName: node
   linkType: hard
 
@@ -2598,7 +2603,7 @@ __metadata:
     eslint-plugin-svelte3: ^3.4.0
     prettier: ^2.5.1
     prettier-plugin-svelte: ^2.6.0
-    svelte: ^5.51.5
+    svelte: ^5.55.7
     svelte-check: ^2.4.3
     svelte-preprocess: ^4.10.3
     tslib: ^2.3.1
